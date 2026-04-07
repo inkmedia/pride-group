@@ -1,13 +1,8 @@
 import { NextResponse } from "next/server";
 import { clearAdminSession } from "@/lib/admin-auth";
 
-export async function POST() {
+export async function POST(request: Request) {
   await clearAdminSession();
 
-  return NextResponse.redirect(
-    new URL(
-      "/",
-      process.env.NEXT_PUBLIC_BASE_URL || "https://pride-iota.vercel.app/",
-    ),
-  );
+  return NextResponse.redirect(new URL("/", request.url), 303);
 }
