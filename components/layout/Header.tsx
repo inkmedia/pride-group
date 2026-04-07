@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import TransitionLink from "../common/TransitionLink";
-import { useRouter } from "next/navigation";
 
 /* ---------------- NAV ---------------- */
 
@@ -56,8 +55,11 @@ const menuItems = [
 
 export default function Header() {
   const pathname = usePathname();
-  const isProjectPage = pathname?.startsWith("/projects/") ?? false;
   const router = useRouter();
+
+  const isHomePage = pathname === "/";
+  const isProjectPage = pathname?.startsWith("/projects/") ?? false;
+
   const [scrolled, setScrolled] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -75,6 +77,13 @@ export default function Header() {
   useEffect(() => {
     setEnquireOpen(false);
   }, [pathname]);
+
+  /* ---------- HOME PAGE HEADER STATE ---------- */
+  useEffect(() => {
+    if (isHomePage) {
+      setShowHeader(true);
+    }
+  }, [isHomePage]);
 
   /* ---------- SYNC CITY SELECTOR WITH CURRENT ROUTE ---------- */
   useEffect(() => {
@@ -99,20 +108,31 @@ export default function Header() {
 
       setScrolled(current > 80);
 
-      if (current < 50) setShowHeader(true);
-      else if (current > last) setShowHeader(false);
-      else setShowHeader(true);
+      if (!isHomePage) {
+        if (current < 50) {
+          setShowHeader(true);
+        } else if (current > last) {
+          setShowHeader(false);
+        } else {
+          setShowHeader(true);
+        }
+      } else {
+        setShowHeader(true);
+      }
 
       lastScrollYRef.current = current;
     };
 
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHomePage]);
 
   /* ---------- AUTO HEADER THEME ---------- */
+
   useEffect(() => {
-    const sections = document.querySelectorAll("[data-header]");
+    const sections = document.querySelectorAll<HTMLElement>("[data-header]");
 
     if (!sections.length) {
       setDarkMode(false);
@@ -121,20 +141,12 @@ export default function Header() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        let activeSection: Element | null = null;
+        const activeEntry = entries.find((entry) => entry.isIntersecting);
+        const mode = activeEntry?.target
+          ? (activeEntry.target as HTMLElement).getAttribute("data-header")
+          : null;
 
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            activeSection = entry.target;
-          }
-        });
-
-        if (activeSection) {
-          const mode = (activeSection as Element).getAttribute("data-header");
-          setDarkMode(mode === "dark");
-        } else {
-          setDarkMode(false);
-        }
+        setDarkMode(mode === "dark");
       },
       {
         threshold: 0.6,
@@ -149,6 +161,9 @@ export default function Header() {
   /* ---------- LOCK SCROLL ---------- */
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [menuOpen]);
 
   const textColor = darkMode && !scrolled ? "text-white" : "text-black";
@@ -165,7 +180,6 @@ export default function Header() {
         }`}
       >
         <div className="mx-auto flex max-w-[2048px] items-center justify-between px-4 py-3 sm:px-6 sm:py-4 md:px-8 lg:px-10">
-          {/* LOGO */}
           <TransitionLink href="/" className="shrink-0">
             <Image
               src="/images/logo.png"
@@ -178,7 +192,6 @@ export default function Header() {
           </TransitionLink>
 
           <div className="flex items-center gap-4 sm:gap-6 lg:gap-8">
-            {/* DESKTOP NAV */}
             <nav className="hidden items-center gap-8 lg:flex xl:gap-12">
               {navItems.map((item) => (
                 <TransitionLink
@@ -191,7 +204,6 @@ export default function Header() {
               ))}
             </nav>
 
-            {/* CITY SELECTOR */}
             <div className="relative">
               <select
                 value={selectedCity}
@@ -240,7 +252,6 @@ export default function Header() {
               </span>
             </div>
 
-            {/* HAMBURGER */}
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
@@ -272,7 +283,6 @@ export default function Header() {
         }`}
       >
         <div className="flex h-full min-h-0 flex-col">
-          {/* TOP */}
           <div className="shrink-0 flex items-center justify-between px-5 py-5 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
             <TransitionLink href="/">
               <Image
@@ -294,7 +304,6 @@ export default function Header() {
             </div>
           </div>
 
-          {/* MOBILE NAV */}
           <div className="shrink-0 border-t border-white/10 px-5 py-5 sm:px-8 lg:hidden">
             <nav className="grid gap-4">
               {navItems.map((item) => (
@@ -309,7 +318,6 @@ export default function Header() {
             </nav>
           </div>
 
-          {/* SCROLLABLE CONTENT */}
           <div
             data-lenis-prevent
             className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-5 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-8 lg:px-10 lg:pb-12 lg:pt-10"
@@ -321,7 +329,6 @@ export default function Header() {
             </div>
           </div>
 
-          {/* SOCIAL */}
           <div className="shrink-0 border-t border-white/10 px-5 py-5 sm:px-8 sm:py-6 lg:px-10">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-[12px] uppercase text-white/70">
@@ -345,7 +352,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setEnquireOpen(true)}
-            className={`fixed cursor-pointer right-0 top-1/2 z-[998] -translate-y-1/2 rounded-l-xl bg-[#172f55] px-5 py-3 text-[11px] font-[700] uppercase tracking-[0.12em] text-white shadow-lg transition-all duration-300 sm:text-[12px] [writing-mode:vertical-rl] ${
+            className={`fixed right-0 top-1/2 z-[998] -translate-y-1/2 cursor-pointer rounded-l-xl bg-[#172f55] px-5 py-3 text-[11px] font-[700] uppercase tracking-[0.12em] text-white shadow-lg transition-all duration-300 sm:text-[12px] [writing-mode:vertical-rl] ${
               enquireOpen
                 ? "translate-x-full opacity-0"
                 : "translate-x-0 opacity-100"
@@ -354,7 +361,6 @@ export default function Header() {
             Enquire Now
           </button>
 
-          {/* ================= ENQUIRE OVERLAY ================= */}
           <button
             type="button"
             aria-label="Close enquiry form"
@@ -364,7 +370,6 @@ export default function Header() {
             }`}
           />
 
-          {/* ================= ENQUIRE DRAWER ================= */}
           <aside
             className={`fixed right-0 top-0 z-[1002] h-full w-full max-w-[420px] overflow-y-auto bg-white text-black shadow-2xl transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] ${
               enquireOpen ? "translate-x-0" : "translate-x-full"
@@ -463,7 +468,7 @@ export default function Header() {
 
                   <button
                     type="submit"
-                    className="cursor-pointer mt-2 rounded-full bg-[#172f55] px-6 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90"
+                    className="mt-2 cursor-pointer rounded-full bg-[#172f55] px-6 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90"
                   >
                     Submit Enquiry
                   </button>
@@ -482,7 +487,7 @@ export default function Header() {
 function MenuItem({ title, desc, href }: any) {
   return (
     <TransitionLink href={href} className="group block">
-      <h3 className="text-[24px] sm:text-[28px] hover:text-white/70 transition duration-300">
+      <h3 className="text-[24px] transition duration-300 hover:text-white/70 sm:text-[28px]">
         {title}
       </h3>
       <p className="mt-3 text-white/60 transition group-hover:text-white/70">
