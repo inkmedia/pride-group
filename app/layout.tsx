@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import Preloader from "@/components/common/Preloader";
 import TransitionProvider from "@/components/common/TransitionProvider";
 import SmoothScroll from "@/components/common/SmoothScroll";
+import LayoutShell from "@/components/layout/LayoutShell";
 
 import localFont from "next/font/local";
 import { Lora } from "next/font/google";
@@ -60,11 +59,7 @@ export default function RootLayout({
         <TransitionProvider>
           <Preloader />
           <SmoothScroll>
-            <div className="mx-auto overflow-hidden">
-              <Header />
-              <main>{children}</main>
-              <Footer />
-            </div>
+            <LayoutShell>{children}</LayoutShell>
           </SmoothScroll>
         </TransitionProvider>
       </body>

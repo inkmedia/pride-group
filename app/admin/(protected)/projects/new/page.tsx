@@ -72,7 +72,7 @@ export default async function NewProjectPage() {
   }
 
   return (
-    <section className="min-h-screen mt-30 px-4 py-8 sm:px-6 lg:px-8">
+    <section className="min-h-screen px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-[1200px]">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>

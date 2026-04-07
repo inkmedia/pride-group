@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   number: string;
   title: string;
+  sectionId?: string;
   defaultOpen?: boolean;
   children: React.ReactNode;
 };
@@ -12,13 +13,48 @@ type Props = {
 export default function AdminAccordion({
   number,
   title,
+  sectionId,
   defaultOpen = false,
   children,
 }: Props) {
   const [open, setOpen] = useState(defaultOpen);
 
+  useEffect(() => {
+    if (!sectionId) return;
+
+    function syncWithHash() {
+      const currentHash = window.location.hash.replace("#", "");
+
+      if (currentHash === sectionId) {
+        setOpen(true);
+
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const stickyOffset = 140;
+          const y =
+            el.getBoundingClientRect().top + window.scrollY - stickyOffset;
+
+          window.scrollTo({
+            top: y,
+            behavior: "smooth",
+          });
+        }
+      }
+    }
+
+    syncWithHash();
+    window.addEventListener("hashchange", syncWithHash);
+
+    return () => {
+      window.removeEventListener("hashchange", syncWithHash);
+    };
+  }, [sectionId]);
+
   return (
-    <section className="rounded-[20px] border border-black/10 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.05)]">
+    <section
+      id={sectionId}
+      className="scroll-mt-[140px] rounded-[20px] border border-black/10 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.05)]"
+    >
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}

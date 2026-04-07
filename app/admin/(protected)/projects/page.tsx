@@ -14,7 +14,7 @@ export default async function AdminProjectsPage() {
   const projects = await listProjects();
 
   return (
-    <section className="min-h-screen px-4 py-8 sm:px-6 lg:px-8 mt-30">
+    <section className="min-h-screen px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-[1280px]">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>

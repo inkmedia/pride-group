@@ -65,6 +65,22 @@ type ReraItemRow = {
 
 export default function ProjectEditForm({ project, mode }: Props) {
   const router = useRouter();
+
+  const sectionLinks = [
+    { id: "basic-info", label: "Basic Info" },
+    { id: "seo", label: "SEO" },
+    { id: "hero", label: "Hero" },
+    { id: "overview", label: "Overview" },
+    { id: "overview-arrays", label: "Overview Arrays" },
+    { id: "features", label: "Features" },
+    { id: "amenities", label: "Amenities" },
+    { id: "specifications", label: "Specifications" },
+    { id: "gallery-tabs", label: "Gallery" },
+    { id: "connectivity", label: "Connectivity" },
+    { id: "cta", label: "CTA" },
+    { id: "rera", label: "RERA" },
+  ];
+
   const [formData, setFormData] = useState({
     slug: project.slug || "",
     title: project.title || "",
@@ -772,7 +788,26 @@ export default function ProjectEditForm({ project, mode }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-4">
-      <AdminAccordion number="01" title="Basic Info" defaultOpen>
+      {/* <div className="sticky top-[90px] z-30 overflow-x-auto rounded-[10px] border border-black/10 bg-white/95 p-3 shadow-[0_10px_24px_rgba(0,0,0,0.06)] backdrop-blur">
+        <div className="flex min-w-max gap-2">
+          {sectionLinks.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className="whitespace-nowrap rounded-full border border-black/10 px-4 py-2 text-[11px] font-[700] uppercase tracking-[0.08em] text-black/70 transition hover:bg-black hover:text-white"
+            >
+              {section.label}
+            </a>
+          ))}
+        </div>
+      </div> */}
+
+      <AdminAccordion
+        number="01"
+        title="Basic Info"
+        sectionId="basic-info"
+        defaultOpen
+      >
         <div className="grid gap-4 md:grid-cols-2">
           <Field label="Slug">
             <input
@@ -805,7 +840,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </div>
       </AdminAccordion>
 
-      <AdminAccordion number="02" title="SEO">
+      <AdminAccordion number="02" title="SEO" sectionId="seo">
         <div className="grid gap-4">
           <Field label="Meta Title">
             <input
@@ -837,7 +872,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </div>
       </AdminAccordion>
 
-      <AdminAccordion number="03" title="Hero">
+      <AdminAccordion number="03" title="Hero" sectionId="hero">
         <div className="grid gap-4 md:grid-cols-2">
           <Field label="Hero Type">
             <select
@@ -892,7 +927,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </div>
       </AdminAccordion>
 
-      <AdminAccordion number="04" title="Overview">
+      <AdminAccordion number="04" title="Overview" sectionId="overview">
         <div className="grid gap-4 md:grid-cols-2">
           <Field label="Category">
             <input
@@ -977,7 +1012,11 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </div>
       </AdminAccordion>
 
-      <AdminAccordion number="05" title="Overview Arrays">
+      <AdminAccordion
+        number="05"
+        title="Overview Arrays"
+        sectionId="overview-arrays"
+      >
         <div className="grid gap-6">
           <CardBlock
             title="Stats"
@@ -988,7 +1027,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {stats.map((item, index) => (
               <div
                 key={index}
-                className="grid gap-3 rounded-[14px] border border-black/10 p-3 md:grid-cols-[0.8fr_1fr_auto]"
+                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[0.8fr_1fr_auto]"
               >
                 <input
                   value={item.value}
@@ -1016,7 +1055,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {highlights.map((item, index) => (
               <div
                 key={index}
-                className="grid gap-3 rounded-[14px] border border-black/10 p-3 md:grid-cols-[1fr_auto]"
+                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[1fr_auto]"
               >
                 <input
                   value={item}
@@ -1041,7 +1080,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {overviewAmenities.map((item, index) => (
               <div
                 key={index}
-                className="grid gap-3 rounded-[14px] border border-black/10 p-3 md:grid-cols-[1fr_auto]"
+                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[1fr_auto]"
               >
                 <input
                   value={item}
@@ -1070,7 +1109,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {mediaBadges.map((item, index) => (
               <div
                 key={index}
-                className="grid gap-3 rounded-[14px] border border-black/10 p-3 md:grid-cols-[0.8fr_1fr_0.9fr_auto]"
+                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[0.8fr_1fr_0.9fr_auto]"
               >
                 <input
                   value={item.value}
@@ -1103,7 +1142,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </div>
       </AdminAccordion>
 
-      <AdminAccordion number="06" title="Features Images">
+      <AdminAccordion number="06" title="Features Images" sectionId="features">
         <CardBlock
           title="Feature Gallery"
           description="Upload or paste image paths"
@@ -1113,7 +1152,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
           {featureImages.map((item, index) => (
             <div
               key={index}
-              className="rounded-[14px] border border-black/10 p-4"
+              className="rounded-[10px] border border-black/10 p-4"
             >
               <div className="grid gap-3">
                 <ImageUploadField
@@ -1131,7 +1170,11 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </CardBlock>
       </AdminAccordion>
 
-      <AdminAccordion number="07" title="Detailed Amenities">
+      <AdminAccordion
+        number="07"
+        title="Detailed Amenities"
+        sectionId="amenities"
+      >
         <div className="grid gap-4">
           <Field label="Amenities Section Title">
             <input
@@ -1151,7 +1194,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {amenityCategories.map((category, categoryIndex) => (
               <div
                 key={categoryIndex}
-                className="rounded-[14px] border border-black/10 p-4"
+                className="rounded-[10px] border border-black/10 p-4"
               >
                 <div className="grid gap-4">
                   <div className="grid gap-3 md:grid-cols-[1fr_auto]">
@@ -1230,7 +1273,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {miscAmenities.map((item, index) => (
               <div
                 key={index}
-                className="grid gap-3 rounded-[14px] border border-black/10 p-3 md:grid-cols-[1fr_auto]"
+                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[1fr_auto]"
               >
                 <input
                   value={item}
@@ -1248,7 +1291,11 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </div>
       </AdminAccordion>
 
-      <AdminAccordion number="08" title="Specifications">
+      <AdminAccordion
+        number="08"
+        title="Specifications"
+        sectionId="specifications"
+      >
         <CardBlock
           title="Specifications List"
           description="Each block contains a title and multiple points"
@@ -1258,7 +1305,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
           {specifications.map((spec, specIndex) => (
             <div
               key={specIndex}
-              className="rounded-[14px] border border-black/10 p-4"
+              className="rounded-[10px] border border-black/10 p-4"
             >
               <div className="grid gap-4">
                 <div className="grid gap-3 md:grid-cols-[1fr_auto]">
@@ -1316,7 +1363,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </CardBlock>
       </AdminAccordion>
 
-      <AdminAccordion number="09" title="Gallery Tabs">
+      <AdminAccordion number="09" title="Gallery Tabs" sectionId="gallery-tabs">
         <CardBlock
           title="Tabs"
           description="Gallery, Floor Plans, Master Plan, Construction Updates"
@@ -1326,7 +1373,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
           {galleryTabs.map((tab, tabIndex) => (
             <div
               key={tabIndex}
-              className="rounded-[14px] border border-black/10 p-4"
+              className="rounded-[10px] border border-black/10 p-4"
             >
               <div className="grid gap-4">
                 <div className="grid gap-3 md:grid-cols-3">
@@ -1366,7 +1413,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
                   {tab.images.map((img, imageIndex) => (
                     <div
                       key={imageIndex}
-                      className="rounded-[12px] border border-black/10 p-4"
+                      className="rounded-[10px] border border-black/10 p-4"
                     >
                       <div className="grid gap-4">
                         <div className="grid gap-3 md:grid-cols-2">
@@ -1482,7 +1529,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </CardBlock>
       </AdminAccordion>
 
-      <AdminAccordion number="10" title="Connectivity">
+      <AdminAccordion number="10" title="Connectivity" sectionId="connectivity">
         <div className="grid gap-4">
           <Field label="Connectivity Section Title">
             <input
@@ -1502,7 +1549,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {connectivityGroups.map((group, groupIndex) => (
               <div
                 key={groupIndex}
-                className="rounded-[14px] border border-black/10 p-4"
+                className="rounded-[10px] border border-black/10 p-4"
               >
                 <div className="grid gap-4">
                   <div className="grid gap-3 md:grid-cols-[1fr_auto]">
@@ -1576,7 +1623,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </div>
       </AdminAccordion>
 
-      <AdminAccordion number="11" title="CTA">
+      <AdminAccordion number="11" title="CTA" sectionId="cta">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="md:col-span-2">
             <Field label="CTA Title">
@@ -1641,7 +1688,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </div>
       </AdminAccordion>
 
-      <AdminAccordion number="12" title="RERA">
+      <AdminAccordion number="12" title="RERA" sectionId="rera">
         <div className="grid gap-4">
           <Field label="RERA Note">
             <input
@@ -1671,7 +1718,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {reraItems.map((item, index) => (
               <div
                 key={index}
-                className="rounded-[14px] border border-black/10 p-4"
+                className="rounded-[10px] border border-black/10 p-4"
               >
                 <div className="grid gap-4">
                   <div className="grid gap-3 md:grid-cols-2">
@@ -1715,7 +1762,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
         </div>
       </AdminAccordion>
 
-      <section className="sticky bottom-4 z-20 rounded-[20px] border border-black/10 bg-white/95 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.08)] backdrop-blur">
+      <section className="sticky bottom-4 z-20 rounded-[10px] border border-black/10 bg-white/95 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.08)] backdrop-blur">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="text-[16px] font-[600] text-black">Save Changes</h3>
@@ -1784,7 +1831,7 @@ function CardBlock({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-[18px] border border-black/10 bg-[#fcfcfc] p-4 sm:p-5">
+    <div className="rounded-[10px] border border-black/10 bg-[#fcfcfc] p-4 sm:p-5">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h3 className="text-[16px] font-[600] text-black">{title}</h3>
