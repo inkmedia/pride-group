@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="400" height="320">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="320" fill="#1F3F6B"/>
+  <!-- Subtle grid texture -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+  </pattern>
+  <rect width="400" height="320" fill="url(#grid)"/>
+
+  <!-- Aerial land plot outline - irregular polygon to look like real land -->
+  <polygon points="80,75 185,58 310,70 355,130 340,230 275,268 130,260 65,195 72,120"
+    fill="rgba(255,255,255,0.07)" stroke="#C8A84B" stroke-width="2.5" stroke-dasharray="10,5"/>
+  <!-- Internal plot grid (subdivision) -->
+  <line x1="130" y1="65" x2="100" y2="250" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="185" y1="60" x2="165" y2="258" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="240" y1="63" x2="225" y2="258" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="290" y1="68" x2="280" y2="255" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="75" y1="140" x2="348" y2="140" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="70" y1="185" x2="342" y2="185" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <!-- Corner boundary markers -->
+  <circle cx="80" cy="75" r="5" fill="#C8A84B"/>
+  <circle cx="310" cy="70" r="5" fill="#C8A84B"/>
+  <circle cx="355" cy="130" r="5" fill="#C8A84B"/>
+  <circle cx="65" cy="195" r="5" fill="#C8A84B"/>
+  <circle cx="130" cy="260" r="5" fill="#C8A84B"/>
+  <circle cx="275" cy="268" r="5" fill="#C8A84B"/>
+  <!-- Measurement label top -->
+  <line x1="80" y1="50" x2="310" y2="50" stroke="rgba(255,255,255,0.4)" stroke-width="1" marker-start="url(#dim)" marker-end="url(#dim)"/>
+  <defs>
+    <marker id="dim" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <line x1="3" y1="0" x2="3" y2="6" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+    </marker>
+  </defs>
+  <!-- Center medallion -->
+  <circle cx="210" cy="163" r="42" fill="#1F3F6B" stroke="#C8A84B" stroke-width="2"/>
+  <circle cx="210" cy="163" r="36" fill="rgba(200,168,75,0.1)" stroke="#C8A84B" stroke-width="0.5"/>
+  <text x="210" y="152" text-anchor="middle" font-family="Georgia,serif" font-size="18" fill="#FFFFFF" font-weight="bold">400</text>
+  <text x="210" y="167" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" fill="#C8A84B" letter-spacing="2">ACRES</text>
+  <text x="210" y="182" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="rgba(255,255,255,0.7)">CHARHOLI</text>
+  <!-- Foundation stone icon -->
+  <rect x="175" y="283" width="70" height="25" fill="#C8A84B" rx="3"/>
+  <text x="210" y="292" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#1F3F6B" font-weight="bold">PRIDE WORLD CITY</text>
+  <text x="210" y="303" text-anchor="middle" font-family="Arial,sans-serif" font-size="6" fill="#1F3F6B">LAND ACQUISITION</text>
+  <!-- Compass rose -->
+  <text x="352" y="78" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" fill="#C8A84B">N</text>
+  <line x1="352" y1="82" x2="352" y2="95" stroke="#C8A84B" stroke-width="1.5"/>
+  <polygon points="352,95 348,107 352,105 356,107" fill="#C8A84B"/>
+
+</svg>

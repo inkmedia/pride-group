@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="400" height="320">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="320" fill="#1F3F6B"/>
+  <!-- Subtle grid texture -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+  </pattern>
+  <rect width="400" height="320" fill="url(#grid)"/>
+
+  <!-- Grand entrance gate -->
+  <rect x="155" y="180" width="20" height="95" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" stroke-width="2" rx="2"/>
+  <rect x="225" y="180" width="20" height="95" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" stroke-width="2" rx="2"/>
+  <!-- Gate arch -->
+  <path d="M155,180 Q200,145 245,180" fill="rgba(255,255,255,0.12)" stroke="#FFFFFF" stroke-width="2"/>
+  <!-- Gate top ornament -->
+  <polygon points="200,135 193,148 207,148" fill="#C8A84B"/>
+  <rect x="196" y="148" width="8" height="12" fill="#C8A84B"/>
+  <!-- Gate decorative elements -->
+  <rect x="148" y="175" width="34" height="8" fill="#C8A84B" rx="2"/>
+  <rect x="218" y="175" width="34" height="8" fill="#C8A84B" rx="2"/>
+  <!-- Gate name plate -->
+  <rect x="166" y="160" width="68" height="18" fill="#1F3F6B" stroke="#C8A84B" stroke-width="1.5" rx="2"/>
+  <text x="200" y="173" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#C8A84B" font-weight="bold" letter-spacing="1">ALOMA COUNTY</text>
+  <!-- Gate opening -->
+  <rect x="178" y="228" width="44" height="47" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  <!-- Gate fence left -->
+  <line x1="50" y1="245" x2="155" y2="245" stroke="#FFFFFF" stroke-width="2"/>
+  <line x1="70" y1="235" x2="70" y2="255" stroke="#FFFFFF" stroke-width="1.5"/>
+  <line x1="90" y1="235" x2="90" y2="255" stroke="#FFFFFF" stroke-width="1.5"/>
+  <line x1="110" y1="235" x2="110" y2="255" stroke="#FFFFFF" stroke-width="1.5"/>
+  <line x1="130" y1="235" x2="130" y2="255" stroke="#FFFFFF" stroke-width="1.5"/>
+  <!-- Gate fence right -->
+  <line x1="245" y1="245" x2="350" y2="245" stroke="#FFFFFF" stroke-width="2"/>
+  <line x1="265" y1="235" x2="265" y2="255" stroke="#FFFFFF" stroke-width="1.5"/>
+  <line x1="285" y1="235" x2="285" y2="255" stroke="#FFFFFF" stroke-width="1.5"/>
+  <line x1="305" y1="235" x2="305" y2="255" stroke="#FFFFFF" stroke-width="1.5"/>
+  <line x1="325" y1="235" x2="325" y2="255" stroke="#FFFFFF" stroke-width="1.5"/>
+  <!-- Villas behind gate (glimpse) -->
+  <rect x="55" y="135" width="50" height="98" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1" rx="2"/>
+  <!-- villa roof -->
+  <polygon points="55,135 80,110 105,135" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+  
+  <rect x="63" y="148" width="14" height="13" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="82" y="148" width="14" height="13" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="63" y="166" width="14" height="13" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="82" y="166" width="14" height="13" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="63" y="184" width="14" height="13" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="82" y="184" width="14" height="13" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="63" y="202" width="14" height="13" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="82" y="202" width="14" height="13" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="295" y="135" width="50" height="98" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1" rx="2"/>
+  <polygon points="295,135 320,110 345,135" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+  
+  <rect x="303" y="148" width="14" height="13" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="322" y="148" width="14" height="13" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="303" y="166" width="14" height="13" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="322" y="166" width="14" height="13" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="303" y="184" width="14" height="13" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="322" y="184" width="14" height="13" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="303" y="202" width="14" height="13" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="322" y="202" width="14" height="13" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <!-- Trees -->
+  
+  <rect x="28" y="261.25" width="4" height="13.75" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="30,220 18.0,261.25 42.0,261.25" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="30,228.25 19.2,250.25 40.8,250.25" fill="rgba(255,255,255,0.5)"/>
+  
+  <rect x="368" y="261.25" width="4" height="13.75" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="370,220 358.0,261.25 382.0,261.25" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="370,228.25 359.2,250.25 380.8,250.25" fill="rgba(255,255,255,0.5)"/>
+  
+  <rect x="43" y="230.0" width="4" height="10.0" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="45,200 36.0,230.0 54.0,230.0" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="45,206.0 36.9,222.0 53.1,222.0" fill="rgba(255,255,255,0.5)"/>
+  
+  <rect x="353" y="230.0" width="4" height="10.0" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="355,200 346.0,230.0 364.0,230.0" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="355,206.0 346.9,222.0 363.1,222.0" fill="rgba(255,255,255,0.5)"/>
+  <!-- Ground -->
+    <line x1="30" y1="276" x2="370" y2="276" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+  <!-- "40 ACRES" -->
+  <text x="200" y="300" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="rgba(255,255,255,0.5)" letter-spacing="3">40-ACRE TOWNSHIP</text>
+
+</svg>

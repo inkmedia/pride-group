@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="400" height="320">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="320" fill="#1F3F6B"/>
+  <!-- Subtle grid texture -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+  </pattern>
+  <rect width="400" height="320" fill="url(#grid)"/>
+
+  <!-- Main residential block - curved top to suggest panorama -->
+  <path d="M80,275 L80,130 Q200,90 320,130 L320,275 Z" fill="rgba(255,255,255,0.1)" stroke="#FFFFFF" stroke-width="2"/>
+  <!-- Balconies row by row -->
+  <!-- Floor 1 balconies -->
+  <rect x="95" y="235" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="145" y="233" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="195" y="231" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="245" y="233" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="272" y="235" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <!-- Floor 2 balconies -->
+  <rect x="95" y="205" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="145" y="203" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="195" y="201" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="245" y="203" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="272" y="205" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <!-- Floor 3 balconies -->
+  <rect x="100" y="175" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="148" y="173" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="196" y="171" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="244" y="173" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="268" y="175" width="35" height="15" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1"/>
+  <!-- Floor lines -->
+  <line x1="82" y1="255" x2="318" y2="255" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+  <line x1="82" y1="225" x2="318" y2="225" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+  <line x1="83" y1="195" x2="317" y2="195" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+  <line x1="85" y1="165" x2="315" y2="165" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+  <!-- Windows in facade -->
+  
+  <rect x="92" y="260" width="28" height="12" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="126" y="260" width="28" height="12" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="160" y="260" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="194" y="260" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="228" y="260" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="262" y="260" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="296" y="260" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  
+  <rect x="92" y="230" width="28" height="12" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="126" y="230" width="28" height="12" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="160" y="230" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="194" y="230" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="228" y="230" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="262" y="230" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="296" y="230" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  
+  <rect x="93" y="200" width="28" height="12" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="127" y="200" width="28" height="12" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="161" y="200" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="195" y="200" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="229" y="200" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="263" y="200" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="297" y="200" width="28" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  
+  <rect x="95" y="170" width="29" height="12" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="131" y="170" width="29" height="12" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="167" y="170" width="29" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="203" y="170" width="29" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="239" y="170" width="29" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="275" y="170" width="29" height="12" fill="rgba(255,255,255,0.7)" rx="1"/>
+  
+  <rect x="100" y="140" width="30" height="14" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="138" y="140" width="30" height="14" fill="rgba(200,168,75,0.9)" rx="1"/>
+  <rect x="176" y="140" width="30" height="14" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="214" y="140" width="30" height="14" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <rect x="252" y="140" width="30" height="14" fill="rgba(255,255,255,0.7)" rx="1"/>
+  <!-- Entrance -->
+  <path d="M175,275 L175,245 Q200,235 225,245 L225,275" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="1.5"/>
+  <!-- Ground -->
+    <line x1="30" y1="276" x2="370" y2="276" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+  <!-- Trees -->
+  
+  <rect x="43" y="261.0" width="4" height="15.0" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="45,216 32.0,261.0 58.0,261.0" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="45,225.0 33.3,249.0 56.7,249.0" fill="rgba(255,255,255,0.5)"/>
+  
+  <rect x="353" y="261.0" width="4" height="15.0" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="355,216 342.0,261.0 368.0,261.0" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="355,225.0 343.3,249.0 366.7,249.0" fill="rgba(255,255,255,0.5)"/>
+  
+  <rect x="26" y="264.75" width="4" height="11.25" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="28,231 18.0,264.75 38.0,264.75" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="28,237.75 19.0,255.75 37.0,255.75" fill="rgba(255,255,255,0.5)"/>
+  
+  <rect x="370" y="264.75" width="4" height="11.25" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="372,231 362.0,264.75 382.0,264.75" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="372,237.75 363.0,255.75 381.0,255.75" fill="rgba(255,255,255,0.5)"/>
+  <!-- Rooftop railing -->
+  <line x1="82" y1="128" x2="318" y2="128" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+  <line x1="95" y1="118" x2="95" y2="128" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+  <line x1="120" y1="113" x2="120" y2="128" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+  <line x1="155" y1="108" x2="155" y2="128" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+  <line x1="200" y1="105" x2="200" y2="128" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+  <line x1="245" y1="108" x2="245" y2="128" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+  <line x1="280" y1="113" x2="280" y2="128" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+  <line x1="305" y1="118" x2="305" y2="128" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+  <!-- Sign -->
+  <rect x="150" y="148" width="100" height="16" fill="#C8A84B" rx="2"/>
+  <text x="200" y="160" text-anchor="middle" font-family="Georgia,serif" font-size="7.5" fill="#1F3F6B" font-weight="bold" letter-spacing="1">PRIDE PANORAMA</text>
+
+</svg>

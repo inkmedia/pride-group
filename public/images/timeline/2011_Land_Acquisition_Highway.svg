@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="400" height="320">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="320" fill="#1F3F6B"/>
+  <!-- Subtle grid texture -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+  </pattern>
+  <rect width="400" height="320" fill="url(#grid)"/>
+
+  <!-- Sky with subtle horizon glow -->
+  <ellipse cx="200" cy="200" rx="250" ry="120" fill="rgba(255,255,255,0.04)"/>
+  <!-- Highway perspective -->
+  <path d="M0,280 L170,200 L230,200 L400,280 Z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <!-- Road surface -->
+  <path d="M0,285 L400,285 L340,210 L60,210 Z" fill="rgba(0,0,0,0.2)"/>
+  <!-- Lane markings -->
+  <path d="M200,285 L200,210" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-dasharray="12,8"/>
+  <!-- Road edges -->
+  <line x1="60" y1="210" x2="0" y2="285" stroke="#FFFFFF" stroke-width="1.5"/>
+  <line x1="340" y1="210" x2="400" y2="285" stroke="#FFFFFF" stroke-width="1.5"/>
+  <!-- Vanishing point glow -->
+  <circle cx="200" cy="190" r="20" fill="rgba(200,168,75,0.15)"/>
+  <!-- PUNE sign left -->
+  <rect x="35" y="205" width="5" height="40" fill="rgba(255,255,255,0.6)"/>
+  <rect x="20" y="194" width="55" height="18" fill="#FFFFFF" rx="2"/>
+  <text x="47" y="207" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#1F3F6B" font-weight="bold">◄ PUNE</text>
+  <!-- MUMBAI sign right -->
+  <rect x="360" y="205" width="5" height="40" fill="rgba(255,255,255,0.6)"/>
+  <rect x="325" y="194" width="70" height="18" fill="#FFFFFF" rx="2"/>
+  <text x="360" y="207" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#1F3F6B" font-weight="bold">MUMBAI ►</text>
+  <!-- Land fields on sides -->
+  <path d="M0,210 L60,210 L0,285" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <path d="M340,210 L400,210 L400,285" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <!-- Plot boundary markers -->
+  <circle cx="25" cy="215" r="4" fill="#C8A84B"/>
+  <circle cx="375" cy="215" r="4" fill="#C8A84B"/>
+  <line x1="25" y1="215" x2="375" y2="215" stroke="#C8A84B" stroke-width="1" stroke-dasharray="6,5"/>
+  <!-- Central milestone marker -->
+  <rect x="185" y="130" width="30" height="55" fill="rgba(255,255,255,0.15)" stroke="#FFFFFF" stroke-width="2" rx="3"/>
+  <path d="M185,130 Q200,118 215,130" fill="#C8A84B" stroke="#C8A84B" stroke-width="1"/>
+  <text x="200" y="148" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#FFFFFF" font-weight="bold">325</text>
+  <text x="200" y="160" text-anchor="middle" font-family="Arial,sans-serif" font-size="6" fill="rgba(255,255,255,0.8)">ACRES</text>
+  <text x="200" y="173" text-anchor="middle" font-family="Arial,sans-serif" font-size="5.5" fill="rgba(255,255,255,0.7)">ACQUIRED</text>
+  <!-- Ground line at bottom -->
+    <line x1="30" y1="286" x2="370" y2="286" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+  <!-- Trees horizon -->
+  
+  <rect x="28" y="200.5" width="4" height="7.5" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="30,178 23.0,200.5 37.0,200.5" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="30,182.5 23.7,194.5 36.3,194.5" fill="rgba(255,255,255,0.5)"/>
+  
+  <rect x="48" y="201.75" width="4" height="6.25" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="50,183 44.0,201.75 56.0,201.75" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="50,186.75 44.6,196.75 55.4,196.75" fill="rgba(255,255,255,0.5)"/>
+  
+  <rect x="348" y="201.75" width="4" height="6.25" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="350,183 344.0,201.75 356.0,201.75" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="350,186.75 344.6,196.75 355.4,196.75" fill="rgba(255,255,255,0.5)"/>
+  
+  <rect x="368" y="200.5" width="4" height="7.5" fill="rgba(255,255,255,0.5)"/>
+  <polygon points="370,178 363.0,200.5 377.0,200.5" fill="rgba(255,255,255,0.7)"/>
+  <polygon points="370,182.5 363.7,194.5 376.3,194.5" fill="rgba(255,255,255,0.5)"/>
+  <!-- Mountains/hills silhouette far back -->
+  <path d="M0,175 Q50,145 100,165 Q150,140 200,160 Q250,138 300,162 Q350,143 400,170 L400,210 L0,210 Z" fill="rgba(255,255,255,0.06)"/>
+  <!-- Title -->
+  <text x="200" y="110" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#C8A84B" font-weight="bold" letter-spacing="1">BOMBAY–PUNE HIGHWAY</text>
+  <text x="200" y="125" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="rgba(255,255,255,0.6)" letter-spacing="2">LAND ACQUISITION</text>
+
+</svg>

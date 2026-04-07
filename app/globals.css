@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: auto !important;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* --font-sans: var(--font-geist-sans); */
+  /* --font-mono: var(--font-geist-mono); */
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-proxima), sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-lora), serif;
+}
+
+.orange {
+  color: #f99d1c;
+}
+
+.orange-btn {
+  color: #f99d1c;
+  border: 1px solid #f99d1c;
+}
+
+.orange-btn:hover {
+  background-color: #f99d1c;
+  color: #fff;
+  border: 1px solid #f99d1c;
+}
+
+.navy {
+  color: #172f55;
+}
+
+.navy-btn {
+  color: #172f55;
+  border: 1px solid #172f55;
+}
+
+.navy-btn:hover {
+  background-color: #172f55;
+  color: #fff;
+  border: 1px solid #172f55;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: auto !important;
+}
+
+.map-embed iframe {
+  pointer-events: auto !important;
+}
+
+.admin-input {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: white;
+  padding: 14px 16px;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-input:focus {
+  border-color: #172f55;
+  box-shadow: 0 0 0 3px rgba(23, 47, 85, 0.08);
+}
+
+.admin-textarea {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: white;
+  padding: 14px 16px;
+  font-size: 14px;
+  outline: none;
+  resize: vertical;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-textarea:focus {
+  border-color: #172f55;
+  box-shadow: 0 0 0 3px rgba(23, 47, 85, 0.08);
+}
