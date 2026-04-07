@@ -6,7 +6,7 @@ export async function POST() {
 
   return NextResponse.redirect(
     new URL(
-      "/admin",
+      "/",
       process.env.NEXT_PUBLIC_BASE_URL || "https://pride-iota.vercel.app/",
     ),
   );
