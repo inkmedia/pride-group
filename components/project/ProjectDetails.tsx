@@ -34,6 +34,7 @@ function getTabIndexFromHash(galleryTabs: GalleryTab[], hash: string) {
 export default function ProjectDetails({ project }: { project: Project }) {
   const details = project.details;
   const galleryTabs = details.galleryTabs;
+
   const [activeSpec, setActiveSpec] = useState(0);
   const [activeGalleryTab, setActiveGalleryTab] = useState(() => {
     if (typeof window === "undefined") return 0;
@@ -42,6 +43,9 @@ export default function ProjectDetails({ project }: { project: Project }) {
     return initialIndex >= 0 ? initialIndex : 0;
   });
   const [activeImage, setActiveImage] = useState(0);
+  const [openConnectivityGroups, setOpenConnectivityGroups] = useState<
+    Record<string, boolean>
+  >({});
 
   const specTabs = details.specifications;
   const connectivityGroups = details.connectivity?.groups ?? [];
@@ -90,6 +94,13 @@ export default function ProjectDetails({ project }: { project: Project }) {
     if (anchorId) {
       window.history.replaceState(null, "", `#${anchorId}`);
     }
+  };
+
+  const toggleConnectivityGroup = (title: string) => {
+    setOpenConnectivityGroups((prev) => ({
+      ...prev,
+      [title]: !prev[title],
+    }));
   };
 
   return (
@@ -319,75 +330,115 @@ export default function ProjectDetails({ project }: { project: Project }) {
             </h2>
 
             <div className="mt-10 space-y-6">
-              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-                {connectivityGroups.slice(0, 4).map((group) => (
-                  <div
-                    key={group.title}
-                    className="rounded-[10px] bg-white p-3 shadow-[0_8px_24px_rgba(0,0,0,0.06)] sm:p-6"
-                  >
-                    <h3 className="text-[20px] font-[600] text-[#173363]">
-                      {group.title}
-                    </h3>
+              <div className="grid items-start gap-6 md:grid-cols-2 xl:grid-cols-4">
+                {connectivityGroups.slice(0, 4).map((group) => {
+                  const isOpen = !!openConnectivityGroups[group.title];
 
-                    <div className="mt-5">
-                      {group.items.map((item, index) => (
-                        <div
-                          key={`${item.name}-${index}`}
-                          className={`flex items-center justify-between gap-2 py-2 ${
-                            index !== group.items.length - 1
-                              ? "border-b border-black/8"
-                              : ""
-                          }`}
-                        >
-                          <span className="text-[15px] text-black/80 sm:text-[15px]">
-                            {item.name}
-                          </span>
-                          {item.distance ? (
-                            <span className="shrink-0 text-[16px] font-[500] text-[#173363] sm:text-[18px]">
-                              {item.distance}
-                            </span>
-                          ) : null}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {connectivityGroups.length > 4 && (
-                <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                  {connectivityGroups.slice(4).map((group) => (
+                  return (
                     <div
                       key={group.title}
                       className="rounded-[10px] bg-white p-3 shadow-[0_8px_24px_rgba(0,0,0,0.06)] sm:p-6"
                     >
-                      <h3 className="text-[20px] font-[600] text-[#173363]">
-                        {group.title}
-                      </h3>
+                      <button
+                        type="button"
+                        onClick={() => toggleConnectivityGroup(group.title)}
+                        className="cursor-pointer flex w-full items-center justify-between gap-3 text-left"
+                      >
+                        <h3 className="text-[20px] font-[600] text-[#173363]">
+                          {group.title}
+                        </h3>
 
-                      <div className="mt-5">
-                        {group.items.map((item, index) => (
-                          <div
-                            key={`${item.name}-${index}`}
-                            className={`flex items-center justify-between gap-2 py-2 ${
-                              index !== group.items.length - 1
-                                ? "border-b border-black/8"
-                                : ""
+                        <span
+                          className={`text-[22px] leading-none text-[#173363] transition-transform duration-300 ${
+                            isOpen ? "rotate-45" : "rotate-0"
+                          }`}
+                        >
+                          +
+                        </span>
+                      </button>
+
+                      {isOpen ? (
+                        <div className="mt-5">
+                          {group.items.map((item, index) => (
+                            <div
+                              key={`${item.name}-${index}`}
+                              className={`flex items-center justify-between gap-2 py-2 ${
+                                index !== group.items.length - 1
+                                  ? "border-b border-black/8"
+                                  : ""
+                              }`}
+                            >
+                              <span className="text-[15px] text-black/80 sm:text-[15px]">
+                                {item.name}
+                              </span>
+                              {item.distance ? (
+                                <span className="shrink-0 text-[16px] font-[500] text-[#173363] sm:text-[18px]">
+                                  {item.distance}
+                                </span>
+                              ) : null}
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {connectivityGroups.length > 4 && (
+                <div className="grid gap-6 items-start md:grid-cols-2 xl:grid-cols-3">
+                  {connectivityGroups.slice(4).map((group) => {
+                    const isOpen = !!openConnectivityGroups[group.title];
+
+                    return (
+                      <div
+                        key={group.title}
+                        className="rounded-[10px] bg-white p-3 shadow-[0_8px_24px_rgba(0,0,0,0.06)] sm:p-6"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => toggleConnectivityGroup(group.title)}
+                          className="flex cursor-pointer w-full items-center justify-between gap-3 text-left"
+                        >
+                          <h3 className="text-[20px] font-[600] text-[#173363]">
+                            {group.title}
+                          </h3>
+
+                          <span
+                            className={`text-[22px] leading-none text-[#173363] transition-transform duration-300 ${
+                              isOpen ? "rotate-45" : "rotate-0"
                             }`}
                           >
-                            <span className="text-[15px] text-black/80 sm:text-[15px]">
-                              {item.name}
-                            </span>
-                            {item.distance ? (
-                              <span className="shrink-0 text-[16px] font-[500] text-[#173363] sm:text-[18px]">
-                                {item.distance}
-                              </span>
-                            ) : null}
+                            +
+                          </span>
+                        </button>
+
+                        {isOpen ? (
+                          <div className="mt-5">
+                            {group.items.map((item, index) => (
+                              <div
+                                key={`${item.name}-${index}`}
+                                className={`flex items-center justify-between gap-2 py-2 ${
+                                  index !== group.items.length - 1
+                                    ? "border-b border-black/8"
+                                    : ""
+                                }`}
+                              >
+                                <span className="text-[15px] text-black/80 sm:text-[15px]">
+                                  {item.name}
+                                </span>
+                                {item.distance ? (
+                                  <span className="shrink-0 text-[16px] font-[500] text-[#173363] sm:text-[18px]">
+                                    {item.distance}
+                                  </span>
+                                ) : null}
+                              </div>
+                            ))}
                           </div>
-                        ))}
+                        ) : null}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>

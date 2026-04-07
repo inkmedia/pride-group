@@ -114,9 +114,9 @@ function TeamGrid({
       {members.map((member, index) => (
         <div
           key={`${member.name}-${index}`}
-          className="overflow-hidden rounded-[12px] border border-[#1f3f6b]/10 bg-white transition-shadow duration-300 hover:shadow-lg"
+          className="overflow-hidden rounded-[10px] border border-[#1f3f6b]/10 bg-white transition-shadow duration-300 hover:shadow-lg"
         >
-          <div className="relative aspect-[4/4.5] w-full bg-[#f3f4f6]">
+          <div className="relative aspect-[2] w-full bg-[#f3f4f6]">
             <Image
               src={member.image || "/images/team-placeholder.jpg"}
               alt={member.name}
