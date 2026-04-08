@@ -539,36 +539,28 @@ export default function CompletedProjectsList() {
         {isPune && (
           <div className="mt-8 overflow-hidden rounded-[10px] border border-[#172f55]/10 bg-white shadow-[0_14px_30px_rgba(16,32,59,0.08)]">
             <iframe
-              data-lenis-prevent
               src="https://my.atlist.com/map/18e50b08-73aa-4946-8910-6f7bd00048e6?share=true"
               allow="geolocation 'self' https://my.atlist.com"
               width="100%"
-              height="500"
+              height="400px"
               loading="lazy"
-              frameBorder="0"
-              scrolling="no"
               allowFullScreen
               id="atlist-embed"
-              className="block w-full"
-            />
+            ></iframe>
           </div>
         )}
 
         {isBangalore && (
           <div className="mt-8 overflow-hidden rounded-[10px] border border-[#172f55]/10 bg-white shadow-[0_14px_30px_rgba(16,32,59,0.08)]">
             <iframe
-              data-lenis-prevent
               src="https://my.atlist.com/map/bdf1b903-4d60-4549-98c3-8001b670c795?share=true"
               allow="geolocation 'self' https://my.atlist.com"
               width="100%"
-              height="500"
+              height="400px"
               loading="lazy"
-              frameBorder="0"
-              scrolling="no"
               allowFullScreen
               id="atlist-embed"
-              className="block w-full"
-            />
+            ></iframe>
           </div>
         )}
 
