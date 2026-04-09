@@ -1,3 +1,5 @@
+import AdminNavLink from "@/components/admin/AdminNavLink";
+
 export default function AdminPage() {
   return (
     <section className="h-[80vh]">
@@ -22,26 +24,26 @@ export default function AdminPage() {
           </p>
 
           <div className="mt-4 space-y-3">
-            <a
+            <AdminNavLink
               href="/admin/projects"
               className="block rounded-xl border border-black/10 px-4 py-3 text-[14px] font-[600] text-black transition hover:bg-black hover:text-white"
             >
               Manage Projects
-            </a>
+            </AdminNavLink>
 
-            <a
+            <AdminNavLink
               href="/admin/content"
               className="block rounded-xl border border-black/10 px-4 py-3 text-[14px] font-[600] text-black transition hover:bg-black hover:text-white"
             >
               Manage Content
-            </a>
+            </AdminNavLink>
 
-            <a
+            <AdminNavLink
               href="/admin/settings"
               className="block rounded-xl border border-black/10 px-4 py-3 text-[14px] font-[600] text-black transition hover:bg-black hover:text-white"
             >
               Admin Settings
-            </a>
+            </AdminNavLink>
           </div>
         </div>
       </div>

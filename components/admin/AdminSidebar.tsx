@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import AdminNavLink from "@/components/admin/AdminNavLink";
 
 const navItems = [
   { label: "Dashboard", href: "/admin" },
@@ -35,7 +35,7 @@ export default function AdminSidebar() {
 
   return (
     <aside className="hidden w-[260px] shrink-0 self-start lg:block">
-      <div className="fixed w-[260px] top-[76px] h-[calc(100vh-76px)] border-r border-black/10 bg-white">
+      <div className="fixed top-[76px] h-[calc(100vh-76px)] w-[260px] border-r border-black/10 bg-white">
         <div className="h-full overflow-y-auto p-5">
           <div className="rounded-2xl border border-black/10 bg-[#f8fafc] p-4">
             <p className="text-[11px] font-[700] uppercase tracking-[0.14em] text-black/45">
@@ -44,15 +44,26 @@ export default function AdminSidebar() {
           </div>
 
           <nav className="mt-6 space-y-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="block rounded-xl px-3 py-2 text-[14px] font-[600] text-black/75 transition hover:bg-[#172f55] hover:text-white"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const isActive =
+                item.href === "/admin"
+                  ? pathname === "/admin"
+                  : pathname.startsWith(item.href);
+
+              return (
+                <AdminNavLink
+                  key={item.href}
+                  href={item.href}
+                  className={`block rounded-xl px-3 py-2 text-[14px] font-[600] transition ${
+                    isActive
+                      ? "bg-[#172f55] text-white"
+                      : "text-black/75 hover:bg-[#172f55] hover:text-white"
+                  }`}
+                >
+                  {item.label}
+                </AdminNavLink>
+              );
+            })}
           </nav>
 
           {isProjectEditPage ? (

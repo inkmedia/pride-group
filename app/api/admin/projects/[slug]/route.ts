@@ -62,7 +62,10 @@ export async function PUT(request: Request, { params }: RouteContext) {
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2025"
     ) {
-      return NextResponse.json({ error: "Project not found." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Project not found." },
+        { status: 404 },
+      );
     }
 
     if (
@@ -106,7 +109,10 @@ export async function DELETE(_: Request, { params }: RouteContext) {
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2025"
     ) {
-      return NextResponse.json({ error: "Project not found." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Project not found." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json(

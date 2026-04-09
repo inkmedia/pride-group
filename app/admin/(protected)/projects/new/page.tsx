@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import ProjectEditForm from "@/components/admin/ProjectEditForm";
+import AdminNavLink from "@/components/admin/AdminNavLink";
 import type { Project } from "@/types/project";
 
 const emptyProject: Project = {
@@ -89,21 +89,12 @@ export default async function NewProjectPage() {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link
+            <AdminNavLink
               href="/admin/projects"
               className="rounded-full border border-black/15 bg-white px-5 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
             >
               Back to Projects
-            </Link>
-
-            <form action="/api/admin/logout" method="POST">
-              <button
-                type="submit"
-                className="rounded-full border border-black/15 bg-white px-5 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
-              >
-                Logout
-              </button>
-            </form>
+            </AdminNavLink>
           </div>
         </div>
 

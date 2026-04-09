@@ -4,6 +4,7 @@ import DeleteProjectButton from "@/components/admin/DeleteProjectButton";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { getProjectBySlug } from "@/lib/project-store";
 import ProjectEditForm from "@/components/admin/ProjectEditForm";
+import AdminNavLink from "@/components/admin/AdminNavLink";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -43,20 +44,20 @@ export default async function EditProjectPage({ params }: PageProps) {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link
+            <AdminNavLink
               href="/admin/projects"
               className="rounded-full border border-black/15 bg-white px-5 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
             >
               Back to Projects
-            </Link>
+            </AdminNavLink>
 
-            <Link
+            <AdminNavLink
               href={`/projects/${project.slug}`}
               target="_blank"
               className="rounded-full bg-[#172f55] px-5 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90"
             >
               View Live Page
-            </Link>
+            </AdminNavLink>
 
             <DeleteProjectButton
               slug={project.slug}

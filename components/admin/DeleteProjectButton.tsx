@@ -19,7 +19,7 @@ export default function DeleteProjectButton({
 
   async function handleDelete() {
     const confirmed = window.confirm(
-      "Delete this project? This action cannot be undone.",
+      `Are you sure you want to delete "${slug}"? This action cannot be undone.`,
     );
 
     if (!confirmed) {
@@ -29,9 +29,12 @@ export default function DeleteProjectButton({
     setIsDeleting(true);
 
     try {
-      const response = await fetch(`/api/admin/projects/${encodeURIComponent(slug)}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `/api/admin/projects/${encodeURIComponent(slug)}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       const data = await response.json().catch(() => null);
 

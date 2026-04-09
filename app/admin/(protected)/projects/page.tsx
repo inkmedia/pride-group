@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import DeleteProjectButton from "@/components/admin/DeleteProjectButton";
+import AdminNavLink from "@/components/admin/AdminNavLink";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { listProjects } from "@/lib/project-store";
 
@@ -30,28 +31,19 @@ export default async function AdminProjectsPage() {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link
+            <AdminNavLink
               href="/admin"
               className="rounded-full border border-black/15 bg-white px-5 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
             >
               Dashboard
-            </Link>
+            </AdminNavLink>
 
-            <Link
+            <AdminNavLink
               href="/admin/projects/new"
               className="rounded-full bg-[#172f55] px-5 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90"
             >
               Add New Project
-            </Link>
-
-            <form action="/api/admin/logout" method="POST">
-              <button
-                type="submit"
-                className="rounded-full border border-black/15 bg-white px-5 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
-              >
-                Logout
-              </button>
-            </form>
+            </AdminNavLink>
           </div>
         </div>
 
@@ -122,12 +114,12 @@ export default async function AdminProjectsPage() {
                       View
                     </Link>
 
-                    <Link
+                    <AdminNavLink
                       href={`/admin/projects/${project.slug}/edit`}
                       className="rounded-full bg-[#172f55] px-4 py-2 text-[11px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90"
                     >
                       Edit
-                    </Link>
+                    </AdminNavLink>
 
                     <DeleteProjectButton slug={project.slug} />
                   </div>
@@ -181,12 +173,12 @@ export default async function AdminProjectsPage() {
                     View
                   </Link>
 
-                  <Link
+                  <AdminNavLink
                     href={`/admin/projects/${project.slug}/edit`}
                     className="rounded-full bg-[#172f55] px-4 py-2 text-[11px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90"
                   >
                     Edit
-                  </Link>
+                  </AdminNavLink>
 
                   <DeleteProjectButton slug={project.slug} />
                 </div>
