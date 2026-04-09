@@ -26,7 +26,7 @@ export default function AdminHeader() {
         <form action="/api/admin/logout" method="POST">
           <button
             type="submit"
-            className="rounded-full bg-[#172f55] px-5 py-2.5 text-[12px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90"
+            className="cursor-pointer rounded-full bg-[#172f55] px-5 py-2.5 text-[12px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90"
           >
             Logout
           </button>
