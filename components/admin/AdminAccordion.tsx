@@ -58,7 +58,7 @@ export default function AdminAccordion({
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left sm:px-6"
+        className="flex cursor-pointer w-full items-center justify-between gap-4 px-5 py-5 text-left sm:px-6"
       >
         <div>
           <p className="text-[11px] font-[700] uppercase tracking-[0.14em] text-black/45">
