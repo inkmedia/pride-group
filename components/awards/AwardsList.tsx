@@ -1175,13 +1175,13 @@ function AwardCard({ award }: { award: AwardItem }) {
           fill
           className="object-contain"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#10203b]/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#10203b]/10 via-transparent to-transparent" />
 
         <div className="absolute bottom-4 left-4 right-4">
-          <p className="text-[11px] font-[700] uppercase tracking-[0.14em] text-white/70">
+          <p className="text-[11px] font-[700] uppercase tracking-[0.14em] text-[#172f55]/60">
             {award.department}
           </p>
-          <p className="mt-1 text-[12px] font-[700] uppercase tracking-[0.12em] text-[#f8f8f8]">
+          <p className="mt-1 text-[12px] font-[700] uppercase tracking-[0.12em] text-[#172f55]">
             {award.year}
           </p>
         </div>
