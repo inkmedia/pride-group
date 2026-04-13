@@ -420,7 +420,7 @@ export default function CompletedProjectsList() {
                       setActiveCity(city);
                       setActiveType("All");
                     }}
-                    className={`relative cursor-pointer rounded-full px-10 py-3 text-[13px] font-[700] uppercase tracking-[0.12em] transition-all duration-300 ease-out ${
+                    className={`relative cursor-pointer rounded-full px-5 py-3 text-[12px] font-[700] uppercase tracking-[0.12em] transition-all duration-300 ease-out ${
                       active
                         ? "bg-[#173363] text-white shadow-[0_8px_18px_rgba(23,51,99,0.22)] scale-100"
                         : "text-[#173363]/65 hover:text-[#173363] hover:scale-[1.02]"

@@ -26,6 +26,42 @@ const awards: AwardItem[] = [
     image: "/images/awards/best-landscape.jpg",
   },
   {
+    id: "construction-health-safety-environment-2",
+    title: "For Construction Health, Safety & Environment",
+    awardedTo: "Pride Builders LLP for Wellington",
+    awardee: "16th CIDC Vishwakarma Medal",
+    year: "2025",
+    department: "Sales",
+    image: "/images/awards/Award-2.jpg",
+  },
+  {
+    id: "environment-friendly-project-residential",
+    title: "Environment Friendly Project - Residential",
+    awardedTo: "Pride Group for Pride Platinum",
+    awardee: "Realty Excellence Awards, West",
+    year: "2014",
+    department: "Sales",
+    image: "/images/awards/Award-4.jpg",
+  },
+  {
+    id: "asias-greatest-brands",
+    title: "Asia's Greatest Brands",
+    awardedTo: "Pride Group",
+    awardee: "Asia One",
+    year: "2023-2024",
+    department: "Sales",
+    image: "/images/awards/Award-3.jpg",
+  },
+  {
+    id: "occupational-health-safety-award",
+    title: "Occupational Health & Safety Award",
+    awardedTo: "Pride Builders LLP for Wellington",
+    awardee: "Apex India Foundation",
+    year: "2023",
+    department: "Sales",
+    image: "/images/awards/Award-5.jpg",
+  },
+  {
     id: "sales-times-property-expo-2",
     title: "Times property expo",
     year: "2015",
@@ -169,7 +205,7 @@ const awards: AwardItem[] = [
     awardedTo:
       "SMARTAN Pride world city (Best use of SEO in a marketing campaign)",
     department: "Sales",
-    image: "/images/awards/best-landscape.jpg",
+    image: "/images/awards/developer-of-year.jpg",
   },
   {
     id: "sales-super-marathi-film-festival-18",
@@ -836,7 +872,7 @@ const awards: AwardItem[] = [
     awardedTo:
       "SMARTAN Pride World City (Most Effective Content Marketing and Strategy)",
     department: "Head Office",
-    image: "/images/awards/best-premium.jpg",
+    image: "/images/awards/Award-1.jpg",
   },
   {
     id: "ho-2nd-realty-india-brand-leadership-conclave-and-aware-92",
@@ -864,7 +900,7 @@ const awards: AwardItem[] = [
     awardee: "Times Property",
     awardedTo: "Mr Arvind Jain",
     department: "Head Office",
-    image: "/images/awards/developer-of-year.jpg",
+    image: "/images/awards/Award-6.jpg",
   },
   {
     id: "ho-iree-indian-real-estate-expo-95",
@@ -1120,6 +1156,15 @@ const awards: AwardItem[] = [
   },
 ];
 
+const getLatestYear = (year: string) => {
+  if (!year || year === "NA") return -1;
+
+  const matches = year.match(/\d{4}/g);
+  if (!matches) return -1;
+
+  return Math.max(...matches.map(Number));
+};
+
 function AwardCard({ award }: { award: AwardItem }) {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-[10px] border border-[#ddd5c8] bg-white shadow-[0_16px_40px_rgba(15,31,58,0.06)]">
@@ -1128,7 +1173,7 @@ function AwardCard({ award }: { award: AwardItem }) {
           src={award.image}
           alt={award.title}
           fill
-          className="object-cover"
+          className="object-contain"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#10203b]/80 via-transparent to-transparent" />
 
@@ -1192,8 +1237,18 @@ export default function AwardsList() {
   );
 
   const filteredAwards = useMemo(() => {
-    if (activeDepartment === "All") return awards;
-    return awards.filter((award) => award.department === activeDepartment);
+    const data =
+      activeDepartment === "All"
+        ? awards
+        : awards.filter((award) => award.department === activeDepartment);
+
+    return [...data].sort((a, b) => {
+      const yearA = getLatestYear(a.year);
+      const yearB = getLatestYear(b.year);
+
+      if (yearB !== yearA) return yearB - yearA;
+      return a.title.localeCompare(b.title);
+    });
   }, [activeDepartment]);
 
   const totalPages = Math.ceil(filteredAwards.length / ITEMS_PER_PAGE);
@@ -1212,7 +1267,7 @@ export default function AwardsList() {
     <section className="bg-white py-16 lg:py-24">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
         <div className="mt-10 border-b border-[#e0e0e0]">
-          <div className="flex flex-wrap justify-center gap-8 sm:gap-10">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-10">
             {["All", ...allDepartments].map((department) => {
               const isActive = activeDepartment === department;
 
@@ -1220,7 +1275,7 @@ export default function AwardsList() {
                 <button
                   key={department}
                   onClick={() => handleDepartmentChange(department)}
-                  className="relative cursor-pointer pb-3 text-[14px] font-[600] uppercase transition"
+                  className="relative cursor-pointer pb-2 text-[12px] font-[600] uppercase transition sm:text-[14px]"
                 >
                   <span
                     className={`transition ${

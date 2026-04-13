@@ -100,7 +100,7 @@ export default function BlogHighlights() {
 
   return (
     <section>
-      <div className="mx-auto grid max-w-[1680px] grid-cols-1 lg:min-h-screen lg:grid-cols-[340px_1fr] xl:grid-cols-[420px_1fr]">
+      <div className="mx-auto grid grid-cols-1 lg:min-h-screen lg:grid-cols-[340px_1fr] xl:grid-cols-[420px_1fr]">
         {/* LEFT PANEL */}
         <div className="flex bg-[#17335f] px-5 py-12 sm:px-8 sm:py-14 md:px-10 lg:px-12 lg:py-20 xl:px-16 xl:py-24">
           <div className="m-auto">

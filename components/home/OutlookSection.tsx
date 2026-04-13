@@ -259,7 +259,9 @@ export default function OutlookSection() {
         {stats.map((item, index) => (
           <div
             key={item.label}
-            className="rounded-sm bg-white px-3 py-4 text-center shadow-sm lg:bg-transparent lg:px-0 lg:py-[20px] lg:shadow-none"
+            className={`rounded-sm bg-white px-3 py-4 text-center shadow-sm lg:bg-transparent lg:px-0 lg:py-[20px] lg:shadow-none ${
+              index === stats.length - 1 ? "hidden sm:block" : ""
+            }`}
           >
             <div className="text-[30px] font-semibold orange sm:text-[28px] lg:text-[30px]">
               <Counter end={item.value} suffix={item.suffix} />
