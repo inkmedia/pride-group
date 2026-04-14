@@ -96,7 +96,7 @@ export default function JobOpenings() {
 
   return (
     <>
-      <section className="bg-white px-5 py-12 sm:px-8 sm:py-14 md:py-16 lg:px-10 lg:py-20">
+      <section className="bg-[#f8f8f8] px-5 py-12 sm:px-8 sm:py-14 md:py-16 lg:px-10 lg:py-20">
         <div className="mx-auto max-w-[1200px]">
           <div className="mb-8 max-w-[760px] sm:mb-10">
             <p className="mb-3 text-[11px] font-[700] uppercase text-[#172f55] sm:text-[12px]">

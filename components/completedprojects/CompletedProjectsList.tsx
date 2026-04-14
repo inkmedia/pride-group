@@ -359,7 +359,7 @@ function TypeSelect({
 function ProjectInfo({ project }: { project: Project }) {
   return (
     <div className="mt-3">
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 ">
         <h3 className="min-w-0 text-[18px] font-[600] leading-[1.3] text-[#172f55]">
           {project.name}
         </h3>
@@ -372,14 +372,14 @@ function ProjectInfo({ project }: { project: Project }) {
           {[project.location, project.city].filter(Boolean).join(", ")}
         </p>
 
-        <p className="whitespace-nowrap text-right text-[12px] font-[600] leading-[1.4] text-[#172f55]/75">
+        {/* <p className="whitespace-nowrap text-right text-[12px] font-[600] leading-[1.4] text-[#172f55]/75">
           {project.totalBuiltUp || "—"}
-        </p>
+        </p> */}
       </div>
 
-      <p className="mt-2 border-t border-[#172f55]/10 pt-3 text-[12px] font-[600] leading-[1.5] text-[#172f55]/80">
+      {/* <p className="mt-2 border-t border-[#172f55]/10 pt-3 text-[12px] font-[600] leading-[1.5] text-[#172f55]/80">
         No. of Units - {project.units || "—"}
-      </p>
+      </p> */}
     </div>
   );
 }

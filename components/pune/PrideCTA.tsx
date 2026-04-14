@@ -16,9 +16,9 @@ export default function PrideCTA() {
           </div>
 
           {/* Content */}
-          <div className="relative flex min-h-[600px] items-center justify-center px-6 py-12 text-center sm:px-10 lg:min-h-[600px]">
-            <div className="max-w-3xl">
-              <h2 className="text-[30px] mb-10 font-[500] leading-[1.2] text-white sm:text-[38px] lg:text-[46px]">
+          <div className="relative flex min-h-[500px] items-center justify-center px-6 py-12 text-center sm:px-10 lg:min-h-[500px]">
+            <div className="max-w-4xl">
+              <h2 className="text-[30px] mb-10 font-[500] leading-[1.2] text-white sm:text-[38px] lg:text-[42px]">
                 Experience the Pride of Living in Pune
               </h2>
               <TransitionLink

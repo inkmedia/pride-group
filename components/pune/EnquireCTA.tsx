@@ -32,7 +32,7 @@ export default function EnquireCTA() {
         <div className="absolute inset-0 bg-black/65" />
       </div>
 
-      <div className="relative mx-auto max-w-[900px] px-5 text-center sm:px-8 lg:px-10">
+      <div className="relative mx-auto max-w-[1200px] px-5 text-center sm:px-8 lg:px-10">
         {/* HEADING */}
         <h2 className="text-[32px] leading-[1.2] sm:text-[40px] lg:text-[46px]">
           Find Your Place in Pune’s Most

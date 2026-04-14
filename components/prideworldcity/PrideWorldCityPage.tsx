@@ -292,10 +292,20 @@ export default function PrideWorldCityPage() {
 
   return (
     <div className="bg-[#f6f1e7] text-[#10203b]">
-      <section
-        data-header="dark"
-        className="relative overflow-hidden bg-[#10203b] pb-18 pt-28 sm:pt-32 lg:pb-24 lg:pt-36"
-      >
+      <section className="relative overflow-hidden">
+        <video
+          src="https://www.prideworldcity.com/wp-content/uploads/2025/03/freecompress-PRIDE_WORLD_CITY_cinematic_screen.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="h-[56vh] w-full object-cover sm:h-[70vh] lg:h-[82vh]"
+        />
+
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white/80 via-white/25 to-transparent sm:h-40 lg:h-52" />
+      </section>
+      <section className="relative overflow-hidden bg-[#10203b] pb-18 pt-28 sm:pt-32 lg:pb-24 lg:pt-36">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(201,153,26,0.22),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.1),_transparent_28%)]" />
         <div className="mx-auto grid max-w-[1500px] gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:px-10">
           <div className="relative z-10">
@@ -734,7 +744,7 @@ export default function PrideWorldCityPage() {
         </div>
       </section>
 
-      <section
+      {/* <section
         ref={brandFilmSectionRef}
         className="bg-[#10203b] py-16 sm:py-20 lg:py-24"
       >
@@ -762,7 +772,7 @@ export default function PrideWorldCityPage() {
             />
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section
         id="ongoing-projects"

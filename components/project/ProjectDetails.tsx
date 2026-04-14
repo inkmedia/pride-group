@@ -46,6 +46,7 @@ export default function ProjectDetails({ project }: { project: Project }) {
   const [openConnectivityGroups, setOpenConnectivityGroups] = useState<
     Record<string, boolean>
   >({});
+  const [isDesktopConnectivity, setIsDesktopConnectivity] = useState(false);
 
   const specTabs = details.specifications;
   const connectivityGroups = details.connectivity?.groups ?? [];
@@ -70,6 +71,37 @@ export default function ProjectDetails({ project }: { project: Project }) {
 
     return () => window.removeEventListener("hashchange", syncTabWithHash);
   }, [galleryTabs]);
+
+  useEffect(() => {
+    if (!connectivityGroups.length || typeof window === "undefined") return;
+
+    const setDefaultConnectivityState = () => {
+      const isDesktop = window.innerWidth >= 1280; // xl breakpoint
+      setIsDesktopConnectivity(isDesktop);
+
+      if (isDesktop) {
+        const allOpen = connectivityGroups.reduce<Record<string, boolean>>(
+          (acc, group) => {
+            acc[group.title] = true;
+            return acc;
+          },
+          {},
+        );
+
+        setOpenConnectivityGroups(allOpen);
+      } else {
+        setOpenConnectivityGroups({});
+      }
+    };
+
+    setDefaultConnectivityState();
+
+    window.addEventListener("resize", setDefaultConnectivityState);
+
+    return () => {
+      window.removeEventListener("resize", setDefaultConnectivityState);
+    };
+  }, [connectivityGroups]);
 
   const currentAsset = currentGallery?.images?.[activeImage];
   const totalAssets = currentGallery?.images?.length || 0;
@@ -97,6 +129,8 @@ export default function ProjectDetails({ project }: { project: Project }) {
   };
 
   const toggleConnectivityGroup = (title: string) => {
+    if (isDesktopConnectivity) return;
+
     setOpenConnectivityGroups((prev) => ({
       ...prev,
       [title]: !prev[title],
@@ -330,31 +364,38 @@ export default function ProjectDetails({ project }: { project: Project }) {
             </h2>
 
             <div className="mt-10 space-y-6">
-              <div className="grid items-start gap-6 md:grid-cols-2 xl:grid-cols-4">
+              <div className="grid items-start gap-6 md:grid-cols-2 xl:grid-cols-4 xl:items-stretch">
                 {connectivityGroups.slice(0, 4).map((group) => {
                   const isOpen = !!openConnectivityGroups[group.title];
 
                   return (
                     <div
                       key={group.title}
-                      className="rounded-[10px] bg-white p-3 shadow-[0_8px_24px_rgba(0,0,0,0.06)] sm:p-6"
+                      className="rounded-[10px] bg-white p-3 shadow-[0_8px_24px_rgba(0,0,0,0.06)] sm:p-6 xl:h-full"
                     >
                       <button
                         type="button"
                         onClick={() => toggleConnectivityGroup(group.title)}
-                        className="cursor-pointer flex w-full items-center justify-between gap-3 text-left"
+                        disabled={isDesktopConnectivity}
+                        className={`flex w-full items-center justify-between gap-3 text-left ${
+                          isDesktopConnectivity
+                            ? "cursor-default"
+                            : "cursor-pointer"
+                        }`}
                       >
                         <h3 className="text-[20px] font-[600] text-[#173363]">
                           {group.title}
                         </h3>
 
-                        <span
-                          className={`text-[22px] leading-none text-[#173363] transition-transform duration-300 ${
-                            isOpen ? "rotate-45" : "rotate-0"
-                          }`}
-                        >
-                          +
-                        </span>
+                        {!isDesktopConnectivity && (
+                          <span
+                            className={`text-[22px] leading-none text-[#173363] transition-transform duration-300 ${
+                              isOpen ? "rotate-45" : "rotate-0"
+                            }`}
+                          >
+                            +
+                          </span>
+                        )}
                       </button>
 
                       {isOpen ? (
@@ -386,31 +427,38 @@ export default function ProjectDetails({ project }: { project: Project }) {
               </div>
 
               {connectivityGroups.length > 4 && (
-                <div className="grid gap-6 items-start md:grid-cols-2 xl:grid-cols-3">
+                <div className="grid items-start gap-6 md:grid-cols-2 xl:grid-cols-3 xl:items-stretch">
                   {connectivityGroups.slice(4).map((group) => {
                     const isOpen = !!openConnectivityGroups[group.title];
 
                     return (
                       <div
                         key={group.title}
-                        className="rounded-[10px] bg-white p-3 shadow-[0_8px_24px_rgba(0,0,0,0.06)] sm:p-6"
+                        className="rounded-[10px] bg-white p-3 shadow-[0_8px_24px_rgba(0,0,0,0.06)] sm:p-6 xl:h-full"
                       >
                         <button
                           type="button"
                           onClick={() => toggleConnectivityGroup(group.title)}
-                          className="flex cursor-pointer w-full items-center justify-between gap-3 text-left"
+                          disabled={isDesktopConnectivity}
+                          className={`flex w-full items-center justify-between gap-3 text-left ${
+                            isDesktopConnectivity
+                              ? "cursor-default"
+                              : "cursor-pointer"
+                          }`}
                         >
                           <h3 className="text-[20px] font-[600] text-[#173363]">
                             {group.title}
                           </h3>
 
-                          <span
-                            className={`text-[22px] leading-none text-[#173363] transition-transform duration-300 ${
-                              isOpen ? "rotate-45" : "rotate-0"
-                            }`}
-                          >
-                            +
-                          </span>
+                          {!isDesktopConnectivity && (
+                            <span
+                              className={`text-[22px] leading-none text-[#173363] transition-transform duration-300 ${
+                                isOpen ? "rotate-45" : "rotate-0"
+                              }`}
+                            >
+                              +
+                            </span>
+                          )}
                         </button>
 
                         {isOpen ? (

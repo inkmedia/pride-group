@@ -60,7 +60,7 @@ export default function EmployeeTestimonials() {
   }, [index]);
 
   return (
-    <section className="py-16 lg:py-20 bg-[#f8f8f8] overflow-hidden">
+    <section className="py-16 lg:py-20 bg-white overflow-hidden">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 lg:px-16">
         {/* HEADING */}
         <div className="flex items-end justify-between mb-10">
@@ -103,7 +103,7 @@ export default function EmployeeTestimonials() {
                 key={i}
                 className="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3"
               >
-                <div className="bg-white p-6 rounded-xl border border-[#eee] transition hover:shadow-md h-full">
+                <div className="bg-[#f8f8f8] p-6 rounded-xl border border-[#eee] transition hover:shadow-md h-full">
                   <p className="text-[15px] leading-[1.8] text-[#444]">
                     “{item.text}”
                   </p>

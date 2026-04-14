@@ -15,6 +15,14 @@ type AwardItem = {
 
 const ITEMS_PER_PAGE = 6;
 
+const TAB_ORDER = ["Sales", "Engineering", "Leadership", "Design"] as const;
+
+const normalizeDepartment = (department: string) => {
+  if (department === "Head Office") return "Leadership";
+  if (department === "Purple") return "Design";
+  return department;
+};
+
 const awards: AwardItem[] = [
   {
     id: "sales-times-property-east-pune-1",
@@ -1166,6 +1174,8 @@ const getLatestYear = (year: string) => {
 };
 
 function AwardCard({ award }: { award: AwardItem }) {
+  const displayDepartment = normalizeDepartment(award.department);
+
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-[10px] border border-[#ddd5c8] bg-white shadow-[0_16px_40px_rgba(15,31,58,0.06)]">
       <div className="relative h-[200px]">
@@ -1179,7 +1189,7 @@ function AwardCard({ award }: { award: AwardItem }) {
 
         <div className="absolute bottom-4 left-4 right-4">
           <p className="text-[11px] font-[700] uppercase tracking-[0.14em] text-[#172f55]/60">
-            {award.department}
+            {displayDepartment}
           </p>
           <p className="mt-1 text-[12px] font-[700] uppercase tracking-[0.12em] text-[#172f55]">
             {award.year}
@@ -1224,23 +1234,28 @@ export default function AwardsList() {
   const [activeDepartment, setActiveDepartment] = useState<string>("All");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const allDepartments = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          awards
-            .map((award) => award.department?.trim())
-            .filter((department): department is string => Boolean(department)),
-        ),
+  const allDepartments = useMemo(() => {
+    const normalizedDepartments = Array.from(
+      new Set(
+        awards
+          .map((award) => normalizeDepartment(award.department?.trim()))
+          .filter((department): department is string => Boolean(department)),
       ),
-    [],
-  );
+    );
+
+    return TAB_ORDER.filter((department) =>
+      normalizedDepartments.includes(department),
+    );
+  }, []);
 
   const filteredAwards = useMemo(() => {
     const data =
       activeDepartment === "All"
         ? awards
-        : awards.filter((award) => award.department === activeDepartment);
+        : awards.filter(
+            (award) =>
+              normalizeDepartment(award.department) === activeDepartment,
+          );
 
     return [...data].sort((a, b) => {
       const yearA = getLatestYear(a.year);

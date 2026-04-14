@@ -128,7 +128,7 @@ export default function PuneProjects() {
                   </div>
 
                   {/* CTA */}
-                  <div className="mt-auto pt-6 flex items-center justify-between border-t border-[#173363]/10">
+                  <div className="mt-auto flex items-center justify-between border-t border-[#173363]/10 pt-6">
                     <span className="text-[11px] uppercase tracking-[0.14em] text-[#173363]/40">
                       View Details
                     </span>
@@ -141,6 +141,36 @@ export default function PuneProjects() {
               </article>
             </TransitionLink>
           ))}
+        </div>
+
+        {/* COMPLETED PROJECTS CTA */}
+        <div className="mt-12 lg:mt-16">
+          <div className="rounded-[14px] bg-[linear-gradient(135deg,#ffffff_0%,#f5f7fb_52%,#172f55_150%)] px-6 py-8 shadow-[0_16px_40px_rgba(0,0,0,0.05)] sm:px-8 sm:py-10 lg:flex lg:items-center lg:justify-between lg:gap-8">
+            <div className="max-w-[760px]">
+              <p className="text-[11px] font-[700] uppercase tracking-[0.18em] text-[#173363]/55">
+                Delivered Developments
+              </p>
+
+              <h3 className="mt-3 text-[26px] leading-[1.2] text-[#10203b] sm:text-[30px]">
+                Explore our completed projects in Pune.
+              </h3>
+
+              <p className="mt-4 text-[15px] leading-[1.8] text-[#26344e]/75 sm:text-[16px]">
+                View completed developments that reflect Pride Group’s delivered
+                quality, design approach, and long-standing presence across
+                Pune.
+              </p>
+            </div>
+
+            <div className="mt-6 lg:mt-0 lg:shrink-0">
+              <TransitionLink
+                href="/completed-projects"
+                className="inline-flex items-center justify-center rounded-full bg-[#173363] px-6 py-3 text-[12px] font-[700] uppercase tracking-[0.12em] text-white transition hover:bg-[#10284f]"
+              >
+                View Completed Projects
+              </TransitionLink>
+            </div>
+          </div>
         </div>
       </div>
     </section>

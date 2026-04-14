@@ -311,17 +311,15 @@ export default function LifeAtPrideGroup() {
                 </p>
 
                 <h2 className="max-w-[700px] text-[22px] font-[500] leading-[1.25] tracking-[-0.03em] text-[#1f3f6b] sm:text-[23px] lg:text-[24px]">
-                  A people-first culture shaped by appreciation, belonging and
-                  everyday leadership.
+                  The 5C Philosophy
                 </h2>
 
                 <div className="mt-4 h-[1px] w-14 bg-[#1f3f6b]/20" />
 
                 <p className="mt-4 max-w-[680px] text-[14px] leading-[1.75] text-black/65 sm:text-[15px]">
-                  At Pride Group, culture is strengthened through small but
-                  meaningful actions. We focus on how people support each other,
-                  celebrate effort and create an environment where everyone can
-                  grow together.
+                  At Pride Group, culture is not a statement on a wall. It is
+                  shaped through the way we care, connect, coach, contribute and
+                  celebrate together.
                 </p>
 
                 <div className="mt-5 space-y-3">

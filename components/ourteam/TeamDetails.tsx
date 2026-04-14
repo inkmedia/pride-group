@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import TransitionLink from "../common/TransitionLink";
 
 type TeamMember = {
   name: string;
@@ -116,7 +117,7 @@ function TeamGrid({
           key={`${member.name}-${index}`}
           className="overflow-hidden rounded-[10px] border border-[#1f3f6b]/10 bg-white transition-shadow duration-300 hover:shadow-lg"
         >
-          <div className="relative aspect-[2] w-full bg-[#f3f4f6]">
+          <div className="relative aspect-[1.4] w-full bg-[#f3f4f6]">
             <Image
               src={member.image || "/images/team-placeholder.jpg"}
               alt={member.name}
@@ -148,7 +149,7 @@ export default function TeamDetails() {
   return (
     <section
       id="team-and-leadership"
-      className="bg-[#f8f8f8] py-12 sm:py-14 md:py-16 lg:py-20"
+      className="bg-[#f8f8f8] pt-12 sm:pt-14 md:pt-16 lg:pt-20"
     >
       <div className="mx-auto max-w-[1400px] px-5 sm:px-8 md:px-10 lg:px-6">
         <div className="rounded-[10px] border border-[#1f3f6b]/10 bg-white p-4 shadow-[0_16px_50px_rgba(0,0,0,0.04)] sm:p-6 lg:p-8">
@@ -211,6 +212,40 @@ export default function TeamDetails() {
           )}
         </div>
       </div>
+
+      {/* cta */}
+      <section className="bg-white mt-20">
+        <div className="mx-auto">
+          <div className="relative overflow-hidden shadow-[0_20px_60px_rgba(16,37,68,0.12)]">
+            {/* Background image */}
+            <div className="absolute inset-0">
+              <img
+                src="/uploads/5.webp"
+                alt="Pride CTA Background"
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black/55" />
+            </div>
+
+            {/* Content */}
+            <div className="relative flex min-h-[500px] items-center justify-center px-6 py-12 text-center sm:px-10 lg:min-h-[500px]">
+              <div className="max-w-4xl">
+                <p className="text-[20px] mb-10 text-white ">
+                  We are always looking for passionate people who want to build,
+                  grow, and make an impact with us. Explore opportunities and
+                  take the next step in your career.
+                </p>
+                <TransitionLink
+                  href="/careers"
+                  className="cursor-pointer rounded-full bg-[#172f55] px-7 py-3 text-[13px] font-[700] uppercase tracking-[0.12em] text-white transition hover:opacity-90"
+                >
+                  Join Our Team
+                </TransitionLink>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
   );
 }

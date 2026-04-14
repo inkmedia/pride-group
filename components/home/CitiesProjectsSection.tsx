@@ -249,20 +249,26 @@ export default function CitiesProjectsSection() {
               return (
                 <div
                   key={city.key}
-                  onClick={() => handleCityChange(city.key)}
+                  onClick={() => {
+                    if (!isActive) handleCityChange(city.key);
+                  }}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
+                    if (!isActive && (e.key === "Enter" || e.key === " ")) {
                       e.preventDefault();
                       handleCityChange(city.key);
                     }
                   }}
                   role="button"
                   tabIndex={0}
-                  aria-label={`Show ${city.name} projects`}
-                  className={`relative min-w-[260px] cursor-pointer snap-start overflow-hidden rounded-sm px-5 py-7 text-left transition-all duration-500 sm:min-w-[300px] sm:px-6 sm:py-8 lg:min-h-[320px] lg:min-w-0 lg:rounded-none lg:px-8 lg:py-12 ${
+                  aria-label={
                     isActive
-                      ? "scale-[1.01] text-white"
-                      : "bg-[#f8f8f8] text-[#38456a] hover:bg-[#ececec]"
+                      ? `Go to ${city.name} page`
+                      : `Show ${city.name} projects`
+                  }
+                  className={`relative min-w-[260px] snap-start overflow-hidden rounded-sm px-5 py-7 text-left transition-all duration-500 sm:min-w-[300px] sm:px-6 sm:py-8 lg:min-h-[320px] lg:min-w-0 lg:rounded-none lg:px-8 lg:py-12 ${
+                    isActive
+                      ? "scale-[1.01] cursor-pointer text-white"
+                      : "cursor-pointer bg-[#f8f8f8] text-[#38456a] hover:bg-[#ececec]"
                   }`}
                 >
                   {isActive && (
@@ -279,6 +285,12 @@ export default function CitiesProjectsSection() {
                           <div className="absolute inset-0 bg-black/40" />
                         </>
                       )}
+
+                      <Link
+                        href={city.ctaHref}
+                        aria-label={`Explore projects in ${city.name}`}
+                        className="absolute inset-0 z-20"
+                      />
                     </>
                   )}
 
@@ -287,13 +299,9 @@ export default function CitiesProjectsSection() {
                       {city.name}
                     </h3>
 
-                    <Link
-                      href={city.ctaHref}
-                      onClick={(e) => e.stopPropagation()}
-                      className="inline-block text-[12px] font-semibold uppercase sm:text-[13px] lg:text-[14px]"
-                    >
+                    <span className="inline-block text-[12px] font-semibold uppercase sm:text-[13px] lg:text-[14px]">
                       {city.cta}
-                    </Link>
+                    </span>
                   </div>
                 </div>
               );
