@@ -1784,7 +1784,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-full bg-[#172f55] px-6 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+            className="rounded-full cursor-pointer bg-[#172f55] px-6 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {isSubmitting
               ? mode === "create"
