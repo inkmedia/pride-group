@@ -279,7 +279,7 @@ export default function LifeAtPrideGroup() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
 
                   <div className="absolute bottom-4 left-4 right-4 rounded-[16px] border border-white/15 bg-white/10 p-4 text-white backdrop-blur-xl sm:bottom-5 sm:left-5 sm:right-5 sm:p-5">
-                    <p className="text-[10px] font-[700] uppercase tracking-[0.18em] text-[#172f55] sm:text-[11px]">
+                    <p className="text-[10px] font-[700] uppercase tracking-[0.18em] text-[#f8f8f8] sm:text-[11px]">
                       Careers at Pride Group
                     </p>
 
