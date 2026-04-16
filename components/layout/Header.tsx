@@ -5,28 +5,47 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import TransitionLink from "../common/TransitionLink";
 
+/* ---------------- TYPES ---------------- */
+
+type SubNavItem = {
+  label: string;
+  href: string;
+};
+
+type NavItem = {
+  label: string;
+  href: string;
+  subItems?: SubNavItem[];
+};
+
+type MenuGridItem = {
+  title: string;
+  desc: string;
+  href: string;
+};
+
 /* ---------------- NAV ---------------- */
 
-const navItems = [
+const navItems: NavItem[] = [
   { label: "THE GROUP", href: "/about" },
   {
     label: "BUILDING WITH PRIDE",
     href: "/building-with-pride",
-    subItems: [
-      {
-        label: "COMMUNITY WE BUILD",
-        href: "/building-with-pride/community-we-build",
-      },
-      {
-        label: "CSR",
-        href: "/building-with-pride/csr",
-      },
-    ],
+    // subItems: [
+    //   {
+    //     label: "COMMUNITY WE BUILD",
+    //     href: "/building-with-pride/community-we-build",
+    //   },
+    //   {
+    //     label: "CSR",
+    //     href: "/building-with-pride/csr",
+    //   },
+    // ],
   },
   { label: "Projects", href: "/projects" },
 ];
 
-const menuItems = [
+const menuItems: MenuGridItem[] = [
   {
     title: "Media Centre",
     desc: "Discover Pride news, press releases and visual stories.",
@@ -249,7 +268,7 @@ export default function Header() {
                   >
                     {item.label}
                     {item.subItems?.length ? (
-                      <span className="material-symbols-outlined">
+                      <span className="material-symbols-outlined text-[18px] leading-none">
                         keyboard_arrow_down
                       </span>
                     ) : null}
