@@ -9,7 +9,20 @@ import TransitionLink from "../common/TransitionLink";
 
 const navItems = [
   { label: "THE GROUP", href: "/about" },
-  { label: "BUILDING WITH PRIDE", href: "/buildingwithpride" },
+  {
+    label: "BUILDING WITH PRIDE",
+    href: "/building-with-pride",
+    subItems: [
+      {
+        label: "COMMUNITY WE BUILD",
+        href: "/building-with-pride/community-we-build",
+      },
+      {
+        label: "CSR",
+        href: "/building-with-pride/csr",
+      },
+    ],
+  },
   { label: "Projects", href: "/projects" },
 ];
 
@@ -229,13 +242,35 @@ export default function Header() {
           <div className="flex items-center gap-4 sm:gap-6 lg:gap-8">
             <nav className="hidden items-center gap-8 lg:flex xl:gap-12">
               {navItems.map((item) => (
-                <TransitionLink
-                  key={item.label}
-                  href={item.href}
-                  className={`text-[12px] font-[700] uppercase tracking-[0.08em] transition hover:opacity-80 xl:text-[13px] ${textColor}`}
-                >
-                  {item.label}
-                </TransitionLink>
+                <div key={item.label} className="group relative">
+                  <TransitionLink
+                    href={item.href}
+                    className={`inline-flex items-center gap-2 text-[12px] font-[700] uppercase tracking-[0.08em] transition hover:opacity-80 xl:text-[13px] ${textColor}`}
+                  >
+                    {item.label}
+                    {item.subItems?.length ? (
+                      <span className="material-symbols-outlined">
+                        keyboard_arrow_down
+                      </span>
+                    ) : null}
+                  </TransitionLink>
+
+                  {item.subItems?.length ? (
+                    <div className="pointer-events-none absolute left-0 top-full z-50 pt-4 opacity-0 transition-all duration-300 group-hover:pointer-events-auto group-hover:opacity-100">
+                      <div className="min-w-[240px] rounded-[8px] border border-[#e7dfd2] bg-white p-2 shadow-[0_16px_40px_rgba(16,32,59,0.10)]">
+                        {item.subItems.map((subItem) => (
+                          <TransitionLink
+                            key={subItem.label}
+                            href={subItem.href}
+                            className="block rounded-[8px] px-4 py-3 text-[11px] font-[700] uppercase tracking-[0.08em] text-[#10203b] transition hover:bg-[#f8f5ef]"
+                          >
+                            {subItem.label}
+                          </TransitionLink>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               ))}
             </nav>
 
@@ -277,13 +312,12 @@ export default function Header() {
                   Bangalore
                 </option>
               </select>
-
               <span
-                className={`pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[10px] ${
+                className={`material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[10px] ${
                   darkMode && !scrolled ? "text-white" : "text-black"
                 }`}
               >
-                ▼
+                keyboard_arrow_down
               </span>
             </div>
 
@@ -347,13 +381,28 @@ export default function Header() {
           <div className="shrink-0 border-t border-white/10 px-5 py-5 sm:px-8 lg:hidden">
             <nav className="grid gap-4">
               {navItems.map((item) => (
-                <TransitionLink
-                  key={item.label}
-                  href={item.href}
-                  className="text-[13px] font-[700] uppercase tracking-[0.08em] text-white/90 transition duration-300 hover:text-[#172f55]"
-                >
-                  {item.label}
-                </TransitionLink>
+                <div key={item.label} className="grid gap-2">
+                  <TransitionLink
+                    href={item.href}
+                    className="text-[13px] font-[700] uppercase tracking-[0.08em] text-white/90 transition duration-300 hover:text-white"
+                  >
+                    {item.label}
+                  </TransitionLink>
+
+                  {item.subItems?.length ? (
+                    <div className="ml-4 grid gap-2 border-l border-white/15 pl-4">
+                      {item.subItems.map((subItem) => (
+                        <TransitionLink
+                          key={subItem.label}
+                          href={subItem.href}
+                          className="text-[11px] font-[600] uppercase tracking-[0.08em] text-white/65 transition duration-300 hover:text-white"
+                        >
+                          {subItem.label}
+                        </TransitionLink>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
               ))}
             </nav>
           </div>
