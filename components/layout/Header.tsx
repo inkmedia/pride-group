@@ -68,14 +68,28 @@ export default function Header() {
   const [enquireOpen, setEnquireOpen] = useState(false);
 
   const lastScrollYRef = useRef(0);
+  const lockScrollYRef = useRef(0);
+  const skipRestoreRef = useRef(false);
 
-  /* ---------- CLOSE MENU ON ROUTE CHANGE ---------- */
+  const clearBodyScrollLock = () => {
+    document.documentElement.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    document.body.style.overflow = "";
+  };
+
+  /* ---------- RESET ON ROUTE CHANGE ---------- */
   useEffect(() => {
+    skipRestoreRef.current = true;
+
     setMenuOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
     setEnquireOpen(false);
+
+    clearBodyScrollLock();
+    window.scrollTo(0, 0);
   }, [pathname]);
 
   /* ---------- HOME PAGE HEADER STATE ---------- */
@@ -130,7 +144,6 @@ export default function Header() {
   }, [isHomePage]);
 
   /* ---------- AUTO HEADER THEME ---------- */
-
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>("[data-header]");
 
@@ -158,13 +171,35 @@ export default function Header() {
     return () => observer.disconnect();
   }, [pathname]);
 
-  /* ---------- LOCK SCROLL ---------- */
+  /* ---------- LOCK SCROLL FOR MENU + ENQUIRE ---------- */
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
+    const shouldLockScroll = menuOpen || enquireOpen;
+
+    if (!shouldLockScroll) {
+      return;
+    }
+
+    skipRestoreRef.current = false;
+    lockScrollYRef.current = window.scrollY;
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${lockScrollYRef.current}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    document.body.style.overflow = "hidden";
+
     return () => {
-      document.body.style.overflow = "";
+      clearBodyScrollLock();
+
+      if (!skipRestoreRef.current) {
+        window.scrollTo(0, lockScrollYRef.current);
+      }
+
+      skipRestoreRef.current = false;
     };
-  }, [menuOpen]);
+  }, [menuOpen, enquireOpen]);
 
   const textColor = darkMode && !scrolled ? "text-white" : "text-black";
   const lineColor = darkMode && !scrolled ? "bg-white" : "bg-black";
@@ -256,6 +291,7 @@ export default function Header() {
               type="button"
               onClick={() => setMenuOpen(true)}
               className="flex cursor-pointer flex-col gap-[5px] p-1.5"
+              aria-label="Open menu"
             >
               {[1, 2, 3].map((i) => (
                 <span
@@ -268,15 +304,17 @@ export default function Header() {
         </div>
       </header>
 
-      {/* ================= OVERLAY ================= */}
+      {/* ================= MENU OVERLAY ================= */}
       <button
+        type="button"
+        aria-label="Close menu"
         onClick={() => setMenuOpen(false)}
         className={`fixed inset-0 z-[999] cursor-pointer bg-black/40 backdrop-blur-sm transition-opacity duration-500 ${
           menuOpen ? "visible opacity-100" : "invisible opacity-0"
         }`}
       />
 
-      {/* ================= DRAWER ================= */}
+      {/* ================= MENU DRAWER ================= */}
       <aside
         className={`fixed right-0 top-0 z-[1000] flex h-[100dvh] w-full flex-col overflow-hidden bg-black/90 text-white transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] sm:w-[88%] md:w-[72%] lg:w-[58%] xl:w-[50%] ${
           menuOpen ? "translate-x-0" : "translate-x-full"
@@ -296,8 +334,10 @@ export default function Header() {
 
             <div className="flex items-center gap-3 sm:gap-4">
               <button
+                type="button"
                 onClick={() => setMenuOpen(false)}
                 className="cursor-pointer text-2xl text-white/70 transition duration-300 hover:text-[#f8f8f8]"
+                aria-label="Close menu"
               >
                 ✕
               </button>
@@ -320,11 +360,16 @@ export default function Header() {
 
           <div
             data-lenis-prevent
-            className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-5 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-8 lg:px-10 lg:pb-12 lg:pt-10"
+            className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-8 lg:px-10 lg:pb-12 lg:pt-10"
           >
             <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-x-16 gap-y-8 md:grid-cols-2 md:gap-y-12">
               {menuItems.map((item) => (
-                <MenuItem key={item.title} {...item} />
+                <MenuItem
+                  key={item.title}
+                  title={item.title}
+                  desc={item.desc}
+                  href={item.href}
+                />
               ))}
             </div>
           </div>
@@ -390,6 +435,7 @@ export default function Header() {
                   type="button"
                   onClick={() => setEnquireOpen(false)}
                   className="cursor-pointer text-2xl text-black/60 transition hover:text-black"
+                  aria-label="Close enquiry form"
                 >
                   ✕
                 </button>
@@ -484,7 +530,15 @@ export default function Header() {
 
 /* ---------------- MENU ITEM ---------------- */
 
-function MenuItem({ title, desc, href }: any) {
+function MenuItem({
+  title,
+  desc,
+  href,
+}: {
+  title: string;
+  desc: string;
+  href: string;
+}) {
   return (
     <TransitionLink href={href} className="group block">
       <h3 className="text-[24px] transition duration-300 hover:text-white/70 sm:text-[28px]">

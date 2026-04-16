@@ -281,13 +281,31 @@ function EngineeringModal({
       }
     };
 
+    const scrollY = window.scrollY;
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
     document.body.style.overflow = "hidden";
+
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
       clearTimeout(timer);
-      document.body.style.overflow = "";
       window.removeEventListener("keydown", onKeyDown);
+
+      document.documentElement.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+
+      window.scrollTo(0, scrollY);
     };
   }, [item, onClose]);
 
@@ -325,17 +343,6 @@ function EngineeringModal({
         </button>
 
         <div>
-          {/* <div className="grid gap-0 lg:grid-cols-[1fr_1fr]"> */}
-          {/* <div className="relative min-h-[260px] lg:min-h-full">
-            <Image
-              src={item.image}
-              alt={item.title}
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </div> */}
-
           <div className="p-6 sm:p-8">
             <p className="text-[12px] font-[700] uppercase tracking-[0.18em] ">
               Re-imagined Engineering
