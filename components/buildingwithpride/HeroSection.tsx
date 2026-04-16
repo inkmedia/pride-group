@@ -49,16 +49,6 @@ export default function HeroSection() {
             What we build begins with how people live.
           </h1>
 
-          {/* DESCRIPTION */}
-          {/* <p
-            className={`mt-4 sm:mt-6 text-sm leading-7 text-white/85 sm:text-base sm:leading-8 md:text-lg transition-all duration-700 delay-200 ${
-              show ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-            }`}
-          >
-            Thoughtful homes, well-planned communities, and everyday details
-            designed for comfort, longevity, and real life.
-          </p> */}
-
           {/* BUTTONS */}
           <div
             className={`mt-6 sm:mt-8 flex flex-col justify-end sm:flex-row sm:flex-wrap gap-3 sm:gap-4 transition-all duration-700 delay-300 ${
