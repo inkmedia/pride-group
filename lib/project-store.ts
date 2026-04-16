@@ -49,6 +49,8 @@ export async function createProject(project: Project): Promise<Project> {
       slug: project.slug,
       title: project.title,
       location: project.location,
+      category: project.overview.category || null,
+      status: project.overview.status || null,
       payload: project,
     },
   });
@@ -72,6 +74,8 @@ export async function updateProject(
       slug: project.slug,
       title: project.title,
       location: project.location,
+      category: project.overview.category || null,
+      status: project.overview.status || null,
       payload: project,
     },
   });
