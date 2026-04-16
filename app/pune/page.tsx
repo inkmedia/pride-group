@@ -4,7 +4,10 @@ import PrideCTA from "@/components/pune/PrideCTA";
 import PuneHero from "@/components/pune/PuneHero";
 import PuneLifestyle from "@/components/pune/PuneLifestyle";
 import PuneOverview from "@/components/pune/PuneOverview";
-import PuneProjects from "@/components/pune/PuneProjects";
+import PuneProjects, {
+  type PuneProjectCard,
+} from "@/components/pune/PuneProjects";
+import { getAllProjects } from "@/lib/project-store";
 
 export const metadata: Metadata = {
   title: "Pune | Pride Group",
@@ -49,11 +52,35 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PuneCity() {
+function mapProjectsForPunePage(
+  projects: Awaited<ReturnType<typeof getAllProjects>>,
+): PuneProjectCard[] {
+  return projects.map((project) => {
+    const image =
+      project.overview.imageSrc ||
+      (project.hero.type === "image" ? project.hero.src : "") ||
+      (project.hero.type === "carousel" ? project.hero.images[0] : "") ||
+      "/images/logo.png";
+
+    return {
+      title: project.hero.heading || project.title,
+      subtitle: project.title,
+      description: project.overview.description,
+      location: project.overview.location || project.location,
+      image,
+      href: `/projects/${project.slug}`,
+    };
+  });
+}
+
+export default async function PuneCity() {
+  const allProjects = await getAllProjects();
+  const puneProjects = mapProjectsForPunePage(allProjects);
+
   return (
     <>
       <PuneHero />
-      <PuneProjects />
+      <PuneProjects projects={puneProjects} />
       <PuneOverview />
       <PrideCTA />
       <PuneLifestyle />

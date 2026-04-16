@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import ProjectsHero from "@/components/projectspage/ProjectsHero";
-import ProjectsCities from "@/components/projectspage/ProjectsCities";
 import CitiesProjectsSection from "@/components/home/CitiesProjectsSection";
 
 export const metadata: Metadata = {
@@ -51,7 +50,6 @@ export default function Projects() {
     <>
       <ProjectsHero />
       <CitiesProjectsSection />
-      {/* <ProjectsCities /> */}
     </>
   );
 }

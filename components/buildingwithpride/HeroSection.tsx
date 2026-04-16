@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import TransitionLink from "../common/TransitionLink";
 
 export default function HeroSection() {
   const [show, setShow] = useState(false);
@@ -71,19 +72,19 @@ export default function HeroSection() {
               Explore The Principles
             </a>
 
-            <a
+            <TransitionLink
               href="/building-with-pride/community-we-build"
               className="inline-flex w-full sm:w-auto items-center justify-center border border-white px-5 py-3 text-sm tracking-wide text-white transition duration-300 hover:bg-[#172f55] hover:text-white hover:border-[#172f55]"
             >
               Community We Build
-            </a>
+            </TransitionLink>
 
-            <a
+            <TransitionLink
               href="/building-with-pride/csr"
               className="inline-flex w-full sm:w-auto items-center justify-center border border-white px-5 py-3 text-sm tracking-wide text-white transition duration-300 hover:bg-[#172f55] hover:text-white hover:border-[#172f55]"
             >
               Discover Our CSR
-            </a>
+            </TransitionLink>
           </div>
 
           {/* FEATURES GRID */}

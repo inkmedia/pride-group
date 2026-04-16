@@ -1,9 +1,7 @@
-"use client";
-
 import Image from "next/image";
 import TransitionLink from "../common/TransitionLink";
 
-type Project = {
+export type PuneProjectCard = {
   title: string;
   subtitle: string;
   description: string;
@@ -12,44 +10,9 @@ type Project = {
   href: string;
 };
 
-const projects: Project[] = [
-  {
-    title: "Wellington",
-    subtitle: "2 & 3 BHK Apartments",
-    description:
-      "Wellington presents an extraordinary lifestyle with world-class amenities and superior craftsmanship at Pride World City Charholi.",
-    location: "Pride World City, Charholi",
-    image: "/images/projects/Wellington.png",
-    href: "/projects/wellington",
-  },
-  {
-    title: "Soho",
-    subtitle: "2, 2.5 BHK Flats",
-    description:
-      "SOHO is a well-thought-out new cluster in Pride World City built with the idea of equality.",
-    location: "Pride World City, Charholi",
-    image: "/images/projects/soho.jpg",
-    href: "/projects/soho",
-  },
-  {
-    title: "Miami",
-    subtitle: "2,3 & 4.5 BHK Flats",
-    description:
-      "Welcome to Miami, where every moment is picture-perfect, designed for elegance and comfort.",
-    location: "Pride World City, Charholi",
-    image: "/images/projects/miami.jpg",
-    href: "#",
-  },
-  {
-    title: "Montreal",
-    subtitle: "2 & 4 BHK Duplex",
-    description:
-      "A self-sustaining ecosystem blending luxury, convenience, and sustainability.",
-    location: "Pride World City, Charholi",
-    image: "/images/projects/montreal.jpg",
-    href: "#",
-  },
-];
+type Props = {
+  projects: PuneProjectCard[];
+};
 
 function LocationIcon() {
   return (
@@ -59,11 +22,14 @@ function LocationIcon() {
   );
 }
 
-export default function PuneProjects() {
+export default function PuneProjects({ projects }: Props) {
+  if (!projects.length) {
+    return null;
+  }
+
   return (
     <section className="bg-[#f8f8f8] py-16 lg:py-24">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-        {/* HEADER */}
         <div className="max-w-[760px]">
           <p className="text-[11px] font-[700] uppercase tracking-[0.22em] text-[#173363]/60">
             Projects in Pune
@@ -79,16 +45,14 @@ export default function PuneProjects() {
           </p>
         </div>
 
-        {/* GRID */}
         <div className="mt-14 grid gap-6 sm:grid-cols-2">
           {projects.map((project) => (
             <TransitionLink
-              key={project.title}
+              key={project.href}
               href={project.href}
               className="group block h-full"
             >
               <article className="flex h-full flex-col overflow-hidden rounded-[12px] border border-[#173363]/10 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(0,0,0,0.08)]">
-                {/* IMAGE */}
                 <div className="relative h-[320px] overflow-hidden">
                   <Image
                     src={project.image}
@@ -104,7 +68,6 @@ export default function PuneProjects() {
                   </div>
                 </div>
 
-                {/* CONTENT */}
                 <div className="flex flex-1 flex-col p-5 sm:p-6">
                   <div>
                     <div className="flex items-center gap-2 text-[#173363]/70">
@@ -122,12 +85,11 @@ export default function PuneProjects() {
                       {project.subtitle}
                     </p>
 
-                    <p className="mt-4 text-[14px] leading-[1.7] text-[#26344e]/75">
+                    <p className="mt-4 mb-4 text-[14px] leading-[1.7] text-[#26344e]/75">
                       {project.description}
                     </p>
                   </div>
 
-                  {/* CTA */}
                   <div className="mt-auto flex items-center justify-between border-t border-[#173363]/10 pt-6">
                     <span className="text-[11px] uppercase tracking-[0.14em] text-[#173363]/40">
                       View Details
@@ -143,7 +105,6 @@ export default function PuneProjects() {
           ))}
         </div>
 
-        {/* COMPLETED PROJECTS CTA */}
         <div className="mt-12 lg:mt-16">
           <div className="rounded-[14px] bg-[linear-gradient(135deg,#ffffff_0%,#f5f7fb_52%,#172f55_150%)] px-6 py-8 shadow-[0_16px_40px_rgba(0,0,0,0.05)] sm:px-8 sm:py-10 lg:flex lg:items-center lg:justify-between lg:gap-8">
             <div className="max-w-[760px]">
