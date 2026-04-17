@@ -106,6 +106,7 @@ export default function Footer() {
     pathname?.startsWith("/projects/") ||
     pathname?.startsWith("/careers") ||
     pathname?.startsWith("/pune") ||
+    pathname?.startsWith("/contact") ||
     false;
 
   const projects = useMemo(() => {
