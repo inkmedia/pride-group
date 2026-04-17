@@ -72,7 +72,7 @@ export default function PuneProjects({ projects }: Props) {
                   <div>
                     <div className="flex items-center gap-2 text-[#173363]/70">
                       <LocationIcon />
-                      <p className="text-[11px] uppercase tracking-[0.12em]">
+                      <p className="text-[12px] uppercase tracking-[0.12em]">
                         {project.location}
                       </p>
                     </div>
