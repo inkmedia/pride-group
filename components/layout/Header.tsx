@@ -1045,7 +1045,7 @@ function ProjectsMegaMenu({
 }: ProjectsMegaMenuProps) {
   return (
     <div className="overflow-hidden rounded-[10px] border border-[#e8dfd2] bg-white shadow-[0_24px_60px_rgba(16,32,59,0.12)]">
-      <div className="grid grid-cols-[180px_minmax(0,1fr)] xl:grid-cols-[230px_minmax(0,1fr)_500px]">
+      <div className="grid grid-cols-[180px_minmax(0,1fr)] xl:grid-cols-[205px_minmax(0,1fr)_500px]">
         {/* Column 1 */}
         <div className="border-r border-[#eee7dc] bg-[#f8f8f8] p-4 xl:p-5">
           <p className="mb-3 text-[9px] font-[700] uppercase tracking-[0.14em] text-[#172f77]">
