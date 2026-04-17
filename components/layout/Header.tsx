@@ -56,19 +56,9 @@ const navItems: NavItem[] = [
 
 const menuItems: MenuGridItem[] = [
   {
-    title: "Media Centre",
-    desc: "Discover Pride news, press releases and visual stories.",
-    href: "#",
-  },
-  {
-    title: "Contact Us",
-    desc: "Get in touch for inquiries, support or feedback.",
-    href: "/contact",
-  },
-  {
-    title: "Careers",
-    desc: "Join our team and shape the future of real estate.",
-    href: "/careers",
+    title: "Our Team",
+    desc: "Meet the talented individuals behind our success and innovation.",
+    href: "/our-team",
   },
   {
     title: "Awards & Recognition",
@@ -76,19 +66,29 @@ const menuItems: MenuGridItem[] = [
     href: "/awards",
   },
   {
+    title: "Completed Projects",
+    desc: "Discover our portfolio of completed projects.",
+    href: "/completed-projects",
+  },
+  {
     title: "Partner With Us",
     desc: "Collaboration opportunities for businesses and builders.",
     href: "#",
   },
   {
-    title: "Our Team",
-    desc: "Meet the talented individuals behind our success and innovation.",
-    href: "/our-team",
+    title: "Media Centre",
+    desc: "Discover Pride news, press releases and visual stories.",
+    href: "#",
   },
   {
-    title: "Completed Projects",
-    desc: "Discover our portfolio of completed projects.",
-    href: "/completed-projects",
+    title: "Careers",
+    desc: "Join our team and shape the future of real estate.",
+    href: "/careers",
+  },
+  {
+    title: "Contact Us",
+    desc: "Get in touch for inquiries, support or feedback.",
+    href: "/contact",
   },
 ];
 
