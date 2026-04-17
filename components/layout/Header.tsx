@@ -450,7 +450,7 @@ export default function Header() {
           </TransitionLink>
 
           <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
-            <nav className="hidden items-center gap-6 lg:flex xl:gap-8">
+            <nav className="hidden items-center gap-10 lg:flex xl:gap-10">
               {navItems.map((item) => {
                 const isProjects = item.label === "Projects";
 
