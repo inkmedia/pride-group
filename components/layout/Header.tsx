@@ -1071,7 +1071,7 @@ function ProjectsMegaMenu({
                   }`}
                 >
                   <span className="text-[13px] font-[600]">{city.name}</span>
-                  <span className="material-symbols-outlined text-[16px]">
+                  <span className="material-symbols-outlined text-[14px]!">
                     arrow_outward
                   </span>
                 </button>
@@ -1083,7 +1083,7 @@ function ProjectsMegaMenu({
               className="flex items-center justify-between rounded-[10px] px-3 py-2.5 text-left text-[#10203b] transition hover:bg-white"
             >
               <span className="text-[13px] font-[600]">Completed Projects</span>
-              <span className="material-symbols-outlined text-[16px]">
+              <span className="material-symbols-outlined text-[14px]!">
                 arrow_outward
               </span>
             </TransitionLink>
