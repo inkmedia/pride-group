@@ -216,10 +216,31 @@ function ProjectCard({
   );
 }
 
+const accordionItems = [
+  {
+    title: "Self-sustained living",
+    content:
+      "Homes, retail, learning, recreation, and work are planned as one living environment rather than scattered urban fragments.",
+  },
+  {
+    title: "Community-scale thinking",
+    content:
+      "The township is designed to feel socially alive, with public life, celebrations, and family movement built into its daily rhythm.",
+  },
+  {
+    title: "Long-view infrastructure",
+    content:
+      "Roads, mobility touchpoints, social anchors, and future commercial layers support how the township grows over time.",
+  },
+];
+
 export default function PrideWorldCityPage() {
   const [activeStatus, setActiveStatus] = useState<TownshipMapStatus>("All");
   const [activeTitle, setActiveTitle] = useState("Wellington");
   const [lifeVisible, setLifeVisible] = useState(false);
+  const [openAccordionIndex, setOpenAccordionIndex] = useState<number | null>(
+    0,
+  );
   const brandFilmRef = useRef<HTMLVideoElement | null>(null);
   const brandFilmSectionRef = useRef<HTMLElement | null>(null);
   const lifeSectionRef = useRef<HTMLElement | null>(null);
@@ -305,7 +326,161 @@ export default function PrideWorldCityPage() {
 
         <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white/80 via-white/25 to-transparent sm:h-40 lg:h-52" />
       </section>
-      <section className="relative overflow-hidden bg-[#10203b] pb-18 pt-28 sm:pt-32 lg:pb-24 lg:pt-36">
+
+      <section className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-24">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(201,153,26,0.08),_transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(16,32,59,0.04),_transparent_28%)]" />
+
+        <div className="relative mx-auto max-w-[1500px] px-4 sm:px-6 lg:px-10">
+          {/* TOP CONTENT */}
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-stretch">
+            {/* LEFT */}
+            <div className="flex h-full flex-col rounded-[14px] border border-[#e7e2d8] bg-[#fcfaf6] px-6 py-8 shadow-[0_18px_50px_rgba(16,32,59,0.05)] sm:px-8 sm:py-10">
+              <div className="mt-0">
+                <Image
+                  src="/images/PWC-Logo.webp"
+                  alt="Pride World City"
+                  width={420}
+                  height={160}
+                  className="h-auto w-[180px] sm:w-[160px] lg:w-[200px]"
+                  priority
+                />
+              </div>
+
+              <p className="mt-5 max-w-[700px] text-[16px] leading-[1.85] text-[#33415c]/80 sm:text-[16px]">
+                A township designed as a living ecosystem. Spread across 400
+                acres in Charholi, Pride World City brings homes, education,
+                retail, recreation, work, and everyday convenience into one
+                master-planned environment.
+              </p>
+
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a
+                  href="#ongoing-projects"
+                  className="inline-flex items-center justify-center rounded-full bg-[#10203b] px-6 py-3 text-[13px] font-[700] uppercase tracking-[0.08em] text-white transition hover:bg-[#0d1a31]"
+                >
+                  View Ongoing Projects
+                </a>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-full border border-[#c9991a]/30 bg-[#fbf6ea] px-6 py-3 text-[13px] font-[700] uppercase tracking-[0.08em] text-[#8a6a16] transition hover:bg-[#f5eddc]"
+                >
+                  Enquire
+                </Link>
+              </div>
+
+              {/* TOWNSHIP AT A GLANCE */}
+              <div className="mt-7 border-t border-[#e7e2d8] pt-7">
+                <p className="text-[12px] font-[700] uppercase tracking-[0.16em] text-[#b28718]">
+                  Township At A Glance
+                </p>
+                <h2 className="mt-3 max-w-[720px] text-[26px] leading-[1.18] text-[#10203b] sm:text-[26px] lg:text-[26px]">
+                  Why Pride World City exists
+                </h2>
+                <p className="mt-4 max-w-[720px] text-[15px] leading-[1.9] text-[#33415c]/78">
+                  Pride World City was conceived as more than a residential
+                  address. It brings together the things modern families usually
+                  seek separately, homes, learning, everyday convenience,
+                  recreation, business activity, and connected mobility, within
+                  one coherent township plan.
+                </p>
+
+                <div className="mt-5 divide-y divide-[#e7e2d8] rounded-[10px] border border-[#e7e2d8] bg-white">
+                  {accordionItems.map((item, index) => {
+                    const isOpen = openAccordionIndex === index;
+
+                    return (
+                      <div key={item.title} className="px-3 py-1">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setOpenAccordionIndex(isOpen ? null : index)
+                          }
+                          className="flex w-full items-center justify-between gap-4 py-2 cursor-pointer px-2 text-left transition-colors duration-300 hover:text-[#8a6a16]"
+                        >
+                          <h3 className="text-[16px] leading-[1.35] text-[#10203b] sm:text-[16px]">
+                            {item.title}
+                          </h3>
+
+                          <span
+                            className={`shrink-0 text-[18px] leading-none text-[#b28718] transition-transform duration-300 ease-in-out ${
+                              isOpen ? "rotate-45" : "rotate-0"
+                            }`}
+                          >
+                            +
+                          </span>
+                        </button>
+
+                        <div
+                          className={`grid overflow-hidden transition-all duration-500 ease-in-out ${
+                            isOpen
+                              ? "grid-rows-[1fr] opacity-100"
+                              : "grid-rows-[0fr] opacity-0"
+                          }`}
+                        >
+                          <div className="overflow-hidden">
+                            <p className="max-w-[620px] pb-4 text-[15px] leading-[1.85] text-[#33415c]/78">
+                              {item.content}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT */}
+            <div className="flex h-full">
+              <div className="relative w-full overflow-hidden rounded-[14px] border border-[#e5e7eb] bg-[#f8fafc] p-3 shadow-[0_22px_60px_rgba(0,0,0,0.08)]">
+                <div className="relative h-full min-h-[420px] overflow-hidden rounded-[10px] lg:min-h-full">
+                  <Image
+                    src="/images/Master-Planning.jpg"
+                    alt="Pride World City master planning"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#10203b]/55 via-transparent to-transparent" />
+                  <div className="absolute bottom-5 left-5 right-5">
+                    <a
+                      href="#township-map"
+                      className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-[12px] font-[700] uppercase tracking-[0.08em] text-[#10203b] transition hover:bg-[#f4efe6]"
+                    >
+                      View Township Plan
+                    </a>
+                  </div>
+
+                  <div className="absolute top-5 right-5">
+                    <p className="inline-flex items-center justify-center rounded-full backdrop-blur-3xl px-4 py-2 text-[12px] font-[700] uppercase tracking-[0.08em] text-white">
+                      400 Acre Global Living
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* STATS ROW */}
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {prideWorldCityStats.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-[14px] border border-[#e7e2d8] bg-[#fcfaf6] px-6 py-6 shadow-[0_14px_40px_rgba(16,32,59,0.04)]"
+              >
+                <div className="text-[26px] leading-none text-[#10203b] sm:text-[30px]">
+                  {stat.value}
+                </div>
+                <div className="mt-2 text-[12px] font-[700] uppercase tracking-[0.12em] text-[#b28718]">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* <section className="relative overflow-hidden bg-[#10203b] pb-18 pt-28 sm:pt-32 lg:pb-24 lg:pt-36">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(201,153,26,0.22),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.1),_transparent_28%)]" />
         <div className="mx-auto grid max-w-[1500px] gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:px-10">
           <div className="relative z-10">
@@ -416,9 +591,9 @@ export default function PrideWorldCityPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section className="bg-white py-16 sm:py-20 lg:py-24">
+      <section className="bg-[#efe8da] py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
           <SectionIntro
             eyebrow="Signature Experiences"
@@ -473,10 +648,7 @@ export default function PrideWorldCityPage() {
         </div>
       </section>
 
-      <section
-        id="township-map"
-        className="bg-[#efe8da] py-16 sm:py-20 lg:py-24"
-      >
+      <section id="township-map" className="bg-white py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-[1500px] px-4 sm:px-6 lg:px-10">
           <SectionIntro align="center" title="Explore the Township" />
 
@@ -690,6 +862,25 @@ export default function PrideWorldCityPage() {
         </div>
       </section>
 
+      <section
+        id="ongoing-projects"
+        className="bg-[#efe8da] py-16 sm:py-20 lg:py-24"
+      >
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
+          <SectionIntro
+            eyebrow="Pride World City"
+            title="Ongoing Projects"
+            align="center"
+          />
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {prideWorldCityProjects.map((project) => (
+              <ProjectCard key={project.title} {...project} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="bg-white py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
           <SectionIntro
@@ -773,25 +964,6 @@ export default function PrideWorldCityPage() {
           </div>
         </div>
       </section> */}
-
-      <section
-        id="ongoing-projects"
-        className="bg-[#f9f5ed] py-16 sm:py-20 lg:py-24"
-      >
-        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
-          <SectionIntro
-            eyebrow="Pride World City"
-            title="Ongoing Projects"
-            align="center"
-          />
-
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {prideWorldCityProjects.map((project) => (
-              <ProjectCard key={project.title} {...project} />
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section
         ref={lifeSectionRef}
