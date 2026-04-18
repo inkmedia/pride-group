@@ -538,7 +538,7 @@ export default function Header() {
               })}
             </nav>
 
-            <div className="relative hidden sm:block">
+            <div className="relative">
               <select
                 value={selectedCity}
                 onChange={(e) => {
