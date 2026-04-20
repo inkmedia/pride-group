@@ -63,23 +63,77 @@ type ReraItemRow = {
   qrSrc: string;
 };
 
+type UploadGuide = {
+  resolution: string;
+  formats: string;
+  recommendedSize: string;
+  maxSize: string;
+};
+
+const UPLOAD_GUIDES = {
+  seo: {
+    resolution: "1200x630 preferred",
+    formats: "JPG / JPEG / WebP",
+    recommendedSize: "150KB–300KB",
+    maxSize: "500KB",
+  },
+  overviewLogo: {
+    resolution: "400x400 or SVG equivalent",
+    formats: "PNG / JPG / WebP",
+    recommendedSize: "50KB–150KB",
+    maxSize: "250KB",
+  },
+  overviewImage: {
+    resolution: "1600px wide preferred",
+    formats: "JPG / JPEG / WebP",
+    recommendedSize: "200KB–400KB",
+    maxSize: "600KB",
+  },
+  feature: {
+    resolution: "1600px wide preferred",
+    formats: "JPG / JPEG / WebP",
+    recommendedSize: "200KB–400KB",
+    maxSize: "600KB",
+  },
+  gallery: {
+    resolution: "1920x1080",
+    formats: "JPG / JPEG / WebP",
+    recommendedSize: "250KB–500KB",
+    maxSize: "800KB",
+  },
+  galleryPoster: {
+    resolution: "1280x720 or 1920x1080",
+    formats: "JPG / JPEG / WebP",
+    recommendedSize: "150KB–300KB",
+    maxSize: "500KB",
+  },
+  rera: {
+    resolution: "500x500 or 600x600",
+    formats: "PNG only",
+    recommendedSize: "80KB–250KB",
+    maxSize: "400KB",
+  },
+} satisfies Record<string, UploadGuide>;
+
+function moveItem<T>(list: T[], from: number, to: number) {
+  if (
+    from === to ||
+    from < 0 ||
+    to < 0 ||
+    from >= list.length ||
+    to >= list.length
+  ) {
+    return list;
+  }
+
+  const updated = [...list];
+  const [moved] = updated.splice(from, 1);
+  updated.splice(to, 0, moved);
+  return updated;
+}
+
 export default function ProjectEditForm({ project, mode }: Props) {
   const router = useRouter();
-
-  const sectionLinks = [
-    { id: "basic-info", label: "Basic Info" },
-    { id: "seo", label: "SEO" },
-    { id: "hero", label: "Hero" },
-    { id: "overview", label: "Overview" },
-    { id: "overview-arrays", label: "Overview Arrays" },
-    { id: "features", label: "Features" },
-    { id: "amenities", label: "Amenities" },
-    { id: "specifications", label: "Specifications" },
-    { id: "gallery-tabs", label: "Gallery" },
-    { id: "connectivity", label: "Connectivity" },
-    { id: "cta", label: "CTA" },
-    { id: "rera", label: "RERA" },
-  ];
 
   const [formData, setFormData] = useState({
     slug: project.slug || "",
@@ -273,6 +327,16 @@ export default function ProjectEditForm({ project, mode }: Props) {
     setter((prev) => prev.filter((_, i) => i !== index));
   }
 
+  function moveStringItem(
+    setter: React.Dispatch<React.SetStateAction<string[]>>,
+    index: number,
+    direction: "up" | "down",
+  ) {
+    setter((prev) =>
+      moveItem(prev, index, direction === "up" ? index - 1 : index + 1),
+    );
+  }
+
   function updateStat(index: number, key: keyof StatRow, value: string) {
     setStats((prev) =>
       prev.map((item, i) => (i === index ? { ...item, [key]: value } : item)),
@@ -285,6 +349,12 @@ export default function ProjectEditForm({ project, mode }: Props) {
 
   function removeStat(index: number) {
     setStats((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function moveStat(index: number, direction: "up" | "down") {
+    setStats((prev) =>
+      moveItem(prev, index, direction === "up" ? index - 1 : index + 1),
+    );
   }
 
   function updateMediaBadge(
@@ -318,6 +388,12 @@ export default function ProjectEditForm({ project, mode }: Props) {
     setMediaBadges((prev) => prev.filter((_, i) => i !== index));
   }
 
+  function moveMediaBadge(index: number, direction: "up" | "down") {
+    setMediaBadges((prev) =>
+      moveItem(prev, index, direction === "up" ? index - 1 : index + 1),
+    );
+  }
+
   function updateFeatureImage(index: number, value: string) {
     setFeatureImages((prev) =>
       prev.map((item, i) => (i === index ? value : item)),
@@ -330,6 +406,12 @@ export default function ProjectEditForm({ project, mode }: Props) {
 
   function removeFeatureImage(index: number) {
     setFeatureImages((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function moveFeatureImage(index: number, direction: "up" | "down") {
+    setFeatureImages((prev) =>
+      moveItem(prev, index, direction === "up" ? index - 1 : index + 1),
+    );
   }
 
   function updateAmenityCategoryTitle(index: number, value: string) {
@@ -365,6 +447,12 @@ export default function ProjectEditForm({ project, mode }: Props) {
     setAmenityCategories((prev) => prev.filter((_, i) => i !== index));
   }
 
+  function moveAmenityCategory(index: number, direction: "up" | "down") {
+    setAmenityCategories((prev) =>
+      moveItem(prev, index, direction === "up" ? index - 1 : index + 1),
+    );
+  }
+
   function addAmenityCategoryItem(categoryIndex: number) {
     setAmenityCategories((prev) =>
       prev.map((cat, i) =>
@@ -378,6 +466,27 @@ export default function ProjectEditForm({ project, mode }: Props) {
       prev.map((cat, i) =>
         i === categoryIndex
           ? { ...cat, items: cat.items.filter((_, idx) => idx !== itemIndex) }
+          : cat,
+      ),
+    );
+  }
+
+  function moveAmenityCategoryItem(
+    categoryIndex: number,
+    itemIndex: number,
+    direction: "up" | "down",
+  ) {
+    setAmenityCategories((prev) =>
+      prev.map((cat, i) =>
+        i === categoryIndex
+          ? {
+              ...cat,
+              items: moveItem(
+                cat.items,
+                itemIndex,
+                direction === "up" ? itemIndex - 1 : itemIndex + 1,
+              ),
+            }
           : cat,
       ),
     );
@@ -416,6 +525,12 @@ export default function ProjectEditForm({ project, mode }: Props) {
     setSpecifications((prev) => prev.filter((_, i) => i !== index));
   }
 
+  function moveSpecification(index: number, direction: "up" | "down") {
+    setSpecifications((prev) =>
+      moveItem(prev, index, direction === "up" ? index - 1 : index + 1),
+    );
+  }
+
   function addSpecContent(specIndex: number) {
     setSpecifications((prev) =>
       prev.map((spec, i) =>
@@ -431,6 +546,27 @@ export default function ProjectEditForm({ project, mode }: Props) {
           ? {
               ...spec,
               content: spec.content.filter((_, idx) => idx !== contentIndex),
+            }
+          : spec,
+      ),
+    );
+  }
+
+  function moveSpecContent(
+    specIndex: number,
+    contentIndex: number,
+    direction: "up" | "down",
+  ) {
+    setSpecifications((prev) =>
+      prev.map((spec, i) =>
+        i === specIndex
+          ? {
+              ...spec,
+              content: moveItem(
+                spec.content,
+                contentIndex,
+                direction === "up" ? contentIndex - 1 : contentIndex + 1,
+              ),
             }
           : spec,
       ),
@@ -468,6 +604,12 @@ export default function ProjectEditForm({ project, mode }: Props) {
 
   function removeGalleryTab(index: number) {
     setGalleryTabs((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function moveGalleryTab(index: number, direction: "up" | "down") {
+    setGalleryTabs((prev) =>
+      moveItem(prev, index, direction === "up" ? index - 1 : index + 1),
+    );
   }
 
   function updateGalleryImage(
@@ -525,6 +667,27 @@ export default function ProjectEditForm({ project, mode }: Props) {
     );
   }
 
+  function moveGalleryImage(
+    tabIndex: number,
+    imageIndex: number,
+    direction: "up" | "down",
+  ) {
+    setGalleryTabs((prev) =>
+      prev.map((tab, i) =>
+        i === tabIndex
+          ? {
+              ...tab,
+              images: moveItem(
+                tab.images,
+                imageIndex,
+                direction === "up" ? imageIndex - 1 : imageIndex + 1,
+              ),
+            }
+          : tab,
+      ),
+    );
+  }
+
   function updateConnectivityGroupTitle(index: number, value: string) {
     setConnectivityGroups((prev) =>
       prev.map((group, i) =>
@@ -542,6 +705,12 @@ export default function ProjectEditForm({ project, mode }: Props) {
 
   function removeConnectivityGroup(index: number) {
     setConnectivityGroups((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function moveConnectivityGroup(index: number, direction: "up" | "down") {
+    setConnectivityGroups((prev) =>
+      moveItem(prev, index, direction === "up" ? index - 1 : index + 1),
+    );
   }
 
   function updateConnectivityItem(
@@ -590,6 +759,27 @@ export default function ProjectEditForm({ project, mode }: Props) {
     );
   }
 
+  function moveConnectivityItem(
+    groupIndex: number,
+    itemIndex: number,
+    direction: "up" | "down",
+  ) {
+    setConnectivityGroups((prev) =>
+      prev.map((group, i) =>
+        i === groupIndex
+          ? {
+              ...group,
+              items: moveItem(
+                group.items,
+                itemIndex,
+                direction === "up" ? itemIndex - 1 : itemIndex + 1,
+              ),
+            }
+          : group,
+      ),
+    );
+  }
+
   function updateReraItem(
     index: number,
     key: keyof ReraItemRow,
@@ -606,6 +796,12 @@ export default function ProjectEditForm({ project, mode }: Props) {
 
   function removeReraItem(index: number) {
     setReraItems((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function moveReraItem(index: number, direction: "up" | "down") {
+    setReraItems((prev) =>
+      moveItem(prev, index, direction === "up" ? index - 1 : index + 1),
+    );
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -788,20 +984,6 @@ export default function ProjectEditForm({ project, mode }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-4">
-      {/* <div className="sticky top-[90px] z-30 overflow-x-auto rounded-[10px] border border-black/10 bg-white/95 p-3 shadow-[0_10px_24px_rgba(0,0,0,0.06)] backdrop-blur">
-        <div className="flex min-w-max gap-2">
-          {sectionLinks.map((section) => (
-            <a
-              key={section.id}
-              href={`#${section.id}`}
-              className="whitespace-nowrap rounded-full border border-black/10 px-4 py-2 text-[11px] font-[700] uppercase tracking-[0.08em] text-black/70 transition hover:bg-black hover:text-white"
-            >
-              {section.label}
-            </a>
-          ))}
-        </div>
-      </div> */}
-
       <AdminAccordion
         number="01"
         title="Basic Info"
@@ -861,13 +1043,14 @@ export default function ProjectEditForm({ project, mode }: Props) {
             />
           </Field>
 
-          <ImageUploadField
+          <AdminImageField
             label="Meta Image"
             value={formData.seoMetaImage}
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, seoMetaImage: value }))
             }
-            accept="image/*"
+            accept="image/jpeg,image/jpg,image/webp"
+            guide={UPLOAD_GUIDES.seo}
           />
         </div>
       </AdminAccordion>
@@ -908,6 +1091,17 @@ export default function ProjectEditForm({ project, mode }: Props) {
                 }
                 accept={formData.heroType === "video" ? "video/*" : "image/*"}
               />
+              {formData.heroType === "image" ? (
+                <UploadNote>
+                  Keep hero image lightweight. Recommended around 1600px wide,
+                  JPG/WebP, ideally under 600KB.
+                </UploadNote>
+              ) : (
+                <UploadNote>
+                  Use compressed MP4/WebM videos only. Keep video size as small
+                  as possible for smooth loading.
+                </UploadNote>
+              )}
             </div>
           )}
 
@@ -922,6 +1116,10 @@ export default function ProjectEditForm({ project, mode }: Props) {
                   rows={6}
                 />
               </Field>
+              <UploadNote>
+                Use optimized JPG/WebP URLs. Recommended around 1600px wide and
+                under 600KB each.
+              </UploadNote>
             </div>
           )}
         </div>
@@ -981,23 +1179,29 @@ export default function ProjectEditForm({ project, mode }: Props) {
             </Field>
           </div>
 
-          <ImageUploadField
-            label="Overview Logo"
-            value={formData.overviewLogoSrc}
-            onChange={(value) =>
-              setFormData((prev) => ({ ...prev, overviewLogoSrc: value }))
-            }
-            accept="image/*"
-          />
+          <div>
+            <AdminImageField
+              label="Overview Logo"
+              value={formData.overviewLogoSrc}
+              onChange={(value) =>
+                setFormData((prev) => ({ ...prev, overviewLogoSrc: value }))
+              }
+              accept="image/png,image/jpeg,image/jpg,image/webp"
+              guide={UPLOAD_GUIDES.overviewLogo}
+            />
+          </div>
 
-          <ImageUploadField
-            label="Overview Image"
-            value={formData.overviewImageSrc}
-            onChange={(value) =>
-              setFormData((prev) => ({ ...prev, overviewImageSrc: value }))
-            }
-            accept="image/*"
-          />
+          <div>
+            <AdminImageField
+              label="Overview Image"
+              value={formData.overviewImageSrc}
+              onChange={(value) =>
+                setFormData((prev) => ({ ...prev, overviewImageSrc: value }))
+              }
+              accept="image/jpeg,image/jpg,image/webp"
+              guide={UPLOAD_GUIDES.overviewImage}
+            />
+          </div>
 
           <div className="md:col-span-2">
             <Field label="Overview Image Alt">
@@ -1027,7 +1231,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {stats.map((item, index) => (
               <div
                 key={index}
-                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[0.8fr_1fr_auto]"
+                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[0.8fr_1fr_auto_auto]"
               >
                 <input
                   value={item.value}
@@ -1040,6 +1244,12 @@ export default function ProjectEditForm({ project, mode }: Props) {
                   onChange={(e) => updateStat(index, "label", e.target.value)}
                   className="admin-input"
                   placeholder="Towers"
+                />
+                <SortButtons
+                  onMoveUp={() => moveStat(index, "up")}
+                  onMoveDown={() => moveStat(index, "down")}
+                  disableUp={index === 0}
+                  disableDown={index === stats.length - 1}
                 />
                 <RemoveButton onClick={() => removeStat(index)} />
               </div>
@@ -1055,7 +1265,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {highlights.map((item, index) => (
               <div
                 key={index}
-                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[1fr_auto]"
+                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[1fr_auto_auto]"
               >
                 <input
                   value={item}
@@ -1063,6 +1273,14 @@ export default function ProjectEditForm({ project, mode }: Props) {
                     updateStringList(setHighlights, index, e.target.value)
                   }
                   className="admin-input"
+                />
+                <SortButtons
+                  onMoveUp={() => moveStringItem(setHighlights, index, "up")}
+                  onMoveDown={() =>
+                    moveStringItem(setHighlights, index, "down")
+                  }
+                  disableUp={index === 0}
+                  disableDown={index === highlights.length - 1}
                 />
                 <RemoveButton
                   onClick={() => removeStringItem(setHighlights, index)}
@@ -1080,7 +1298,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {overviewAmenities.map((item, index) => (
               <div
                 key={index}
-                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[1fr_auto]"
+                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[1fr_auto_auto]"
               >
                 <input
                   value={item}
@@ -1092,6 +1310,16 @@ export default function ProjectEditForm({ project, mode }: Props) {
                     )
                   }
                   className="admin-input"
+                />
+                <SortButtons
+                  onMoveUp={() =>
+                    moveStringItem(setOverviewAmenities, index, "up")
+                  }
+                  onMoveDown={() =>
+                    moveStringItem(setOverviewAmenities, index, "down")
+                  }
+                  disableUp={index === 0}
+                  disableDown={index === overviewAmenities.length - 1}
                 />
                 <RemoveButton
                   onClick={() => removeStringItem(setOverviewAmenities, index)}
@@ -1109,7 +1337,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {mediaBadges.map((item, index) => (
               <div
                 key={index}
-                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[0.8fr_1fr_0.9fr_auto]"
+                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[0.8fr_1fr_0.9fr_auto_auto]"
               >
                 <input
                   value={item.value}
@@ -1135,6 +1363,12 @@ export default function ProjectEditForm({ project, mode }: Props) {
                   <option value="top-right">Top Right</option>
                   <option value="bottom-left">Bottom Left</option>
                 </select>
+                <SortButtons
+                  onMoveUp={() => moveMediaBadge(index, "up")}
+                  onMoveDown={() => moveMediaBadge(index, "down")}
+                  disableUp={index === 0}
+                  disableDown={index === mediaBadges.length - 1}
+                />
                 <RemoveButton onClick={() => removeMediaBadge(index)} />
               </div>
             ))}
@@ -1155,13 +1389,20 @@ export default function ProjectEditForm({ project, mode }: Props) {
               className="rounded-[10px] border border-black/10 p-4"
             >
               <div className="grid gap-3">
-                <ImageUploadField
+                <AdminImageField
                   label={`Feature Image ${index + 1}`}
                   value={item}
                   onChange={(value) => updateFeatureImage(index, value)}
-                  accept="image/*"
+                  accept="image/jpeg,image/jpg,image/webp"
+                  guide={UPLOAD_GUIDES.feature}
                 />
-                <div>
+                <div className="flex flex-wrap gap-2">
+                  <SortButtons
+                    onMoveUp={() => moveFeatureImage(index, "up")}
+                    onMoveDown={() => moveFeatureImage(index, "down")}
+                    disableUp={index === 0}
+                    disableDown={index === featureImages.length - 1}
+                  />
                   <RemoveButton onClick={() => removeFeatureImage(index)} />
                 </div>
               </div>
@@ -1197,7 +1438,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
                 className="rounded-[10px] border border-black/10 p-4"
               >
                 <div className="grid gap-4">
-                  <div className="grid gap-3 md:grid-cols-[1fr_auto]">
+                  <div className="grid gap-3 md:grid-cols-[1fr_auto_auto]">
                     <input
                       value={category.title}
                       onChange={(e) =>
@@ -1209,6 +1450,16 @@ export default function ProjectEditForm({ project, mode }: Props) {
                       className="admin-input"
                       placeholder="Category Title"
                     />
+                    <SortButtons
+                      onMoveUp={() => moveAmenityCategory(categoryIndex, "up")}
+                      onMoveDown={() =>
+                        moveAmenityCategory(categoryIndex, "down")
+                      }
+                      disableUp={categoryIndex === 0}
+                      disableDown={
+                        categoryIndex === amenityCategories.length - 1
+                      }
+                    />
                     <RemoveButton
                       onClick={() => removeAmenityCategory(categoryIndex)}
                     />
@@ -1218,7 +1469,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
                     {category.items.map((item, itemIndex) => (
                       <div
                         key={itemIndex}
-                        className="grid gap-3 md:grid-cols-[1fr_auto]"
+                        className="grid gap-3 md:grid-cols-[1fr_auto_auto]"
                       >
                         <input
                           value={item}
@@ -1231,6 +1482,24 @@ export default function ProjectEditForm({ project, mode }: Props) {
                           }
                           className="admin-input"
                           placeholder="Amenity item"
+                        />
+                        <SortButtons
+                          onMoveUp={() =>
+                            moveAmenityCategoryItem(
+                              categoryIndex,
+                              itemIndex,
+                              "up",
+                            )
+                          }
+                          onMoveDown={() =>
+                            moveAmenityCategoryItem(
+                              categoryIndex,
+                              itemIndex,
+                              "down",
+                            )
+                          }
+                          disableUp={itemIndex === 0}
+                          disableDown={itemIndex === category.items.length - 1}
                         />
                         <RemoveButton
                           onClick={() =>
@@ -1273,7 +1542,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             {miscAmenities.map((item, index) => (
               <div
                 key={index}
-                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[1fr_auto]"
+                className="grid gap-3 rounded-[10px] border border-black/10 p-3 md:grid-cols-[1fr_auto_auto]"
               >
                 <input
                   value={item}
@@ -1281,6 +1550,14 @@ export default function ProjectEditForm({ project, mode }: Props) {
                     updateStringList(setMiscAmenities, index, e.target.value)
                   }
                   className="admin-input"
+                />
+                <SortButtons
+                  onMoveUp={() => moveStringItem(setMiscAmenities, index, "up")}
+                  onMoveDown={() =>
+                    moveStringItem(setMiscAmenities, index, "down")
+                  }
+                  disableUp={index === 0}
+                  disableDown={index === miscAmenities.length - 1}
                 />
                 <RemoveButton
                   onClick={() => removeStringItem(setMiscAmenities, index)}
@@ -1308,12 +1585,18 @@ export default function ProjectEditForm({ project, mode }: Props) {
               className="rounded-[10px] border border-black/10 p-4"
             >
               <div className="grid gap-4">
-                <div className="grid gap-3 md:grid-cols-[1fr_auto]">
+                <div className="grid gap-3 md:grid-cols-[1fr_auto_auto]">
                   <input
                     value={spec.title}
                     onChange={(e) => updateSpecTitle(specIndex, e.target.value)}
                     className="admin-input"
                     placeholder="Flooring"
+                  />
+                  <SortButtons
+                    onMoveUp={() => moveSpecification(specIndex, "up")}
+                    onMoveDown={() => moveSpecification(specIndex, "down")}
+                    disableUp={specIndex === 0}
+                    disableDown={specIndex === specifications.length - 1}
                   />
                   <RemoveButton
                     onClick={() => removeSpecification(specIndex)}
@@ -1324,7 +1607,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
                   {spec.content.map((item, contentIndex) => (
                     <div
                       key={contentIndex}
-                      className="grid gap-3 md:grid-cols-[1fr_auto]"
+                      className="grid gap-3 md:grid-cols-[1fr_auto_auto]"
                     >
                       <textarea
                         value={item}
@@ -1338,6 +1621,16 @@ export default function ProjectEditForm({ project, mode }: Props) {
                         className="admin-textarea"
                         rows={3}
                         placeholder="Specification detail"
+                      />
+                      <SortButtons
+                        onMoveUp={() =>
+                          moveSpecContent(specIndex, contentIndex, "up")
+                        }
+                        onMoveDown={() =>
+                          moveSpecContent(specIndex, contentIndex, "down")
+                        }
+                        disableUp={contentIndex === 0}
+                        disableDown={contentIndex === spec.content.length - 1}
                       />
                       <RemoveButton
                         onClick={() =>
@@ -1376,7 +1669,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
               className="rounded-[10px] border border-black/10 p-4"
             >
               <div className="grid gap-4">
-                <div className="grid gap-3 md:grid-cols-3">
+                <div className="grid gap-3 md:grid-cols-[1fr_1fr_220px_auto_auto]">
                   <input
                     value={tab.title}
                     onChange={(e) =>
@@ -1403,9 +1696,12 @@ export default function ProjectEditForm({ project, mode }: Props) {
                     <option value="carousel">Carousel</option>
                     <option value="grid">Grid</option>
                   </select>
-                </div>
-
-                <div>
+                  <SortButtons
+                    onMoveUp={() => moveGalleryTab(tabIndex, "up")}
+                    onMoveDown={() => moveGalleryTab(tabIndex, "down")}
+                    disableUp={tabIndex === 0}
+                    disableDown={tabIndex === galleryTabs.length - 1}
+                  />
                   <RemoveButton onClick={() => removeGalleryTab(tabIndex)} />
                 </div>
 
@@ -1417,21 +1713,38 @@ export default function ProjectEditForm({ project, mode }: Props) {
                     >
                       <div className="grid gap-4">
                         <div className="grid gap-3 md:grid-cols-2">
-                          <ImageUploadField
-                            label={`Media ${imageIndex + 1}`}
-                            value={img.src}
-                            onChange={(value) =>
-                              updateGalleryImage(
-                                tabIndex,
-                                imageIndex,
-                                "src",
-                                value,
-                              )
-                            }
-                            accept={
-                              img.type === "video" ? "video/*" : "image/*"
-                            }
-                          />
+                          <div>
+                            <ImageUploadField
+                              label={`Media ${imageIndex + 1}`}
+                              value={img.src}
+                              onChange={(value) =>
+                                updateGalleryImage(
+                                  tabIndex,
+                                  imageIndex,
+                                  "src",
+                                  value,
+                                )
+                              }
+                              accept={
+                                img.type === "video"
+                                  ? "video/*"
+                                  : "image/jpeg,image/jpg,image/webp"
+                              }
+                            />
+                            {img.type === "image" ? (
+                              <UploadNote>
+                                Standard: {UPLOAD_GUIDES.gallery.resolution} •{" "}
+                                {UPLOAD_GUIDES.gallery.formats} • Recommended{" "}
+                                {UPLOAD_GUIDES.gallery.recommendedSize} • Max{" "}
+                                {UPLOAD_GUIDES.gallery.maxSize}
+                              </UploadNote>
+                            ) : (
+                              <UploadNote>
+                                Use compressed MP4/WebM. Keep file size low for
+                                faster page loads.
+                              </UploadNote>
+                            )}
+                          </div>
 
                           <div className="grid gap-4">
                             <Field label="Type">
@@ -1483,26 +1796,44 @@ export default function ProjectEditForm({ project, mode }: Props) {
                             </Field>
 
                             {img.type === "video" ? (
-                              <Field label="Poster Image">
-                                <input
+                              <div>
+                                <ImageUploadField
+                                  label="Poster Image"
                                   value={img.poster || ""}
-                                  onChange={(e) =>
+                                  onChange={(value) =>
                                     updateGalleryImage(
                                       tabIndex,
                                       imageIndex,
                                       "poster",
-                                      e.target.value,
+                                      value,
                                     )
                                   }
-                                  className="admin-input"
-                                  placeholder="/uploads/poster.jpg"
+                                  accept="image/jpeg,image/jpg,image/webp"
                                 />
-                              </Field>
+                                <UploadNote>
+                                  Standard:{" "}
+                                  {UPLOAD_GUIDES.galleryPoster.resolution} •{" "}
+                                  {UPLOAD_GUIDES.galleryPoster.formats} •
+                                  Recommended{" "}
+                                  {UPLOAD_GUIDES.galleryPoster.recommendedSize}{" "}
+                                  • Max {UPLOAD_GUIDES.galleryPoster.maxSize}
+                                </UploadNote>
+                              </div>
                             ) : null}
                           </div>
                         </div>
 
-                        <div>
+                        <div className="flex flex-wrap gap-2">
+                          <SortButtons
+                            onMoveUp={() =>
+                              moveGalleryImage(tabIndex, imageIndex, "up")
+                            }
+                            onMoveDown={() =>
+                              moveGalleryImage(tabIndex, imageIndex, "down")
+                            }
+                            disableUp={imageIndex === 0}
+                            disableDown={imageIndex === tab.images.length - 1}
+                          />
                           <RemoveButton
                             onClick={() =>
                               removeGalleryImage(tabIndex, imageIndex)
@@ -1552,7 +1883,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
                 className="rounded-[10px] border border-black/10 p-4"
               >
                 <div className="grid gap-4">
-                  <div className="grid gap-3 md:grid-cols-[1fr_auto]">
+                  <div className="grid gap-3 md:grid-cols-[1fr_auto_auto]">
                     <input
                       value={group.title}
                       onChange={(e) =>
@@ -1560,6 +1891,14 @@ export default function ProjectEditForm({ project, mode }: Props) {
                       }
                       className="admin-input"
                       placeholder="Group Title"
+                    />
+                    <SortButtons
+                      onMoveUp={() => moveConnectivityGroup(groupIndex, "up")}
+                      onMoveDown={() =>
+                        moveConnectivityGroup(groupIndex, "down")
+                      }
+                      disableUp={groupIndex === 0}
+                      disableDown={groupIndex === connectivityGroups.length - 1}
                     />
                     <RemoveButton
                       onClick={() => removeConnectivityGroup(groupIndex)}
@@ -1570,7 +1909,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
                     {group.items.map((item, itemIndex) => (
                       <div
                         key={itemIndex}
-                        className="grid gap-3 md:grid-cols-[1fr_180px_auto]"
+                        className="grid gap-3 md:grid-cols-[1fr_180px_auto_auto]"
                       >
                         <input
                           value={item.name}
@@ -1597,6 +1936,16 @@ export default function ProjectEditForm({ project, mode }: Props) {
                           }
                           className="admin-input"
                           placeholder="5 km"
+                        />
+                        <SortButtons
+                          onMoveUp={() =>
+                            moveConnectivityItem(groupIndex, itemIndex, "up")
+                          }
+                          onMoveDown={() =>
+                            moveConnectivityItem(groupIndex, itemIndex, "down")
+                          }
+                          disableUp={itemIndex === 0}
+                          disableDown={itemIndex === group.items.length - 1}
                         />
                         <RemoveButton
                           onClick={() =>
@@ -1721,7 +2070,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
                 className="rounded-[10px] border border-black/10 p-4"
               >
                 <div className="grid gap-4">
-                  <div className="grid gap-3 md:grid-cols-2">
+                  <div className="grid gap-3 md:grid-cols-[1fr_1fr_auto_auto]">
                     <Field label="Title">
                       <input
                         value={item.title}
@@ -1743,18 +2092,28 @@ export default function ProjectEditForm({ project, mode }: Props) {
                         placeholder="P52100000000"
                       />
                     </Field>
+
+                    <div className="self-end">
+                      <SortButtons
+                        onMoveUp={() => moveReraItem(index, "up")}
+                        onMoveDown={() => moveReraItem(index, "down")}
+                        disableUp={index === 0}
+                        disableDown={index === reraItems.length - 1}
+                      />
+                    </div>
+
+                    <div className="self-end">
+                      <RemoveButton onClick={() => removeReraItem(index)} />
+                    </div>
                   </div>
 
-                  <ImageUploadField
+                  <AdminImageField
                     label={`QR Image ${index + 1}`}
                     value={item.qrSrc}
                     onChange={(value) => updateReraItem(index, "qrSrc", value)}
-                    accept="image/*"
+                    accept="image/png"
+                    guide={UPLOAD_GUIDES.rera}
                   />
-
-                  <div>
-                    <RemoveButton onClick={() => removeReraItem(index)} />
-                  </div>
                 </div>
               </div>
             ))}
@@ -1784,7 +2143,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-full cursor-pointer bg-[#172f55] px-6 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+            className="cursor-pointer rounded-full bg-[#172f55] px-6 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {isSubmitting
               ? mode === "create"
@@ -1814,6 +2173,41 @@ function Field({
       </span>
       {children}
     </label>
+  );
+}
+
+function UploadNote({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mt-2 text-[12px] leading-[1.6] text-black/55">{children}</p>
+  );
+}
+
+function AdminImageField({
+  label,
+  value,
+  onChange,
+  accept,
+  guide,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  accept?: string;
+  guide: UploadGuide;
+}) {
+  return (
+    <div>
+      <ImageUploadField
+        label={label}
+        value={value}
+        onChange={onChange}
+        accept={accept}
+      />
+      <UploadNote>
+        Standard: {guide.resolution} • {guide.formats} • Recommended{" "}
+        {guide.recommendedSize} • Max {guide.maxSize}
+      </UploadNote>
+    </div>
   );
 }
 
@@ -1850,6 +2244,39 @@ function CardBlock({
       </div>
 
       <div className="grid gap-4">{children}</div>
+    </div>
+  );
+}
+
+function SortButtons({
+  onMoveUp,
+  onMoveDown,
+  disableUp,
+  disableDown,
+}: {
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  disableUp?: boolean;
+  disableDown?: boolean;
+}) {
+  return (
+    <div className="flex gap-2">
+      <button
+        type="button"
+        onClick={onMoveUp}
+        disabled={disableUp}
+        className="inline-flex h-[42px] items-center justify-center rounded-full border border-black/15 px-4 text-[11px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white disabled:pointer-events-none disabled:opacity-40"
+      >
+        Up
+      </button>
+      <button
+        type="button"
+        onClick={onMoveDown}
+        disabled={disableDown}
+        className="inline-flex h-[42px] items-center justify-center rounded-full border border-black/15 px-4 text-[11px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white disabled:pointer-events-none disabled:opacity-40"
+      >
+        Down
+      </button>
     </div>
   );
 }

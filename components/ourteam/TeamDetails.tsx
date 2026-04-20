@@ -8,6 +8,7 @@ type TeamMember = {
   name: string;
   role?: string;
   image?: string;
+  linkedin?: string;
 };
 
 type ActiveTab = "board" | "management";
@@ -17,21 +18,25 @@ const boardOfDirectors: TeamMember[] = [
     name: "Arvind Jain",
     role: "MD",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "DP Jain",
     role: "-",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Nidhi Jain",
     role: "MBA Finance",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "ML Saraogi",
     role: "-",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
 ];
 
@@ -40,66 +45,79 @@ const managementTeam: TeamMember[] = [
     name: "Rishabh Jain",
     role: "VP / Director of Business Development - Pune",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "CB Kulkarni",
     role: "VP Engineering - Pune",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Sarika Taori",
     role: "VP Legal - Pune",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Vivek Singh",
     role: "VP Sales and CRM - Pune",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Sushant Kokate",
     role: "AVP Marketing and Strategy - Pune",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Raj Gupta",
     role: "CFO - Pune",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Mahesh Goyal",
     role: "Director / Partner - Bangalore",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Ravi",
     role: "Director / Partner - Bangalore",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Siddhart Rajgharia",
     role: "Director / Partner - Bangalore",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Rajesh Jain",
     role: "",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Gulamnabi Kumthe",
     role: "",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Gautam Bharill",
     role: "",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
   {
     name: "Sonali",
     role: "HR Head",
     image: "/images/user.jpg",
+    linkedin: "#",
   },
 ];
 
@@ -127,15 +145,29 @@ function TeamGrid({
           </div>
 
           <div className="p-5">
-            <h4 className="text-[18px] font-semibold text-[#172f55]">
-              {member.name}
-            </h4>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h4 className="text-[18px] font-semibold text-[#172f55]">
+                  {member.name}
+                </h4>
 
-            {member.role && member.role.trim() !== "" && (
-              <p className="mt-2 text-[14px] leading-[1.7] text-[#64748b]">
-                {member.role}
-              </p>
-            )}
+                {member.role && member.role.trim() !== "" && (
+                  <p className="mt-2 text-[14px] leading-[1.7] text-[#64748b]">
+                    {member.role}
+                  </p>
+                )}
+              </div>
+
+              <a
+                href={member.linkedin || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${member.name} LinkedIn`}
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#172f55]/15 bg-[#f4f7fb] text-[#172f55] transition hover:bg-[#172f55] hover:text-white"
+              >
+                <i className="fa-brands fa-linkedin-in text-[16px]" />
+              </a>
+            </div>
           </div>
         </div>
       ))}
@@ -213,11 +245,9 @@ export default function TeamDetails() {
         </div>
       </div>
 
-      {/* cta */}
       <section className="bg-white mt-20">
         <div className="mx-auto">
           <div className="relative overflow-hidden shadow-[0_20px_60px_rgba(16,37,68,0.12)]">
-            {/* Background image */}
             <div className="absolute inset-0">
               <img
                 src="/uploads/5.webp"
@@ -227,7 +257,6 @@ export default function TeamDetails() {
               <div className="absolute inset-0 bg-black/55" />
             </div>
 
-            {/* Content */}
             <div className="relative flex min-h-[500px] items-center justify-center px-6 py-12 text-center sm:px-10 lg:min-h-[500px]">
               <div className="max-w-4xl">
                 <p className="text-[20px] mb-10 text-white ">

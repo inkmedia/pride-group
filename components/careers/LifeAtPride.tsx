@@ -221,15 +221,30 @@ export default function LifeAtPrideGroup() {
   useEffect(() => {
     if (!isModalMounted) return;
 
+    const scrollY = window.scrollY;
+
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeModal();
     };
 
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
     document.body.style.overflow = "hidden";
+
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
       document.body.style.overflow = "";
+
+      window.scrollTo(0, scrollY);
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [isModalMounted]);
@@ -355,8 +370,10 @@ export default function LifeAtPrideGroup() {
 
       {isModalMounted && activePillar && (
         <div
-          className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-300 ease-out ${
-            isModalVisible ? "bg-black/60 opacity-100" : "bg-black/0 opacity-0"
+          className={`fixed inset-0 z-9999 flex items-center justify-center p-4 transition-all duration-300 ease-out ${
+            isModalVisible
+              ? "bg-black/60 backdrop-blur opacity-100"
+              : "bg-black/0 opacity-0"
           }`}
           onClick={closeModal}
         >

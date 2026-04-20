@@ -7,6 +7,15 @@ type Props = {
   value: string;
   onChange: (value: string) => void;
   accept?: string;
+  note?: string;
+  rules?: ValidationRules;
+};
+
+type ValidationRules = {
+  allowedTypes?: string[];
+  maxSizeBytes?: number;
+  minWidth?: number;
+  minHeight?: number;
 };
 
 type MediaFile = {
@@ -18,13 +27,119 @@ type MediaFile = {
 
 type TabType = "upload" | "gallery";
 
+function formatBytes(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+function getAcceptedLabel(accept: string) {
+  const value = accept.toLowerCase();
+
+  if (value.includes("image/") && value.includes("video/")) {
+    return "Accepted: images and videos";
+  }
+
+  if (
+    value.includes("image/png") &&
+    !value.includes("jpeg") &&
+    !value.includes("jpg") &&
+    !value.includes("webp")
+  ) {
+    return "Accepted: PNG only";
+  }
+
+  if (
+    value.includes("image/jpeg") ||
+    value.includes("image/jpg") ||
+    value.includes("image/webp")
+  ) {
+    return "Accepted: JPG, JPEG, WebP";
+  }
+
+  if (value.includes("image/")) {
+    return "Accepted: images only";
+  }
+
+  if (value.includes("video/")) {
+    return "Accepted: videos only";
+  }
+
+  return `Accepted: ${accept}`;
+}
+
+function isImageFile(file: File) {
+  return file.type.startsWith("image/");
+}
+
+function isVideoFile(file: File) {
+  return file.type.startsWith("video/");
+}
+
+function getImageDimensions(
+  file: File,
+): Promise<{ width: number; height: number }> {
+  return new Promise((resolve, reject) => {
+    const image = new window.Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    image.onload = () => {
+      const width = image.width;
+      const height = image.height;
+      URL.revokeObjectURL(objectUrl);
+      resolve({ width, height });
+    };
+
+    image.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(new Error("Failed to read image dimensions."));
+    };
+
+    image.src = objectUrl;
+  });
+}
+
+async function validateSelectedFile(
+  file: File,
+  rules?: ValidationRules,
+): Promise<string | null> {
+  if (!rules) return null;
+
+  if (rules.allowedTypes?.length && !rules.allowedTypes.includes(file.type)) {
+    return `Invalid file format. Allowed: ${rules.allowedTypes.join(", ")}`;
+  }
+
+  if (rules.maxSizeBytes && file.size > rules.maxSizeBytes) {
+    return `File is too large. Maximum allowed size is ${formatBytes(
+      rules.maxSizeBytes,
+    )}.`;
+  }
+
+  if ((rules.minWidth || rules.minHeight) && isImageFile(file)) {
+    const { width, height } = await getImageDimensions(file);
+
+    if (rules.minWidth && width < rules.minWidth) {
+      return `Image width is too small. Minimum required width is ${rules.minWidth}px.`;
+    }
+
+    if (rules.minHeight && height < rules.minHeight) {
+      return `Image height is too small. Minimum required height is ${rules.minHeight}px.`;
+    }
+  }
+
+  return null;
+}
+
 export default function ImageUploadField({
   label,
   value,
   onChange,
   accept = "image/*,video/*",
+  note,
+  rules,
 }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
+
   const [uploading, setUploading] = useState(false);
   const [loadingGallery, setLoadingGallery] = useState(false);
   const [error, setError] = useState("");
@@ -70,6 +185,13 @@ export default function ImageUploadField({
     setError("");
 
     try {
+      const validationError = await validateSelectedFile(file, rules);
+
+      if (validationError) {
+        setError(validationError);
+        return;
+      }
+
       const formData = new FormData();
       formData.append("file", file);
 
@@ -104,6 +226,8 @@ export default function ImageUploadField({
     [label],
   );
 
+  const acceptedLabel = useMemo(() => getAcceptedLabel(accept), [accept]);
+
   return (
     <>
       <div className="grid gap-3">
@@ -127,7 +251,7 @@ export default function ImageUploadField({
               setIsOpen(true);
               setActiveTab("upload");
             }}
-            className="rounded-full border cursor-pointer border-black/15 px-4 py-2 text-[11px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
+            className="cursor-pointer rounded-full border border-black/15 px-4 py-2 text-[11px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
           >
             Open Media Library
           </button>
@@ -136,6 +260,10 @@ export default function ImageUploadField({
             <span className="break-all text-[12px] text-black/55">{value}</span>
           ) : null}
         </div>
+
+        {note ? (
+          <p className="text-[12px] leading-[1.6] text-black/55">{note}</p>
+        ) : null}
 
         {error ? (
           <p className="text-[13px] font-[500] text-red-600">{error}</p>
@@ -177,7 +305,7 @@ export default function ImageUploadField({
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="flex cursor-pointer h-10 w-10 items-center justify-center rounded-full border border-black/10 text-[20px] text-black transition hover:bg-black hover:text-white"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-black/10 text-[20px] text-black transition hover:bg-black hover:text-white"
               >
                 ×
               </button>
@@ -188,7 +316,7 @@ export default function ImageUploadField({
                 <button
                   type="button"
                   onClick={() => setActiveTab("upload")}
-                  className={`rounded-t-[10px] cursor-pointer px-4 py-2 text-[12px] font-[700] uppercase tracking-[0.08em] transition sm:px-5 ${
+                  className={`cursor-pointer rounded-t-[10px] px-4 py-2 text-[12px] font-[700] uppercase tracking-[0.08em] transition sm:px-5 ${
                     activeTab === "upload"
                       ? "bg-black text-white"
                       : "bg-black/5 text-black/60 hover:bg-black/10"
@@ -203,7 +331,7 @@ export default function ImageUploadField({
                     setActiveTab("gallery");
                     loadGallery();
                   }}
-                  className={`rounded-t-[10px] cursor-pointer px-4 py-2 text-[12px] font-[700] uppercase tracking-[0.08em] transition sm:px-5 ${
+                  className={`cursor-pointer rounded-t-[10px] px-4 py-2 text-[12px] font-[700] uppercase tracking-[0.08em] transition sm:px-5 ${
                     activeTab === "gallery"
                       ? "bg-black text-white"
                       : "bg-black/5 text-black/60 hover:bg-black/10"
@@ -217,12 +345,13 @@ export default function ImageUploadField({
             <div className="flex-1 overflow-y-auto p-5 sm:p-6">
               {activeTab === "upload" ? (
                 <div className="flex h-full min-h-[320px] items-center justify-center">
-                  <div className="flex w-full max-w-[420px] flex-col items-center justify-center rounded-[10px] border border-dashed border-black/15 bg-[#fafafa] px-6 py-10 text-center">
+                  <div className="flex w-full max-w-[460px] flex-col items-center justify-center rounded-[10px] border border-dashed border-black/15 bg-[#fafafa] px-6 py-10 text-center">
                     <p className="text-[18px] font-[700] text-black">
                       Upload new media
                     </p>
+
                     <p className="mt-2 text-[14px] leading-[1.6] text-black/55">
-                      Choose an image or video from your device
+                      Choose a supported file from your device
                     </p>
 
                     <input
@@ -243,8 +372,27 @@ export default function ImageUploadField({
                     </button>
 
                     <p className="mt-3 text-[12px] text-black/45">
-                      Accepted: images and videos
+                      {acceptedLabel}
                     </p>
+
+                    {note ? (
+                      <p className="mt-2 max-w-[360px] text-[12px] leading-[1.6] text-black/45">
+                        {note}
+                      </p>
+                    ) : null}
+
+                    {rules?.maxSizeBytes ? (
+                      <p className="mt-1 text-[12px] text-black/45">
+                        Max file size: {formatBytes(rules.maxSizeBytes)}
+                      </p>
+                    ) : null}
+
+                    {rules?.minWidth || rules?.minHeight ? (
+                      <p className="mt-1 text-[12px] text-black/45">
+                        Minimum dimensions: {rules?.minWidth || 0}px ×{" "}
+                        {rules?.minHeight || 0}px
+                      </p>
+                    ) : null}
                   </div>
                 </div>
               ) : (
@@ -259,7 +407,7 @@ export default function ImageUploadField({
                     <button
                       type="button"
                       onClick={loadGallery}
-                      className="rounded-full border cursor-pointer border-black/10 px-4 py-2 text-[11px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
+                      className="cursor-pointer rounded-full border border-black/10 px-4 py-2 text-[11px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
                     >
                       Refresh
                     </button>

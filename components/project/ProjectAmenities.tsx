@@ -80,6 +80,9 @@ const getAmenityIcon = (item: string) => {
 export default function ProjectAmenities({ project }: { project: Project }) {
   const amenities = project.details.amenities;
   const [activeCategory, setActiveCategory] = useState(0);
+  const [openMobileCategory, setOpenMobileCategory] = useState<number | null>(
+    0,
+  );
 
   if (!amenities) return null;
 
@@ -109,21 +112,111 @@ export default function ProjectAmenities({ project }: { project: Project }) {
     >
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
         <div className="max-w-[820px]">
-          <p className="text-[13px] font-[700] uppercase tracking-[0.14em] text-[#173363]/70">
+          <p className="text-[12px] font-[700] uppercase tracking-[0.14em] text-[#173363]/70 sm:text-[13px]">
             Lifestyle
           </p>
 
-          <h2 className="mt-3 text-[34px] font-[500] leading-none text-black sm:text-[42px]">
+          <h2 className="mt-3 text-[28px] font-[500] leading-[1.05] text-black sm:text-[34px] lg:text-[42px]">
             {amenities.title || "Amenities"}
           </h2>
 
-          <p className="mt-4 text-[17px] leading-[1.8] text-black/65 sm:text-[18px]">
+          <p className="mt-4 text-[15px] leading-[1.75] text-black/65 sm:text-[17px] sm:leading-[1.8] lg:text-[18px]">
             Discover dedicated spaces for wellness, sports, family time, and
             open-air social moments across the Wellington community.
           </p>
         </div>
 
-        <div className="mt-10 overflow-scroll grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start">
+        {/* Mobile layout */}
+        <div className="mt-8 space-y-4 lg:hidden">
+          {tabCategories.map((category, index) => {
+            const isOpen = openMobileCategory === index;
+
+            return (
+              <div
+                key={category.title}
+                className="overflow-hidden rounded-[22px] bg-white shadow-[0_12px_32px_rgba(0,0,0,0.06)]"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenMobileCategory(isOpen ? null : index)}
+                  className={`flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition ${
+                    isOpen ? "bg-[#173363] text-white" : "bg-white text-black"
+                  }`}
+                >
+                  <div className="min-w-0">
+                    <p
+                      className={`text-[11px] font-[700] uppercase tracking-[0.14em] ${
+                        isOpen ? "text-white/70" : "text-[#173363]/60"
+                      }`}
+                    >
+                      Curated Spaces
+                    </p>
+                    <h3 className="mt-1 text-[18px] font-[600] leading-snug">
+                      {category.title}
+                    </h3>
+                  </div>
+
+                  <div className="flex shrink-0 items-center gap-3">
+                    <span
+                      className={`inline-flex h-9 min-w-[42px] items-center justify-center rounded-full px-3 text-[12px] font-[700] ${
+                        isOpen
+                          ? "bg-white/15 text-white"
+                          : "bg-[#f7f7f7] text-[#173363]"
+                      }`}
+                    >
+                      {String(category.items.length).padStart(2, "0")}
+                    </span>
+
+                    <span
+                      className={`material-symbols-outlined text-[22px] transition-transform duration-300 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    >
+                      expand_more
+                    </span>
+                  </div>
+                </button>
+
+                <div
+                  className={`grid transition-all duration-300 ${
+                    isOpen
+                      ? "grid-rows-[1fr] opacity-100"
+                      : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="border-t border-black/8 px-4 py-4">
+                      <div
+                        data-lenis-prevent
+                        className="max-h-[260px] overflow-y-auto pr-1 [scrollbar-width:thin]"
+                      >
+                        <div className="grid gap-3">
+                          {category.items.map((item) => (
+                            <div
+                              key={`${category.title}-${item}`}
+                              className="flex items-start rounded-[16px] border border-[#efe5d3] bg-[#fbf8f2] px-4 py-3.5 text-[14px] leading-snug text-black/80"
+                            >
+                              <span className="mr-3 mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#173363] text-white">
+                                <i
+                                  className={`${getAmenityIcon(item)} text-[12px]`}
+                                />
+                              </span>
+
+                              <span className="leading-[1.55]">{item}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Desktop layout */}
+        <div className="mt-10 hidden gap-6 lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start">
           <div className="rounded-[24px] bg-white p-4 shadow-[0_12px_32px_rgba(0,0,0,0.06)] sm:p-5">
             <div
               data-lenis-prevent
