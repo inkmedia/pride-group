@@ -7,6 +7,7 @@ import type { Project } from "@/types/project";
 const emptyProject: Project = {
   slug: "",
   title: "",
+  city: undefined,
   location: "",
   hero: {
     type: "image",

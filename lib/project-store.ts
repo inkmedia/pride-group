@@ -1,10 +1,16 @@
 import { prisma } from "@/lib/prisma";
-import type { Project } from "@/types/project";
+import {
+  inferProjectCity,
+  normalizeProjectCity,
+} from "@/lib/project-city";
+import type { Project, ProjectCity } from "@/types/project";
 
 type ProjectPayload = Project;
 
 function normalizeProject(record: {
   slug: string;
+  city: string | null;
+  location: string;
   payload: unknown;
 }): Project | null {
   if (!record?.payload || typeof record.payload !== "object") {
@@ -12,10 +18,15 @@ function normalizeProject(record: {
   }
 
   const payload = record.payload as ProjectPayload;
+  const city =
+    normalizeProjectCity(payload.city) ??
+    normalizeProjectCity(record.city) ??
+    inferProjectCity(payload.overview?.location, payload.location, record.location);
 
   return {
     ...payload,
     slug: payload.slug || record.slug,
+    city: city ?? undefined,
   };
 }
 
@@ -30,6 +41,12 @@ export async function listProjects(): Promise<Project[]> {
 }
 
 export const getAllProjects = listProjects;
+
+export async function listProjectsByCity(city: ProjectCity): Promise<Project[]> {
+  const projects = await listProjects();
+
+  return projects.filter((project) => project.city === city);
+}
 
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
   const record = await prisma.projectRecord.findUnique({
@@ -48,6 +65,7 @@ export async function createProject(project: Project): Promise<Project> {
     data: {
       slug: project.slug,
       title: project.title,
+      city: project.city ?? null,
       location: project.location,
       category: project.overview.category || null,
       status: project.overview.status || null,
@@ -73,6 +91,7 @@ export async function updateProject(
     data: {
       slug: project.slug,
       title: project.title,
+      city: project.city ?? null,
       location: project.location,
       category: project.overview.category || null,
       status: project.overview.status || null,

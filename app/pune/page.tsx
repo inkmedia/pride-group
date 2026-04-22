@@ -7,7 +7,7 @@ import PuneOverview from "@/components/pune/PuneOverview";
 import PuneProjects, {
   type PuneProjectCard,
 } from "@/components/pune/PuneProjects";
-import { getAllProjects } from "@/lib/project-store";
+import { listProjectsByCity } from "@/lib/project-store";
 
 export const metadata: Metadata = {
   title: "Pune | Pride Group",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
 };
 
 function mapProjectsForPunePage(
-  projects: Awaited<ReturnType<typeof getAllProjects>>,
+  projects: Awaited<ReturnType<typeof listProjectsByCity>>,
 ): PuneProjectCard[] {
   return projects.map((project) => {
     const image =
@@ -74,8 +74,9 @@ function mapProjectsForPunePage(
 }
 
 export default async function PuneCity() {
-  const allProjects = await getAllProjects();
-  const puneProjects = mapProjectsForPunePage(allProjects);
+  const puneProjects = mapProjectsForPunePage(
+    await listProjectsByCity("Pune"),
+  );
 
   return (
     <>

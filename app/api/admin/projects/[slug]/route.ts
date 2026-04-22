@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { ensureAdminRequest } from "@/lib/admin-route";
+import { getProjectCityPath } from "@/lib/project-city";
 import {
   deleteProject,
   getProjectBySlug,
@@ -43,6 +44,7 @@ export async function PUT(request: Request, { params }: RouteContext) {
 
   try {
     const project = (await request.json()) as Project;
+    const existingProject = await getProjectBySlug(slug);
     const updatedProject = await updateProject(slug, project);
 
     revalidatePath("/admin");
@@ -50,6 +52,12 @@ export async function PUT(request: Request, { params }: RouteContext) {
     revalidatePath(`/admin/projects/${slug}/edit`);
     revalidatePath(`/admin/projects/${updatedProject.slug}/edit`);
     revalidatePath("/projects");
+    if (existingProject?.city) {
+      revalidatePath(getProjectCityPath(existingProject.city));
+    }
+    if (updatedProject.city) {
+      revalidatePath(getProjectCityPath(updatedProject.city));
+    }
     revalidatePath(`/projects/${slug}`);
     revalidatePath(`/projects/${updatedProject.slug}`);
 
@@ -95,11 +103,15 @@ export async function DELETE(_: Request, { params }: RouteContext) {
   const { slug } = await params;
 
   try {
+    const existingProject = await getProjectBySlug(slug);
     await deleteProject(slug);
 
     revalidatePath("/admin");
     revalidatePath("/admin/projects");
     revalidatePath("/projects");
+    if (existingProject?.city) {
+      revalidatePath(getProjectCityPath(existingProject.city));
+    }
     revalidatePath(`/projects/${slug}`);
     revalidatePath(`/admin/projects/${slug}/edit`);
 

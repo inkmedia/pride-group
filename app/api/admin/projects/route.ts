@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { ensureAdminRequest } from "@/lib/admin-route";
+import { getProjectCityPath } from "@/lib/project-city";
 import { createProject, listProjects } from "@/lib/project-store";
 import type { Project } from "@/types/project";
 
@@ -33,6 +34,9 @@ export async function POST(request: Request) {
     revalidatePath("/admin");
     revalidatePath("/admin/projects");
     revalidatePath("/projects");
+    if (createdProject.city) {
+      revalidatePath(getProjectCityPath(createdProject.city));
+    }
     revalidatePath(`/projects/${createdProject.slug}`);
 
     return NextResponse.json({

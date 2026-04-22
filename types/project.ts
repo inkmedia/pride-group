@@ -1,3 +1,7 @@
+export const PROJECT_CITIES = ["Pune", "Mumbai", "Bangalore"] as const;
+
+export type ProjectCity = (typeof PROJECT_CITIES)[number];
+
 export type StatItem = {
   value: string;
   label: string;
@@ -108,6 +112,7 @@ export type ProjectSeoData = {
 export type Project = {
   slug: string;
   title: string;
+  city?: ProjectCity;
   location: string;
   hero:
     | {

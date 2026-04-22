@@ -8,7 +8,16 @@ import LayoutShell from "@/components/layout/LayoutShell";
 import localFont from "next/font/local";
 import { Lora } from "next/font/google";
 
-import "lenis/dist/lenis.css";
+function getMetadataBase() {
+  const fallbackUrl = "https://www.pridegroup.net";
+  const configuredUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim();
+
+  try {
+    return new URL(configuredUrl || fallbackUrl);
+  } catch {
+    return new URL(fallbackUrl);
+  }
+}
 
 const lora = Lora({
   subsets: ["latin"],
@@ -33,6 +42,7 @@ const proxima = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: getMetadataBase(),
   title: "Pride Group",
   description:
     "The best Builder in India, Pride Group has marked its presence in Bangalore, Mumbai & Pune. It is one of the best builders in Bangalore with premium projects.",

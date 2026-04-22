@@ -13,6 +13,7 @@ async function main() {
       where: { slug: project.slug },
       update: {
         title: project.title,
+        city: project.city ?? null,
         location: project.location,
         category: project.overview.category || null,
         status: project.overview.status || null,
@@ -21,6 +22,7 @@ async function main() {
       create: {
         slug: project.slug,
         title: project.title,
+        city: project.city ?? null,
         location: project.location,
         category: project.overview.category || null,
         status: project.overview.status || null,

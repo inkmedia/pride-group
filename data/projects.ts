@@ -4,6 +4,7 @@ export const projects: Project[] = [
   {
     slug: "wellington",
     title: "2 & 3 BHK Apartments",
+    city: "Pune",
     location: "at Pride World City, Charholi",
     seo: {
       metaTitle:
@@ -449,6 +450,7 @@ export const projects: Project[] = [
   {
     slug: "soho",
     title: "2 & 2.5 BHK Homes",
+    city: "Pune",
     location: "at Pride World City, Charholi",
     seo: {
       metaTitle:

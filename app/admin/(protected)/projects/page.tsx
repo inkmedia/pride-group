@@ -61,8 +61,9 @@ export default async function AdminProjectsPage() {
           </div>
 
           <div className="hidden lg:block">
-            <div className="grid grid-cols-[1.2fr_1fr_0.8fr_0.8fr_1fr] border-b border-black/10 bg-[#f8f8f8] px-6 py-4 text-[12px] font-[700] uppercase tracking-[0.08em] text-black/55">
+            <div className="grid grid-cols-[1.2fr_0.7fr_1fr_0.8fr_0.8fr_1fr] border-b border-black/10 bg-[#f8f8f8] px-6 py-4 text-[12px] font-[700] uppercase tracking-[0.08em] text-black/55">
               <div>Project</div>
+              <div>City</div>
               <div>Slug</div>
               <div>Category</div>
               <div>Status</div>
@@ -73,7 +74,7 @@ export default async function AdminProjectsPage() {
               {projects.map((project) => (
                 <div
                   key={project.slug}
-                  className="grid grid-cols-[1.2fr_1fr_0.8fr_0.8fr_1fr] items-center border-b border-black/5 px-6 py-5 transition hover:bg-[#fafafa]"
+                  className="grid grid-cols-[1.2fr_0.7fr_1fr_0.8fr_0.8fr_1fr] items-center border-b border-black/5 px-6 py-5 transition hover:bg-[#fafafa]"
                 >
                   <div className="pr-4">
                     <h3 className="text-[16px] font-[600] text-black">
@@ -85,6 +86,12 @@ export default async function AdminProjectsPage() {
                     <p className="mt-1 text-[12px] uppercase tracking-[0.06em] text-black/45">
                       {project.location}
                     </p>
+                  </div>
+
+                  <div>
+                    <span className="inline-flex rounded-full bg-[#f3f4f6] px-3 py-1 text-[12px] font-[600] text-black/70">
+                      {project.city || "Unassigned"}
+                    </span>
                   </div>
 
                   <div>
@@ -150,6 +157,10 @@ export default async function AdminProjectsPage() {
                 </div>
 
                 <div className="mt-4 grid gap-2 text-[13px] text-black/65">
+                  <p>
+                    <span className="font-[700] text-black">City:</span>{" "}
+                    {project.city || "Unassigned"}
+                  </p>
                   <p>
                     <span className="font-[700] text-black">Slug:</span>{" "}
                     {project.slug}

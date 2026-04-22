@@ -11,10 +11,13 @@ model ProjectRecord {
   id        String   @id @default(cuid())
   slug      String   @unique
   title     String
+  city      String?
   location  String
   category  String?
   status    String?
   payload   Json
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([city])
 }

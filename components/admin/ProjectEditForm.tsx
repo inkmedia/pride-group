@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { isProjectCity } from "@/lib/project-city";
 import type { Project } from "@/types/project";
+import { PROJECT_CITIES } from "@/types/project";
 import ImageUploadField from "@/components/admin/ImageUploadField";
 import AdminAccordion from "@/components/admin/AdminAccordion";
 
@@ -138,6 +140,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
   const [formData, setFormData] = useState({
     slug: project.slug || "",
     title: project.title || "",
+    city: project.city || "",
     location: project.location || "",
 
     seoMetaTitle: project.seo?.metaTitle || "",
@@ -810,10 +813,17 @@ export default function ProjectEditForm({ project, mode }: Props) {
     setMessage("");
     setErrorMessage("");
 
+    if (!isProjectCity(formData.city)) {
+      setErrorMessage("Please select a valid city for this project.");
+      setIsSubmitting(false);
+      return;
+    }
+
     const cleanedPayload = {
       ...project,
       slug: formData.slug,
       title: formData.title,
+      city: formData.city,
       location: formData.location,
       seo: {
         metaTitle: formData.seoMetaTitle,
@@ -990,7 +1000,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
         sectionId="basic-info"
         defaultOpen
       >
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-3">
           <Field label="Slug">
             <input
               name="slug"
@@ -1009,7 +1019,23 @@ export default function ProjectEditForm({ project, mode }: Props) {
             />
           </Field>
 
-          <div className="md:col-span-2">
+          <Field label="City">
+            <select
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              className="admin-input"
+            >
+              <option value="">Select city</option>
+              {PROJECT_CITIES.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </Field>
+
+          <div className="md:col-span-3">
             <Field label="Location">
               <input
                 name="location"
