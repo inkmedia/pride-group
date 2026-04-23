@@ -1075,7 +1075,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
               rows={4}
             />
             <small className="text-[11px]">
-              Meta Description between 150-160 characters is ideal for SEO
+              Meta Description between 120-160 characters is ideal for SEO
             </small>
           </Field>
 
