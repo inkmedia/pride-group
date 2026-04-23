@@ -237,15 +237,30 @@ export default function Header() {
   });
   const [previewVisible, setPreviewVisible] = useState(true);
 
+  const getDefaultMobileOpenCities = () => ({
+    [cityData[0].key]: true,
+  });
+
   const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false);
   const [mobileActiveCityKey, setMobileActiveCityKey] = useState<string>(
     cityData[0].key,
   );
   const [mobileOpenCities, setMobileOpenCities] = useState<
     Record<string, boolean>
-  >({
-    [cityData[0].key]: true,
-  });
+  >(getDefaultMobileOpenCities());
+
+  const resetMobileProjectsMenu = () => {
+    setMobileProjectsOpen(false);
+    setMobileActiveCityKey(cityData[0].key);
+    setMobileOpenCities(getDefaultMobileOpenCities());
+  };
+
+  const closeAllMenus = () => {
+    setMenuOpen(false);
+    setProjectsMegaOpen(false);
+    setEnquireOpen(false);
+    resetMobileProjectsMenu();
+  };
 
   const fadeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastScrollYRef = useRef(0);
@@ -300,6 +315,7 @@ export default function Header() {
     setMenuOpen(false);
     setEnquireOpen(false);
     setProjectsMegaOpen(false);
+    resetMobileProjectsMenu();
 
     clearBodyScrollLock();
     window.scrollTo(0, 0);
@@ -620,7 +636,7 @@ export default function Header() {
       >
         <div className="flex h-full min-h-0 flex-col">
           <div className="shrink-0 flex items-center justify-between px-5 py-5 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
-            <TransitionLink href="/">
+            <TransitionLink href="/" onClick={closeAllMenus}>
               <Image
                 src="/images/logo.png"
                 alt="Pride Logo"
@@ -649,14 +665,23 @@ export default function Header() {
             {/* Mobile nav + projects accordion */}
             <div className="border-t border-white/10 px-5 py-5 sm:px-8 lg:hidden">
               <nav className="grid gap-4">
-                {navItems.map((item) => {
+                {navItems.map((item, index) => {
                   const isProjects = item.label === "Projects";
 
                   if (isProjects) {
                     return (
                       <div
                         key={item.label}
-                        className="overflow-hidden rounded-[10px] border border-white/10 bg-white/[0.04]"
+                        className={`overflow-hidden rounded-[10px] border border-white/10 bg-white/[0.04] transform transition-all duration-500 ease-out ${
+                          menuOpen
+                            ? "translate-y-0 opacity-100"
+                            : "translate-y-4 opacity-0"
+                        }`}
+                        style={{
+                          transitionDelay: menuOpen
+                            ? `${80 + index * 70}ms`
+                            : "0ms",
+                        }}
                       >
                         <button
                           type="button"
@@ -765,6 +790,7 @@ export default function Header() {
                                                 <TransitionLink
                                                   key={project.title}
                                                   href={project.href}
+                                                  onClick={closeAllMenus}
                                                   className="rounded-[10px] border border-white/10 bg-white/[0.03] px-4 py-3 transition hover:bg-white/[0.06]"
                                                 >
                                                   <div className="flex items-start justify-between gap-3">
@@ -789,6 +815,7 @@ export default function Header() {
 
                                             <TransitionLink
                                               href={city.ctaHref}
+                                              onClick={closeAllMenus}
                                               className="mt-4 inline-flex rounded-full border border-white/20 px-4 py-2 text-[11px] font-[700] uppercase tracking-[0.08em] text-white transition hover:bg-white hover:text-black"
                                             >
                                               View All {city.name}
@@ -802,6 +829,7 @@ export default function Header() {
 
                                 <TransitionLink
                                   href="/completed-projects"
+                                  onClick={closeAllMenus}
                                   className="flex items-center justify-between rounded-[10px] border border-white/10 bg-white/[0.03] px-4 py-4 transition hover:bg-white/[0.06]"
                                 >
                                   <div>
@@ -825,9 +853,22 @@ export default function Header() {
                   }
 
                   return (
-                    <div key={item.label} className="grid gap-2">
+                    <div
+                      key={item.label}
+                      className={`grid gap-2 transform transition-all duration-500 ease-out ${
+                        menuOpen
+                          ? "translate-y-0 opacity-100"
+                          : "translate-y-4 opacity-0"
+                      }`}
+                      style={{
+                        transitionDelay: menuOpen
+                          ? `${80 + index * 70}ms`
+                          : "0ms",
+                      }}
+                    >
                       <TransitionLink
                         href={item.href}
+                        onClick={closeAllMenus}
                         className="text-[13px] font-[700] uppercase tracking-[0.08em] text-white/90 transition duration-300 hover:text-white"
                       >
                         {item.label}
@@ -839,6 +880,7 @@ export default function Header() {
                             <TransitionLink
                               key={subItem.label}
                               href={subItem.href}
+                              onClick={closeAllMenus}
                               className="text-[11px] font-[600] uppercase tracking-[0.08em] text-white/65 transition duration-300 hover:text-white"
                             >
                               {subItem.label}
@@ -855,33 +897,20 @@ export default function Header() {
             {/* Main menu items */}
             <div className="px-5 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-8 lg:px-10 lg:pb-12 lg:pt-10">
               <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-x-12 gap-y-6 md:grid-cols-2 md:gap-y-8">
-                {menuItems.map((item) => (
+                {menuItems.map((item, index) => (
                   <MenuItem
                     key={item.title}
                     title={item.title}
                     desc={item.desc}
                     href={item.href}
+                    index={index}
+                    menuOpen={menuOpen}
+                    onClick={closeAllMenus}
                   />
                 ))}
               </div>
             </div>
           </div>
-
-          {/* <div
-            data-lenis-prevent
-            className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-8 lg:px-10 lg:pb-12 lg:pt-10"
-          >
-            <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-x-12 gap-y-6 md:grid-cols-2 md:gap-y-8">
-              {menuItems.map((item) => (
-                <MenuItem
-                  key={item.title}
-                  title={item.title}
-                  desc={item.desc}
-                  href={item.href}
-                />
-              ))}
-            </div>
-          </div> */}
 
           <div className="shrink-0 border-t border-white/10 px-5 py-5 sm:px-8 sm:py-6 lg:px-10">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -1229,13 +1258,28 @@ function MenuItem({
   title,
   desc,
   href,
+  index,
+  menuOpen,
+  onClick,
 }: {
   title: string;
   desc: string;
   href: string;
+  index: number;
+  menuOpen: boolean;
+  onClick?: () => void;
 }) {
   return (
-    <TransitionLink href={href} className="group block">
+    <TransitionLink
+      href={href}
+      onClick={onClick}
+      className={`group block transform transition-all duration-500 ease-out ${
+        menuOpen ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+      }`}
+      style={{
+        transitionDelay: menuOpen ? `${120 + index * 70}ms` : "0ms",
+      }}
+    >
       <h3 className="text-[20px] transition duration-300 hover:text-white/70 sm:text-[24px]">
         {title}
       </h3>
