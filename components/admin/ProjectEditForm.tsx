@@ -1050,7 +1050,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
 
       <AdminAccordion number="02" title="SEO" sectionId="seo">
         <div className="grid gap-4">
-          <Field label="Meta Title">
+          <Field label="Meta Title (Between 50-60 characters is ideal for SEO)">
             <input
               name="seoMetaTitle"
               value={formData.seoMetaTitle}
@@ -1059,7 +1059,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
             />
           </Field>
 
-          <Field label="Meta Description">
+          <Field label="Meta Description (Between 150-160 characters is ideal for SEO)">
             <textarea
               name="seoMetaDescription"
               value={formData.seoMetaDescription}

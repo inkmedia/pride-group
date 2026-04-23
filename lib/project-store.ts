@@ -1,8 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import {
-  inferProjectCity,
-  normalizeProjectCity,
-} from "@/lib/project-city";
+import { inferProjectCity, normalizeProjectCity } from "@/lib/project-city";
 import type { Project, ProjectCity } from "@/types/project";
 
 type ProjectPayload = Project;
@@ -21,7 +18,11 @@ function normalizeProject(record: {
   const city =
     normalizeProjectCity(payload.city) ??
     normalizeProjectCity(record.city) ??
-    inferProjectCity(payload.overview?.location, payload.location, record.location);
+    inferProjectCity(
+      payload.overview?.location,
+      payload.location,
+      record.location,
+    );
 
   return {
     ...payload,
@@ -42,7 +43,9 @@ export async function listProjects(): Promise<Project[]> {
 
 export const getAllProjects = listProjects;
 
-export async function listProjectsByCity(city: ProjectCity): Promise<Project[]> {
+export async function listProjectsByCity(
+  city: ProjectCity,
+): Promise<Project[]> {
   const projects = await listProjects();
 
   return projects.filter((project) => project.city === city);
