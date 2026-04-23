@@ -993,7 +993,7 @@ export default function ProjectEditForm({ project, mode }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-4">
+    <form onSubmit={handleSubmit} className="grid gap-5">
       <AdminAccordion
         number="01"
         title="Basic Info"
@@ -1008,6 +1008,10 @@ export default function ProjectEditForm({ project, mode }: Props) {
               onChange={handleChange}
               className="admin-input"
             />
+            <small className="text-[11px]">
+              Used in the page URL, e.g. https://pridegroup.net/projects/
+              <span className="text-blue-500">your-slug</span>
+            </small>
           </Field>
 
           <Field label="Project Title">
@@ -1050,16 +1054,19 @@ export default function ProjectEditForm({ project, mode }: Props) {
 
       <AdminAccordion number="02" title="SEO" sectionId="seo">
         <div className="grid gap-4">
-          <Field label="Meta Title (Between 50-60 characters is ideal for SEO)">
+          <Field label="Meta Title">
             <input
               name="seoMetaTitle"
               value={formData.seoMetaTitle}
               onChange={handleChange}
               className="admin-input"
             />
+            <small className="text-[11px]">
+              Meta Title between 50-60 characters is ideal for SEO
+            </small>
           </Field>
 
-          <Field label="Meta Description (Between 150-160 characters is ideal for SEO)">
+          <Field label="Meta Description">
             <textarea
               name="seoMetaDescription"
               value={formData.seoMetaDescription}
@@ -1067,6 +1074,9 @@ export default function ProjectEditForm({ project, mode }: Props) {
               className="admin-textarea"
               rows={4}
             />
+            <small className="text-[11px]">
+              Meta Description between 150-160 characters is ideal for SEO
+            </small>
           </Field>
 
           <AdminImageField
