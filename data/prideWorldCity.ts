@@ -1,3 +1,5 @@
+import { getProjectPath } from "@/lib/project-city";
+
 export type TownshipStatus = "Completed" | "Ongoing" | "Upcoming";
 
 export type TownshipHotspot = {
@@ -157,7 +159,7 @@ export const prideWorldCityHotspots: TownshipHotspot[] = [
     detail:
       "Wellington brings together premium 2 and 3 BHK homes with broad play, wellness, and social spaces designed for multi-generational living.",
     ctaLabel: "View Project",
-    href: "/projects/wellington",
+    href: getProjectPath({ city: "Pune", slug: "wellington" }),
     x: "45%",
     y: "48%",
   },
@@ -487,7 +489,7 @@ export const prideWorldCityProjects = [
     description:
       "Your childhood 2.0 is here, with dedicated podium amenities and a family-living lens inside Pride World City.",
     image: "/images/projects/Wellington.png",
-    href: "/projects/wellington",
+    href: getProjectPath({ city: "Pune", slug: "wellington" }),
     isExternal: false,
   },
   {

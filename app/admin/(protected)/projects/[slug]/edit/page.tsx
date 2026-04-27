@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import DeleteProjectButton from "@/components/admin/DeleteProjectButton";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
+import { getProjectPath } from "@/lib/project-city";
 import { getProjectBySlug } from "@/lib/project-store";
 import ProjectEditForm from "@/components/admin/ProjectEditForm";
 import AdminNavLink from "@/components/admin/AdminNavLink";
@@ -52,7 +52,7 @@ export default async function EditProjectPage({ params }: PageProps) {
             </AdminNavLink>
 
             <AdminNavLink
-              href={`/projects/${project.slug}`}
+              href={getProjectPath(project)}
               target="_blank"
               className="rounded-full bg-[#172f55] px-5 py-3 text-[12px] font-[700] uppercase tracking-[0.08em] text-white transition hover:opacity-90"
             >

@@ -111,7 +111,7 @@ const cityData: City[] = [
           "Wellington presents an extraordinary lifestyle with world-class amenities and superior craftsmanship at Pride World City Charholi.",
         location: "Pride World City, Charholi",
         image: "/images/projects/Wellington.png",
-        href: "/projects/wellington",
+        href: "/projects/pune/wellington",
       },
       {
         title: "Soho",
@@ -120,7 +120,7 @@ const cityData: City[] = [
           "SOHO is a well-thought-out new cluster in Pride World City built with the idea of equality at Pride World City Charholi.",
         location: "Pride World City, Charholi",
         image: "/images/projects/soho.jpg",
-        href: "/projects/soho",
+        href: "/projects/pune/soho",
       },
       {
         title: "Miami",
@@ -158,7 +158,7 @@ const cityData: City[] = [
           "Pride Euphora brings together luxury, spacious living, and serene surroundings to create a refined lifestyle destination on Old Madras Road.",
         location: "Old Madras Road, Bengaluru",
         image: "/uploads/pride-euphora.jpg",
-        href: "/projects/pride-euphora",
+        href: "/projects/bangalore/pride-euphora",
       },
       {
         title: "Pride Sunrise",
@@ -196,7 +196,7 @@ const cityData: City[] = [
           "Park Royale comes loaded with attributes and amenities that add charm to your way of life and makes living an experience you will relish day after day, minute after minute at Marol.",
         location: "Andheri East, Mumbai",
         image: "/images/projects/park-royale.jpg",
-        href: "/projects/park-royale",
+        href: "/projects/mumbai/park-royale",
       },
     ],
   },

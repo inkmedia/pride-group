@@ -36,10 +36,16 @@ const footerQuickLinks = [
 
 const footerProjects = [
   { label: "Pride World City", href: "/pride-world-city" },
-  { label: "Wellington", href: "/projects/wellington" },
+  {
+    label: "Wellington",
+    href: "/projects/pune/wellington",
+  },
   { label: "Miami", href: "/pride-world-city" },
   { label: "Montreal", href: "/pride-world-city" },
-  { label: "Park Royale", href: "/projects" },
+  {
+    label: "Park Royale",
+    href: "/projects/mumbai/park-royale",
+  },
   { label: "Pride Crosswinds", href: "/projects" },
   { label: "Pride Sunrise", href: "/projects" },
   { label: "Pride Altius", href: "/projects" },

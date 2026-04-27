@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import DeleteProjectButton from "@/components/admin/DeleteProjectButton";
 import AdminNavLink from "@/components/admin/AdminNavLink";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
+import { getProjectPath } from "@/lib/project-city";
 import { listProjects } from "@/lib/project-store";
 
 export default async function AdminProjectsPage() {
@@ -114,7 +115,7 @@ export default async function AdminProjectsPage() {
 
                   <div className="flex justify-end gap-2">
                     <Link
-                      href={`/projects/${project.slug}`}
+                      href={getProjectPath(project)}
                       target="_blank"
                       className="rounded-full border border-black/15 px-4 py-2 text-[11px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
                     >
@@ -177,7 +178,7 @@ export default async function AdminProjectsPage() {
 
                 <div className="mt-4 flex flex-wrap gap-2">
                   <Link
-                    href={`/projects/${project.slug}`}
+                    href={getProjectPath(project)}
                     target="_blank"
                     className="rounded-full border border-black/15 px-4 py-2 text-[11px] font-[700] uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
                   >

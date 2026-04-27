@@ -7,6 +7,7 @@ import PuneOverview from "@/components/pune/PuneOverview";
 import PuneProjects, {
   type PuneProjectCard,
 } from "@/components/pune/PuneProjects";
+import { getProjectPath } from "@/lib/project-city";
 import { listProjectsByCity } from "@/lib/project-store";
 
 export const metadata: Metadata = {
@@ -68,7 +69,7 @@ function mapProjectsForPunePage(
       description: project.overview.description,
       location: project.overview.location || project.location,
       image,
-      href: `/projects/${project.slug}`,
+      href: getProjectPath(project),
     };
   });
 }

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getProjectPath } from "@/lib/project-city";
 import type { Project } from "@/types/project";
 
 const puneProjects = [
-  { label: "Soho", href: "/projects/soho" },
+  { label: "Soho", href: getProjectPath({ city: "Pune", slug: "soho" }) },
   { label: "Miami", href: "/projects" },
   { label: "Montreal", href: "/projects" },
   { label: "Park Ivory", href: "/projects" },

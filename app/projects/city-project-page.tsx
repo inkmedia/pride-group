@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { getProjectPath } from "@/lib/project-city";
+import { notFound, redirect } from "next/navigation";
+import {
+  getProjectCitySlug,
+  getProjectPath,
+} from "@/lib/project-city";
 import { getProjectBySlug } from "@/lib/project-store";
+import type { ProjectCity } from "@/types/project";
 import {
   generateProjectMetadata,
   ProjectDetailPage,
@@ -11,7 +15,7 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata({
+export async function generateCityProjectMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -19,11 +23,25 @@ export async function generateMetadata({
   return generateProjectMetadata(slug);
 }
 
-export default async function LegacyProjectPage({ params }: PageProps) {
+export async function StaticCityProjectPage({
+  city,
+  params,
+}: {
+  city: ProjectCity;
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
-  if (project?.city) {
+  if (!project) {
+    notFound();
+  }
+
+  if (!project.city) {
+    redirect(getProjectPath(project));
+  }
+
+  if (getProjectCitySlug(project.city) !== getProjectCitySlug(city)) {
     redirect(getProjectPath(project));
   }
 

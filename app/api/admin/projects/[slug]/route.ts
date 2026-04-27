@@ -2,7 +2,7 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { ensureAdminRequest } from "@/lib/admin-route";
-import { getProjectCityPath } from "@/lib/project-city";
+import { getProjectCityPath, getProjectPath } from "@/lib/project-city";
 import {
   deleteProject,
   getProjectBySlug,
@@ -58,6 +58,10 @@ export async function PUT(request: Request, { params }: RouteContext) {
     if (updatedProject.city) {
       revalidatePath(getProjectCityPath(updatedProject.city));
     }
+    if (existingProject) {
+      revalidatePath(getProjectPath(existingProject));
+    }
+    revalidatePath(getProjectPath(updatedProject));
     revalidatePath(`/projects/${slug}`);
     revalidatePath(`/projects/${updatedProject.slug}`);
 
@@ -111,6 +115,9 @@ export async function DELETE(_: Request, { params }: RouteContext) {
     revalidatePath("/projects");
     if (existingProject?.city) {
       revalidatePath(getProjectCityPath(existingProject.city));
+    }
+    if (existingProject) {
+      revalidatePath(getProjectPath(existingProject));
     }
     revalidatePath(`/projects/${slug}`);
     revalidatePath(`/admin/projects/${slug}/edit`);
