@@ -152,13 +152,13 @@ const cityData: City[] = [
     cardBgImage: "/images/Bangalore.jpg",
     projects: [
       {
-        title: "Pride Cross Winds",
-        subtitle: "Villa Plots starting from 2400sq.ft",
+        title: "Pride Euphora",
+        subtitle: "3 & 4 BHK layouts",
         description:
-          "Spread over 25 acres of pristine land, Pride Crosswinds Villa Plots Phase II offers you the best of both worlds.",
-        location: "Bannerghatta-Jigani Road, Bangalore",
-        image: "/images/projects/pride-crosswinds.jpg",
-        href: "#",
+          "Pride Euphora brings together luxury, spacious living, and serene surroundings to create a refined lifestyle destination on Old Madras Road.",
+        location: "Old Madras Road, Bengaluru",
+        image: "/uploads/pride-euphora.jpg",
+        href: "/projects/pride-euphora",
       },
       {
         title: "Pride Sunrise",
