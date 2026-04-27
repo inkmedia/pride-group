@@ -244,7 +244,7 @@ export default function ProjectHero({ project }: any) {
         )}
 
         {/* CONTENT */}
-        <div className="relative z-10 mx-auto flex h-full w-full max-w-[1400px] items-center px-5 sm:px-6 md:px-10 lg:px-16">
+        <div className="relative z-10 mx-auto flex justify-center mg:justify-start lg:justify-start h-full w-full max-w-[1400px] items-center px-5 sm:px-6 md:px-10 lg:px-16">
           <div
             className={`max-w-[650px] text-white transition-all duration-700 ${
               loaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"

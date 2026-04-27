@@ -79,7 +79,7 @@ export async function ProjectDetailPage({ slug }: { slug: string }) {
       <ProjectOverview project={project} />
       <ProjectFeatures project={project} />
       <ProjectStickyNav />
-      <ProjectFloatingBadge />
+      {project.city === "Pune" ? <ProjectFloatingBadge /> : null}
       <ProjectAmenities project={project} />
       <ProjectDetails project={project} />
       <ProjectRera project={project} />
