@@ -3,7 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { type ReactNode, useMemo, useState } from "react";
+import {
+  type ChangeEvent,
+  type ReactNode,
+  type FormEvent,
+  useMemo,
+  useState,
+} from "react";
 
 const quickLinks = [
   { label: "About Pride Group", href: "#" },
@@ -55,9 +61,19 @@ const fieldClass =
   "mt-2 w-full border-b border-b-2 border-[#1f3d72] bg-transparent pb-2 text-s outline-none placeholder:text-[#6b7280]";
 
 const cityProjects: Record<string, string[]> = {
-  Pune: ["Project 1", "Project 2", "Project 3"],
-  Mumbai: ["Project 1", "Project 2", "Project 3"],
-  Bangalore: ["Project 1", "Project 2", "Project 3"],
+  Pune: ["Wellington", "SoHo", "Miami", "Boston", "Montreal"],
+  Mumbai: ["Park Royale"],
+  Bangalore: ["Park Euphora"],
+};
+
+const projectLocations: Record<string, { label: string; backend: string }> = {
+  Wellington: { label: "Pride World City, Charholi", backend: "Charholi" },
+  SoHo: { label: "Pride World City, Charholi", backend: "Charholi" },
+  Miami: { label: "Pride World City, Charholi", backend: "Charholi" },
+  Boston: { label: "Pride World City, Charholi", backend: "Charholi" },
+  Montreal: { label: "Pride World City, Charholi", backend: "Charholi" },
+  "Park Royale": { label: "Andheri East", backend: "Andheri East" },
+  "Park Euphora": { label: "Old Madras Road", backend: "Old Madras Road" },
 };
 
 const officeData = [
@@ -102,11 +118,34 @@ const officeData = [
   },
 ];
 
+type FooterFormState = {
+  name: string;
+  isd: string;
+  phone: string;
+  email: string;
+  city: string;
+  project: string;
+  message: string;
+};
+
+const initialForm: FooterFormState = {
+  name: "",
+  isd: "91",
+  phone: "",
+  email: "",
+  city: "",
+  project: "",
+  message: "",
+};
+
 export default function Footer() {
   const pathname = usePathname();
-  const [city, setCity] = useState("");
+  const [form, setForm] = useState<FooterFormState>(initialForm);
   const [openOffice, setOpenOffice] = useState<number>(-1);
   const [footerExpanded, setFooterExpanded] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState("");
 
   const hideEnquirySection =
     pathname?.startsWith("/projects/") ||
@@ -116,8 +155,107 @@ export default function Footer() {
     false;
 
   const projects = useMemo(() => {
-    return city ? (cityProjects[city] ?? []) : [];
-  }, [city]);
+    return form.city ? (cityProjects[form.city] ?? []) : [];
+  }, [form.city]);
+
+  const selectedLocation = form.project ? projectLocations[form.project] : null;
+
+  function handleFieldChange(
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ) {
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "city" ? { project: "" } : {}),
+    }));
+  }
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSubmitError("");
+    setSubmitSuccess("");
+
+    const name = form.name.trim();
+    const isd = form.isd.replace(/\D/g, "");
+    const phone = form.phone.replace(/\D/g, "");
+    const city = form.city.trim();
+    const project = form.project.trim();
+    const location = selectedLocation?.backend ?? "";
+
+    if (!name) {
+      setSubmitError("Name is required.");
+      return;
+    }
+
+    if (!isd) {
+      setSubmitError("Country code is required.");
+      return;
+    }
+
+    if (!phone) {
+      setSubmitError("Phone number is required.");
+      return;
+    }
+
+    if (!city) {
+      setSubmitError("City is required.");
+      return;
+    }
+
+    if (!project) {
+      setSubmitError("Project is required.");
+      return;
+    }
+
+    if (!location) {
+      setSubmitError("Location is required.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const pageUrl =
+        typeof window !== "undefined"
+          ? `${window.location.host}${window.location.pathname}`
+          : pathname?.replace(/^\//, "") ?? "";
+
+      const response = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          isd,
+          phone,
+          email: form.email.trim(),
+          city,
+          project,
+          location,
+          message: form.message.trim(),
+          pageUrl,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Unable to submit enquiry.");
+      }
+
+      setSubmitSuccess("Enquiry submitted successfully.");
+      setForm(initialForm);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error ? error.message : "Unable to submit enquiry.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <footer className="w-full">
@@ -128,24 +266,64 @@ export default function Footer() {
               Enquire Now
             </h2>
 
-            <div className="mt-8 grid grid-cols-1 items-end gap-10 lg:mt-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.6fr)] lg:gap-[56px]">
-              {/* LEFT - FORM */}
+            <div className="mt-8 grid grid-cols-1 gap-10 lg:mt-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.6fr)] lg:items-start lg:gap-[56px]">
               <div>
                 <p className="text-[16px] font-semibold uppercase tracking-[0.04em] text-black">
                   Let’s Start the Conversation
                 </p>
 
-                <form className="mt-6 grid grid-cols-1 gap-x-8 gap-y-6 sm:mt-8 lg:grid-cols-2 lg:gap-x-10">
-                  <Input label="Name" type="text" />
-                  <Input label="Number" type="tel" />
-                  <Input label="Email" type="email" />
+                <form
+                  onSubmit={handleSubmit}
+                  className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 sm:mt-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-8"
+                >
+                  <Input
+                    label="Name"
+                    name="name"
+                    type="text"
+                    value={form.name}
+                    onChange={handleFieldChange}
+                    required
+                  />
+
+                  <div>
+                    <label className="text-s text-[#1f1f1f]">Number</label>
+                    <div className="mt-2 grid grid-cols-[84px_minmax(0,1fr)] gap-4">
+                      <input
+                        name="isd"
+                        type="text"
+                        inputMode="numeric"
+                        value={form.isd}
+                        onChange={handleFieldChange}
+                        required
+                        className={fieldClass.replace('mt-2 ', '')}
+                      />
+                      <input
+                        name="phone"
+                        type="tel"
+                        value={form.phone}
+                        onChange={handleFieldChange}
+                        required
+                        className={fieldClass.replace('mt-2 ', '')}
+                      />
+                    </div>
+                  </div>
+
+                  <Input
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={form.email}
+                    onChange={handleFieldChange}
+                  />
 
                   <div>
                     <label className="text-s text-[#1f1f1f]">City</label>
                     <select
+                      name="city"
                       className={`${fieldClass} pb-3`}
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
+                      value={form.city}
+                      onChange={handleFieldChange}
+                      required
                     >
                       <option value="">--select--</option>
                       <option value="Pune">Pune</option>
@@ -154,30 +332,72 @@ export default function Footer() {
                     </select>
                   </div>
 
-                  {city && (
-                    <div>
-                      <label className="text-s text-[#1f1f1f]">Project</label>
-                      <select className={`${fieldClass} pb-3`} defaultValue="">
-                        <option value="">--select project--</option>
-                        {projects.map((project) => (
-                          <option key={`${city}-${project}`} value={project}>
-                            {project}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
+                  <div>
+                    <label className="text-s text-[#1f1f1f]">Project</label>
+                    <select
+                      name="project"
+                      className={`${fieldClass} pb-3`}
+                      value={form.project}
+                      onChange={handleFieldChange}
+                      required
+                      disabled={!form.city}
+                    >
+                      <option value="">--select project--</option>
+                      {projects.map((project) => (
+                        <option key={`${form.city}-${project}`} value={project}>
+                          {project}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                  <div className={!city ? "lg:col-span-2" : ""}>
+                  <div>
+                    <label className="text-s text-[#1f1f1f]">Location</label>
+                    <input
+                      type="text"
+                      value={selectedLocation?.label ?? ""}
+                      readOnly
+                      className={`${fieldClass} cursor-default text-[#1f1f1f]/75`}
+                    />
+                  </div>
+
+                  <div className="md:col-span-2 lg:col-span-3">
                     <label className="text-s text-[#1f1f1f]">Message</label>
-                    <textarea rows={1} className={fieldClass} />
+                    <textarea
+                      name="message"
+                      rows={1}
+                      className={fieldClass}
+                      value={form.message}
+                      onChange={handleFieldChange}
+                    />
+                  </div>
+
+                  <div className="md:col-span-2 lg:col-span-3 flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="min-h-[22px] text-[13px] leading-[1.6]">
+                      {submitError ? (
+                        <p className="text-[#b42318]">{submitError}</p>
+                      ) : null}
+                      {submitSuccess ? (
+                        <p className="text-[#0f7a42]">{submitSuccess}</p>
+                      ) : null}
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="inline-flex h-11 cursor-pointer items-center justify-center rounded-full bg-[#173566] px-7 text-[12px] font-[700] uppercase tracking-[0.14em] text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {isSubmitting ? "Submitting..." : "Submit Enquiry"}
+                    </button>
                   </div>
                 </form>
               </div>
 
-              {/* RIGHT - ACCORDION */}
               <div>
-                <p className="text-[16px] font-semibold uppercase tracking-[0.04em] text-black">
+                <h2 className="text-[32px] leading-[1.15] text-[#364166] sm:text-[30px]">
+                  Reach Us
+                </h2>
+                <p className="mt-6 text-[16px] font-semibold uppercase tracking-[0.04em] text-black">
                   Our Offices
                 </p>
 
@@ -193,7 +413,7 @@ export default function Footer() {
                         <button
                           type="button"
                           onClick={() => setOpenOffice(isOpen ? -1 : index)}
-                          className="flex cursor-pointer w-full items-center justify-between py-4 text-left transition"
+                          className="flex w-full cursor-pointer items-center justify-between py-4 text-left transition"
                         >
                           <span className="pr-4 text-[14px] font-semibold uppercase text-[#173566] sm:text-[14px]">
                             {office.title}
@@ -230,8 +450,7 @@ export default function Footer() {
 
                                 <div>
                                   <p className="font-medium text-[#173566]">
-                                    Contact -{" "}
-                                    <span> {office.phones.join(" , ")}</span>
+                                    Contact - <span> {office.phones.join(" , ")}</span>
                                   </p>
                                 </div>
 
@@ -464,11 +683,32 @@ export default function Footer() {
   );
 }
 
-function Input({ label, type = "text" }: { label: string; type?: string }) {
+function Input({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+  required = false,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
+}) {
   return (
     <div>
       <label className="text-s text-[#1f1f1f]">{label}</label>
-      <input type={type} className={fieldClass} />
+      <input
+        name={name}
+        type={type}
+        value={value}
+        onChange={onChange}
+        required={required}
+        className={fieldClass}
+      />
     </div>
   );
 }

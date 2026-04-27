@@ -27,6 +27,20 @@ export default function JobOpenings() {
 
         <div id="khembedjobs"></div>
       </div>
+
+      <style jsx global>{`
+        .kh-text-secondary {
+          color: #6c757d !important;
+          display: none;
+        }
+
+        #khembedjobs img[src*="keka"],
+        #khembedjobs .kh-powered-by,
+        #khembedjobs .kh-branding,
+        #khembedjobs .kh-brand-logo {
+          display: none !important;
+        }
+      `}</style>
     </section>
   );
 }
