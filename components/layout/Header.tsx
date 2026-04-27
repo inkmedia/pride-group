@@ -196,7 +196,7 @@ const cityData: City[] = [
           "Park Royale comes loaded with attributes and amenities that add charm to your way of life and makes living an experience you will relish day after day, minute after minute at Marol.",
         location: "Andheri East, Mumbai",
         image: "/images/projects/park-royale.jpg",
-        href: "#",
+        href: "/projects/park-royale",
       },
     ],
   },
