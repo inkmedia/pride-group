@@ -62,7 +62,6 @@ export default function AboutUs() {
       <VisionMission />
       {/* <CoreValues /> */}
       <JourneyTimeline />
-      <Timeline />
       <ManagingDirector />
       <PrideEcosystem />
       {/* <ExtendedLegacy /> */}

@@ -17,79 +17,79 @@ const timeline: TimelineItem[] = [
     year: 1999,
     title: "First Commercial Project",
     desc: "Established and launched its 1st commercial project, Pride Corporate Plaza.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/1999.jpg",
   },
   {
     year: 2000,
     title: "Pune’s First Private IT Park",
     desc: "Developed Pune’s 1st Private IT Park, Pride Silicon Plaza.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2000.jpg",
   },
   {
     year: 2002,
     title: "First Residential Project",
     desc: "Introduced Pride Panorama, our 1st residential project.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2002.jpg",
   },
   {
     year: 2005,
     title: "Expansion into Bangalore and Mumbai",
     desc: "Expanded into Bangalore and Mumbai and launched Pride Vatika, a 100-acre plotted development.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2005.jpg",
   },
   {
     year: 2006,
     title: "Park Street Launch",
     desc: "Launched Park Street — a 76-acre township and Pune’s then second-largest project.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2006.jpg",
   },
   {
     year: 2008,
     title: "Aloma County",
     desc: "Launched Aloma County, a 40-acre township project.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2008.jpg",
   },
   {
     year: 2011,
     title: "Bombay-Pune Highway Land Acquisition",
     desc: "Completed 325-acre land acquisition on the Bombay-Pune Highway.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2011.jpg",
   },
   {
     year: 2013,
     title: "Charholi Land Acquisition",
     desc: "Completed 400-acre land acquisition for Pride World City in Charholi.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2013.jpg",
   },
   {
     year: 2014,
     title: "Pride World City Launch",
     desc: "Launched Pride World City (PWC).",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2014.jpg",
   },
   {
     year: 2017,
     title: "First 1,000 Families at PWC",
     desc: "Welcomed the first 1,000 families to PWC.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2017.jpg",
   },
   {
     year: 2019,
     title: "Park District Launch",
     desc: "Launched Park District, a 100-acre township in Pune’s IT hub, Hinjewadi.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2019.jpg",
   },
   {
     year: 2022,
     title: "1000 Cr Annual Turnover",
     desc: "Reached an annual turnover of 1000 Cr.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2022.jpg",
   },
   {
     year: 2024,
     title: "48 Towers Under Construction",
     desc: "Achieved a remarkable feat with 48 towers under construction in PWC, housing 4,000+ families, with 9,000 families as happy customers.",
-    image: "/images/timeline.png",
+    image: "/images/Legacy/2024.jpg",
   },
 ];
 
@@ -150,7 +150,10 @@ export default function JourneyTimeline() {
   };
 
   return (
-    <section id="our-journey" className="bg-[#f8f8f8] py-10 sm:py-12 md:py-16 lg:py-20">
+    <section
+      id="our-journey"
+      className="bg-[#fefefe] py-10 sm:py-12 md:py-16 lg:py-20"
+    >
       <div className="mx-auto px-5 sm:px-8 md:px-10 lg:px-16 xl:px-24">
         <p className="text-[11px] uppercase tracking-[2px] text-gray-500 sm:text-xs">
           Legacy Timeline
